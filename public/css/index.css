@@ -1,7 +1,8 @@
-html, body {
+html,
+body {
     background-image: url('../wallpapers/tilebg.png');
-    color:whitesmoke;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: whitesmoke;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -11,14 +12,149 @@ html, body {
 
 }
 
-.navbar {
-    padding: 0 25%;
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    unicode-bidi: isolate;
+}
+
+/* Header */
+#header {
+    padding: 25px 0;
+    clear: both;
     position: relative;
-    background-image: url("../wallpapers/texture.jpg");
-    background-size: cover;
-    width: 100%;
-    height: 15vh;
-    z-index: 1;
+    background: #F1F1F1 url('../wallpapers/texture.jpg');
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo img {
+    max-width: 100%;
+    /* Adjust as needed */
+}
+
+/* Links Section */
+.links {
+    line-height: 1.6em;
+    text-align: right;
+    margin-right: 20px;
+    color: #000;
+    text-shadow: 0 1px 1px #fff;
+    font-size: 11px;
+}
+
+.links p {
+    margin: 0;
+}
+
+.links strong {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 2em;
+    color: #962C30;
+    text-transform: uppercase;
+}
+
+.links a {
+    color: black;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* Clear Floats */
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#navigation {
+    color: #ededed;
+    border: 0;
+    outline: 0;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    font: bold 13px/1em sans-serif;
+    border-top: 1px solid #131E23;
+    border-bottom: 1px solid #131E23;
+    background: #1E303A;
+    box-shadow: 0 2px 2px rgba(0,0,0,.03);
+    font-family: 'Ubuntu', arial, sans-serif;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#navigation-out {
+    padding: 4px 0;
+    background: #325164;
+    border-top: 1px solid #20313A;
+    border-bottom: 1px solid #182B37;
+    height: fit-content;
+}
+
+#main-nav {
+    color: #ededed !important;
+    font: bold 13px/1em sans-serif;
+    font-family: 'Ubuntu', arial, sans-serif;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: top;
+    background: transparent;
+    float: left;
+    z-index: 99;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 25vw;
+}
+
+#search-top {
+    color: #ededed;
+    font: bold 13px/1em sans-serif;
+    font-family: 'Ubuntu', arial, sans-serif;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search_main, #search-top, .searchform  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 100%;
+}	
+
+.nav {
+    z-index: 99;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
 }
 
 .index-container {
@@ -42,7 +178,7 @@ html, body {
     background: transparent;
 }
 
-.index-container > h1 {
+.index-container>h1 {
     font-size: 3rem;
     margin-bottom: 0;
 }
