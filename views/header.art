@@ -10,10 +10,10 @@
 
 	<body>
 		<div id="header">
-			<div class="logo">
+			<div class="logo" height="10vh">
 
-				<a href="https://web.archive.org/web/20160816225554/http://benmaintenance.com/" title="">
-					<img src="https://web.archive.org/web/20160816225554im_/http://benmaintenance.com/wp-content/uploads/2013/01/benmaint-logo.jpg"
+				<a href="{{ url }}" title="" height="10vh">
+					<img src="logos/you.webp"
 						alt="Benjamin Maintenance">
 				</a>
 

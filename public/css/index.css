@@ -34,9 +34,16 @@ ul {
     justify-content: space-around;
 }
 
-.logo img {
-    max-width: 100%;
-    /* Adjust as needed */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: inherit;
+}
+.logo > img {
+    height: 100%;
+    width: auto;
 }
 
 /* Links Section */
@@ -75,6 +82,11 @@ ul {
     content: "";
     display: table;
     clear: both;
+}
+
+a {
+    color: #FFF;
+    text-decoration: underline;
 }
 
 #navigation {
@@ -137,7 +149,7 @@ ul {
     align-items: center;
 }
 
-.search_main, #search-top, .searchform  {
+.search_main, #search-top, .searchform, .searchform > input {
     display: flex;
     justify-content: center;
     align-items: center;
