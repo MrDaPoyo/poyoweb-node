@@ -13,7 +13,7 @@ app.set('view options', {
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.render('index', data= {title: 'Home'});
 });
 
 // 404 Error Handler

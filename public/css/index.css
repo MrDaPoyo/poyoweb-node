@@ -1,0 +1,48 @@
+html, body {
+    background-image: url('../wallpapers/tilebg.png');
+    color:whitesmoke;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+.navbar {
+    padding: 0 25%;
+    position: relative;
+    background-image: url("../wallpapers/texture.jpg");
+    background-size: cover;
+    width: 100%;
+    height: 15vh;
+    z-index: 1;
+}
+
+.index-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    background: transparent;
+}
+
+.index-container > h1 {
+    font-size: 3rem;
+    margin-bottom: 0;
+}

@@ -1,0 +1,9 @@
+<%- include("./header") %>
+<div class="index-container">
+<div class="main">
+    <h1>Welcome to the Poyoweb!</h1>
+    <p>The *<i>almost</i>* unlimited WebHost.</p>
+</div>
+</div>
+</body>
+</html>
