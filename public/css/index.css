@@ -83,13 +83,6 @@ ul {
     text-decoration: underline;
 }
 
-/* Clear Floats */
-.clearfix:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 a {
     color: #FFF;
     text-decoration: underline;
@@ -119,6 +112,10 @@ a {
     border-top: 1px solid #20313A;
     border-bottom: 1px solid #182B37;
     height: fit-content;
+}
+
+#navigation-out > * {
+    height: 100%;
 }
 
 #main-nav {
