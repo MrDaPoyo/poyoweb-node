@@ -175,6 +175,23 @@ a {
     flex-direction: row;
 }
 
+.menu-item {
+    height: 5vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 1rem;
+    border-left: 1px solid #000;
+    box-sizing: border-box;
+}
+
+.menu-item:first-child {
+    border-left: none;
+    border-right: 1px solid #000;
+}
+
 .index-container {
     display: flex;
     justify-content: center;
@@ -184,6 +201,7 @@ a {
     width: 100vw;
     overflow: hidden;
 }
+
 
 .main {
     display: flex;
