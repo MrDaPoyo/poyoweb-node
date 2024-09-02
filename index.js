@@ -1,5 +1,9 @@
 const express = require('express');
+const db = require('./startdb');
+const authRouter = require('./auth');
 require('dotenv').config();
+
+db.setupDB();
 
 const app = express();
 app.use(express.static('public'));
@@ -11,17 +15,6 @@ app.set('view options', {
     ignore: ['Math', 'Date', 'JSON', 'encodeURIComponent'],
     minimize: false
 });
-
-const sqlite3 = require('sqlite3').verbose();
-
-// open the database
-let db = new sqlite3.Database('./poyoweb.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-        console.error(err.message);
-    }
-    console.log('Connected to the poyoweb database.');
-});
-
 
 // Retrieve all users from the table
 app.get('/users', (req, res) => {
@@ -35,20 +28,12 @@ app.get('/users', (req, res) => {
     });
 });
 
-
-
 // Routes
 app.get('/', (req, res) => {
     res.render('index', data = { title: 'Home', url: process.env.URL });
 });
 
-app.get('/login', (req, res) => {
-    res.render('login', data = { title: 'Login', token: Math.random().toString(36).substring(2), url: process.env.URL });
-});
-
-
-
-
+app.use('/auth', authRouter);
 
 
 

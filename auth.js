@@ -1,52 +1,40 @@
 const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const User = require('./api/models/user');
+require('dotenv').config();
+var db = require('./startdb');
+var authTokens = [];
+var bcrypt = require('bcrypt');
 
+const authRouter = express.Router();
 
-router.post('/register', async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) {
-        return res.status(400).send(error.details[0].message);
-    }
-    let user = await User.findOne({ email: req.body.email });
-    if (user) {
-        return res.status(400).send('User already exists. Please sign in');
-    } else {
-        try {
-            const salt = await bcrypt.genSalt(10);
-            const password = await bcrypt.hash(req.body.password, salt);
-            const user = new User({
-                name: req.body.name,
-                email: req.body.email,
-                password: password
-            });
-            await user.save();
-            return res.status(201).json(user);
-        } catch (err) {
-            return res.status(400).json({ message: err.message });
+// Login route
+authRouter.post('/login', (req, res) => {
+    // Implement your login logic here
+});
+
+// Register route
+authRouter.post('/register', (req, res) => {
+    username = req.body.username;
+    password = bcrypt.hash(req.body.password);
+    token = req.body.token;
+
+    db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (err) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(200).send('User registered successfully');
         }
-    }
+    });
+    res.redirect('/', cookie = { token: token });
 });
 
-router.post('/login', async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) {
-        return res.status(400).send(error.details[0].message);
-    }
-    let user = await User.findOne({ email: req.body.email });
-    if (!user) {
-        return res.status(400).send('Invalid email or password');
-    }
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) {
-        return res.status(400).send('Invalid email or password');
-    }
-    return res.status(200).json({ message: 'Login successful' });
+// Logout route
+authRouter.post('/logout', (req, res) => {
+    // Implement your logout logic here
 });
 
-router.get('login', (req, res) => {
-    res.render('login', data = { title: 'Login' });
+authRouter.get('/', (req, res) => {
+    res.render('login', data = { title: 'Authentication Check', url: process.env.URL });
 });
 
-module.exports = router;
+module.exports = authRouter;
