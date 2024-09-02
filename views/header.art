@@ -11,12 +11,11 @@
 	<body>
 		<div id="header">
 			<div class="logo" height="10vh">
-
 				<a href="{{ url }}" title="" height="10vh">
 					<img src="logos/you.webp"
-						alt="Benjamin Maintenance">
+						alt="Benjamin Maintenance"
+						class="logo-img">
 				</a>
-
 			</div><!-- /#logo -->
 
 

@@ -34,16 +34,9 @@ ul {
     justify-content: space-around;
 }
 
-.logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    height: inherit;
-}
-.logo > img {
-    height: 100%;
-    width: auto;
+.logo, .logo-img {
+    height: 10vh;
+    box-sizing: border-box;
 }
 
 /* Links Section */
