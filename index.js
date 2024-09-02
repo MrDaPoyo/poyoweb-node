@@ -23,6 +23,19 @@ let db = new sqlite3.Database('./poyoweb.db', sqlite3.OPEN_READWRITE, (err) => {
 });
 
 
+// Retrieve all users from the table
+app.get('/users', (req, res) => {
+    db.all('SELECT * FROM users', (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.json(rows);
+        }
+    });
+});
+
+
 
 // Routes
 app.get('/', (req, res) => {
