@@ -6,7 +6,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
     height: 100vh;
     width: 100vw;
 
@@ -150,6 +149,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
 }
 
 .search_main, #search-top, .searchform, .searchform > input {
@@ -159,18 +159,6 @@ a {
     flex-direction: row;
     height: 100%;
 }	
-
-.nav {
-    z-index: 99;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    line-height: 1;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: row;
-}
 
 .menu-item {
     height: 5vh;
@@ -200,12 +188,10 @@ a {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
+    height: max-content;
     width: 100vw;
     overflow: hidden;
 }
-
-
 .main {
     display: flex;
     justify-content: center;

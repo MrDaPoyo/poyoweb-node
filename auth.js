@@ -2,10 +2,10 @@ const express = require('express');
 require('dotenv').config();
 var startDB = require('./startdb');
 db = startDB.db;
-var authTokens = [];
 var bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const reverseVerify = require('./middleware/reverseVerify');
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
@@ -14,7 +14,7 @@ authRouter.use(express.static('public'));
 authRouter.use(express.json());
 authRouter.use(bodyParser.urlencoded({ extended: true }));
 
-authRouter.post('/register', async (req, res) => {
+authRouter.post('/register',reverseVerify, async (req, res) => {
     console.log(req.body);
     var username = req.body.username;
     var password = await bcrypt.hash(req.body.password, 10);
@@ -98,7 +98,7 @@ authRouter.post("/login", async (req, res) => {
 });
 
 
-authRouter.get('/', (req, res) => {
+authRouter.get('/', reverseVerify,(req, res) => {
     res.render('login', data = { title: 'Authentication Check', url: process.env.URL });
 });
 
