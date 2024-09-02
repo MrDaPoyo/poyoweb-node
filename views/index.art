@@ -5,5 +5,4 @@
     <p>The *<i>almost</i>* unlimited WebHost.</p>
 </div>
 </div>
-</body>
-</html>
+<%- include("./footer") %>

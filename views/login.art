@@ -1,6 +1,7 @@
 <%- include("./header") %>
 <div class="login-container">
     <h2>Login</h2>
+    {{ token }}
     <form action="/login" method="POST">
         <div class="form-group">
             <label for="username">Username</label>
@@ -12,15 +13,32 @@
         </div>
         <button type="submit">Login</button>
     </form>
+    <div class="register-container">
+        <h2>Register</h2>
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
 </div>
 <style>
     .login-container {
         margin: 0 auto;
         width: 300px;
         padding: 20px;
-        border: 1px solid #ccc;
+        border: 1px solid #FFF;
         border-radius: 5px;
-        background-color: #f2f2f2;
     }
 
     .form-group {
@@ -54,5 +72,4 @@
         cursor: pointer;
     }
 </style>
-</body>
-</html>
+<%- include("./footer") %>
