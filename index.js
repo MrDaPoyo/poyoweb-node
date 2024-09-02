@@ -1,5 +1,5 @@
 const express = require('express');
-const axios = require('axios')
+const axios = require('axios');
 
 const app = express();
 app.use(express.static('public'));
@@ -21,6 +21,11 @@ app.get('/', (req, res) => {
 app.use((req, res, next) => {
     res.status(404).send('404 Not Found');
 });
+
+app.get("/login", (request, response) => {
+    const redirect_url = `https://discord.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=identify&state=123456&redirect_uri=${process.env.REDIRECT_URI}&prompt=consent`
+    response.redirect(redirect_url);
+})
 
 
 
