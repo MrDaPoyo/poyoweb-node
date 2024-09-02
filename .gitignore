@@ -1,2 +1,3 @@
-poyoweb.db
+*.db
+
 .env

@@ -53,15 +53,12 @@ authRouter.post('/register', async (req, res) => {
 
 authRouter.post("/login", async (req, res) => {
     try {
-        // Get user input
         const { username, password } = req.body;
 
-        // Validate user input
         if (!(username && password)) {
             return res.status(400).send("All input is required");
         }
 
-        // Validate if user exists in our database
         db.get('SELECT * FROM users WHERE username = ?;', [username], async (err, row) => {
             if (err) {
                 console.error(err.message);
@@ -69,27 +66,23 @@ authRouter.post("/login", async (req, res) => {
             }
 
             if (row) {
-                console.log(row);
                 const user = {
                     id: row.id,
                     email: row.email,
                     password: row.password,
                 };
-                // Compare passwords
+
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (isPasswordValid) {
-                    // Create token
                     const token = jwt.sign(
                         { user_id: user.id, username },
                         process.env.TOKEN_KEY,
-                        {
-                            expiresIn: "5h",
-                        }
+                        { expiresIn: "5h" }
                     );
 
-                    // Save token and respond with user info
                     user.token = token;
-                    return res.status(200).json(user);
+                    res.cookie('x-access-token', token);
+                    res.status(200).redirect('/users');
                 } else {
                     return res.status(400).send("Invalid Credentials");
                 }
