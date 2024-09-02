@@ -170,7 +170,7 @@ a {
     list-style: none;
     line-height: 1;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: row;
 }
@@ -183,13 +183,19 @@ a {
     align-items: center;
     text-align: center;
     flex-direction: row;
-    padding: 0 1rem;
-    border-left: 1px solid #000;
     box-sizing: border-box;
 }
 
-.menu-item:last-child {
-    border-right: 1px solid #000;
+.menu-item > * {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+    box-sizing: border-box;
 }
 
 .index-container {
