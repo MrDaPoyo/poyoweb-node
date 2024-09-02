@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
 app.use(express.static('public'));
@@ -17,17 +18,15 @@ app.get('/', (req, res) => {
     res.render('index', data= {title: 'Home'});
 });
 
-// 404 Error Handler
-app.use((req, res, next) => {
-    res.status(404).send('404 Not Found');
+app.get('login', (req, res) => {
+    res.render('login', data= {title: 'Login', token: Math.random().toString(36).substring(2)});
 });
 
-app.get("/login", (request, response) => {
-    const redirect_url = `https://discord.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=identify&state=123456&redirect_uri=${process.env.REDIRECT_URI}&prompt=consent`
-    response.redirect(redirect_url);
-})
 
-
+// 404 Error Handler
+app.use((req, res, next) => {
+    res.status(404).send('404 Not Found, Silly!');
+});
 
 // Start the server
 const port = 3000;
