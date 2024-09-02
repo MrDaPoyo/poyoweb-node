@@ -1,93 +1,89 @@
 <!DOCTYPE html>
-	<html lang="en">
+<html lang="en">
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="css/index.css">
-		<title>{{ title }}</title>
-	</head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/index.css">
+	<title>{{ title }}</title>
+</head>
 
-	<body>
-		<div id="header">
-			<div class="logo" height="10vh">
-				<a href="{{ url }}" title="" height="10vh">
-					<img src="logos/poyo_globe.png"
-						alt="Benjamin Maintenance"
-						class="logo-img">
-				</a>
-				<h1>
-						PoyoWeb!
-					</h1>
-			</div><!-- /#logo -->
+<body>
+	<div id="header">
+		<div class="logo" height="10vh">
+			<a href="{{ url }}" title="" height="10vh">
+				<img src="logos/poyo_globe.png" alt="Benjamin Maintenance" class="logo-img">
+			</a>
+			<h1>
+				PoyoWeb!
+			</h1>
+		</div><!-- /#logo -->
 
 
-			<div class="links">
+		<div class="links">
 
-				<div class="fl">
-					<p><strong>Super Useful Links</strong><br>
-						<a href="{{url}}/about" style="color:black; text-decoration:none">About</a><br>
-						<a href="{{url}}/donate" style="color:black; text-decoration:none">Donate</a><br>
-						<a href="{{url}}/login" style="color:black; text-decoration:none">Login/Register</a>
-					</p>
-				</div><!-- /.fl -->
+			<div class="fl">
+				<p><strong>Super Useful Links</strong><br>
+					<a href="{{url}}/about" style="color:black; text-decoration:none">About</a><br>
+					<a href="{{url}}/donate" style="color:black; text-decoration:none">Donate</a><br>
+					<a href="{{url}}/login" style="color:black; text-decoration:none">Login/Register</a>
+				</p>
+			</div><!-- /.fl -->
 
 
-			</div><!-- /#header-right -->
+		</div><!-- /#header-right -->
 
-		</div>
-		<div id="navigation-out">
+	</div>
+	<div id="navigation-out">
 
-			<div id="navigation">
+		<div id="navigation">
 
-				<ul id="main-nav">
-					<li class="menu-item">
-						<a href="https://web.archive.org/web/20130331013719/http://www.benmaintenance.com/">Home</a>
-					</li>
-					<li class="menu-item">
-						<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=140">Portfolio</a>
-					</li>
-					<li class="menu-item">
-						<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=17" class="sf-with-ul">Our Services<span class="sf-sub-indicator"> »</span></a>
-						<ul class="sub-menu" style="display: none; visibility: hidden;">
-							<li class="menu-item">
-								<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/new/?portfolio=restoration-projects">Exterior Building Restoration</a>
-							</li>
-							<li class="menu-item">
-								<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/new/?portfolio=roofing-projects">Roofing Systems</a>
-							</li>
-						</ul>
-					</li>
-					<li id="menu-item-79" class="menu-item">
-						<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=15"
-							class="sf-with-ul">About Us<span class="sf-sub-indicator"> »</span></a>
-						<ul class="sub-menu" style="display: none; visibility: hidden;">
-							<li id="menu-item-102"
-								class="menu-item"><a
-									href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=93">Our
-									Facility</a></li>
-						</ul>
-					</li>
-					<li id="menu-item-75" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75">
-						<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=23">Contact
-							Us</a></li>
-				</ul>
+			<ul id="main-nav">
+				<li class="menu-item">
+					<a href="{{ url }}">Home</a>
+				</li>
+				<li class="menu-item">
+					<a href="{{ url }}/tutorials">Tutorials</a>
+				</li>
+				<li class="menu-item">
+					<a href="{{ url }}" class="sf-with-ul">PoyoSSG</a>
 
-				<div id="search-top">
-					<div class="search_main">
-						<form method="get" class="searchform"
-							action="">
-							<input type="text" class="field s" name="s" value="Search..."
-								onfocus="if (this.value == 'Search...') {this.value = '';}"
-								onblur="if (this.value == '') {this.value = 'Search...';}">
-							<input type="image"
-								src="https://web.archive.org/web/20130331013719im_/http://benmaintenance.com/wp-content/themes/empire/images/ico-search.png"
-								class="search-submit" name="submit" value="Go">
-						</form>
-						<div class="fix"></div>
-					</div>
+				<li class="menu-item">
+					<a href="{{ url }}/tilemap">WebMap</a>
+				</li>
+				<li class="menu-item">
+					<a href="{{ url }}/featured">Featured</a>
+				</li>
+				</li>
+				<li id="menu-item-79" class="menu-item">
+					<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=15"
+						class="sf-with-ul">About Us</a>
+					<ul class="sub-menu" style="display: none; visibility: hidden;">
+						<li id="menu-item-102" class="menu-item"><a
+								href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=93">Our
+								Facility</a></li>
+					</ul>
+				</li>
+				<li id="menu-item-75" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75">
+					<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=23">Contact
+						Us</a>
+				</li>
+			</ul>
+
+			<div id="search-top">
+				<div class="search_main">
+					<form method="get" class="searchform" action="">
+						<input type="text" class="field s" name="s" value="Search..."
+							onfocus="if (this.value == 'Search...') {this.value = '';}"
+							onblur="if (this.value == '') {this.value = 'Search...';}">
+						<input type="image"
+							src="https://web.archive.org/web/20130331013719im_/http://benmaintenance.com/wp-content/themes/empire/images/ico-search.png"
+							class="search-submit" name="submit" value="Go">
+					</form>
+					<div class="fix"></div>
 				</div>
+			</div>
 
-			</div><!-- /#navigation -->
+		</div><!-- /#navigation -->
 
-		</div>
+	</div>

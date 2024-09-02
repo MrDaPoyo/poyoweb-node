@@ -187,8 +187,7 @@ a {
     box-sizing: border-box;
 }
 
-.menu-item:first-child {
-    border-left: none;
+.menu-item:last-child {
     border-right: 1px solid #000;
 }
 
