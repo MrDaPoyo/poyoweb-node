@@ -26,8 +26,14 @@ function setupDB() {
     FOREIGN KEY (userID) REFERENCES users(id)
 )`);
 
-    // Insert a user into the table
-    db.run(`INSERT INTO users (username, password, email) VALUES ('test', 'test', 'a@example.com')`);
+    db.run('FROM users SELECT *', (err, rows) => {
+        if (err) {
+            db.run(`INSERT INTO users (username, password, email) VALUES ('test', 'test', 'a@example.com')`);
+        } else {
+            console.log(rows);
+        }
+    });
+    
 
 }
 

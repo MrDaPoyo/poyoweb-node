@@ -75,7 +75,6 @@ authRouter.post("/login", async (req, res) => {
                     email: row.email,
                     password: row.password,
                 };
-                console.log(user);
                 // Compare passwords
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (isPasswordValid) {

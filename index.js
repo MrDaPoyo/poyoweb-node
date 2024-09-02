@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./startdb');
 const authRouter = require('./auth');
+const authToken = require('./middleware/auth');
 require('dotenv').config();
 
 db.setupDB();
@@ -17,7 +18,7 @@ app.set('view options', {
 });
 
 // Retrieve all users from the table
-app.get('/users', (req, res) => {
+app.get('/users', authToken, (req, res) => {
     db.all('SELECT * FROM users', (err, rows) => {
         if (err) {
             console.error(err.message);
