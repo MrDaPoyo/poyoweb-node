@@ -181,6 +181,7 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     flex-direction: row;
     padding: 0 1rem;
     border-left: 1px solid #000;

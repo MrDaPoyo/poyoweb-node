@@ -55,19 +55,6 @@
 					<a href="{{ url }}/featured">Featured</a>
 				</li>
 				</li>
-				<li id="menu-item-79" class="menu-item">
-					<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=15"
-						class="sf-with-ul">About Us</a>
-					<ul class="sub-menu" style="display: none; visibility: hidden;">
-						<li id="menu-item-102" class="menu-item"><a
-								href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=93">Our
-								Facility</a></li>
-					</ul>
-				</li>
-				<li id="menu-item-75" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75">
-					<a href="https://web.archive.org/web/20130331013719/http://benmaintenance.com/?page_id=23">Contact
-						Us</a>
-				</li>
 			</ul>
 
 			<div id="search-top">
