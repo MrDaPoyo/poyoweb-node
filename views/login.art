@@ -15,14 +15,14 @@
     </form>
     <div class="register-container">
         <h2>Register</h2>
-        <form action="/register" method="POST">
+        <form action="/auth/register" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" width="100%">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" width="100%" required placeholder="We wont disclose your email with anyone. We`ll use it exclusively to contact you if needed.">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>

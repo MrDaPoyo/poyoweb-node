@@ -1,23 +1,18 @@
 const express = require('express');
 require('dotenv').config();
-var db = require('./startdb');
+var startDB = require('./startdb');
+db = startDB.db;
 var authTokens = [];
 var bcrypt = require('bcrypt');
 
 const authRouter = express.Router();
 
-// Login route
-authRouter.post('/login', (req, res) => {
-    // Implement your login logic here
-});
+// Middleware to parse request body
+authRouter.use(express.json());
 
-// Register route
-authRouter.post('/register', (req, res) => {
-    username = req.body.username;
-    password = bcrypt.hash(req.body.password);
-    token = req.body.token;
-
-    db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], (err) => {
+async function saveUser(email, username, password) {
+    password = await bcrypt.hash(password, 10);
+    db.run('INSERT INTO users (username, password, email) VALUES (?, ?)', [username, password, email], (err) => {
         if (err) {
             console.error(err.message);
             res.status(500).send('Internal Server Error');
@@ -25,7 +20,21 @@ authRouter.post('/register', (req, res) => {
             res.status(200).send('User registered successfully');
         }
     });
-    res.redirect('/', cookie = { token: token });
+}
+
+// Register route
+authRouter.post('/register', async (req, res) => {
+    var username = await req.body.username;
+    var email = await req.body.email;
+    var password = await req.body.password;
+    
+    try {
+        saveUser(email, username, password);
+        res.redirect('/')
+    }
+    catch (e) {
+        console.log(e);
+    }    
 });
 
 // Logout route
