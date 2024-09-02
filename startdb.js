@@ -1,6 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
-const { set } = require('mongoose');
 
 // Create a new database file if it doesn't exist
 const db = new sqlite3.Database('./poyoweb.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {

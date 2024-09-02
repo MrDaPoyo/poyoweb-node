@@ -4,37 +4,50 @@ var startDB = require('./startdb');
 db = startDB.db;
 var authTokens = [];
 var bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 
 const authRouter = express.Router();
 
 // Middleware to parse request body
 authRouter.use(express.json());
+authRouter.use(bodyParser.urlencoded({ extended: true }));
 
-async function saveUser(email, username, password) {
-    password = await bcrypt.hash(password, 10);
-    db.run('INSERT INTO users (username, password, email) VALUES (?, ?)', [username, password, email], (err) => {
-        if (err) {
-            console.error(err.message);
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.status(200).send('User registered successfully');
-        }
-    });
-}
-
-// Register route
 authRouter.post('/register', async (req, res) => {
-    var username = await req.body.username;
-    var email = await req.body.email;
-    var password = await req.body.password;
-    
-    try {
-        saveUser(email, username, password);
-        res.redirect('/')
+    console.log(req.body);
+    var username = req.body.username;
+    var password = await bcrypt.hash(req.body.password, 10);
+    console.log(password);
+    var email = req.body.email;
+
+    if (await email && password && await username) {
+        db.get('SELECT * FROM users WHERE username = ? OR email = ?', [username, email], (err, row) => {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send('Internal Server Error');
+            } else if (row) {
+                res.status(400).send('User or email already exists');
+            } else {
+                db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err) => {
+                    if (err) {
+                        console.error(err.message);
+                        res.status(500).send('Internal Server Error');
+                    } else {
+                        res.redirect('/onboard');
+                    }
+                });
+            }
+        });
+        db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err) => {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send('Internal Server Error');
+            } else {
+                res.redirect('/onboard');
+            }
+        });
+    } else {
+        res.status(400).send('Invalid request');
     }
-    catch (e) {
-        console.log(e);
-    }    
 });
 
 // Logout route
