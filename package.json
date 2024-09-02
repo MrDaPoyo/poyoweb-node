@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "art-template": "^4.13.2",
+    "axios": "^1.7.7",
     "express": "^4.19.2",
     "express-art-template": "^1.0.1"
   }
