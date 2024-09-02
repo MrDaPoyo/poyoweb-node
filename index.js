@@ -18,9 +18,15 @@ app.get('/', (req, res) => {
     res.render('index', data= {title: 'Home'});
 });
 
-app.get('login', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login', data= {title: 'Login', token: Math.random().toString(36).substring(2)});
 });
+
+
+
+
+
+
 
 
 // 404 Error Handler
