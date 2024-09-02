@@ -83,7 +83,7 @@ authRouter.post("/login", async (req, res) => {
 
                     user.token = token;
                     res.cookie('x-access-token', token);
-                    res.status(200).redirect('/users');
+                    res.status(200).redirect('/');
                 } else {
                     return res.status(400).send("Invalid Credentials");
                 }
@@ -100,6 +100,11 @@ authRouter.post("/login", async (req, res) => {
 
 authRouter.get('/', reverseVerify,(req, res) => {
     res.render('login', data = { title: 'Authentication Check', url: process.env.URL });
+});
+
+authRouter.get('/logout', (req, res) => {
+    res.clearCookie('x-access-token');
+    res.redirect('/');
 });
 
 module.exports = authRouter;
