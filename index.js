@@ -3,6 +3,7 @@ const db = require('./startdb');
 const authRouter = require('./auth');
 const authToken = require('./middleware/auth');
 require('dotenv').config();
+var cookieParser = require('cookie-parser')
 
 db.setupDB();
 
@@ -16,10 +17,11 @@ app.set('view options', {
     ignore: ['Math', 'Date', 'JSON', 'encodeURIComponent'],
     minimize: false
 });
+app.use(cookieParser())
 
 // Retrieve all users from the table
 app.get('/users', authToken, (req, res) => {
-    db.all('SELECT * FROM users', (err, rows) => {
+    db.get('SELECT * FROM users', (err, rows) => {
         if (err) {
             console.error(err.message);
             res.status(500).send('Internal Server Error');

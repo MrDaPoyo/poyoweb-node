@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
+
 // Middleware to parse request body
 authRouter.use(express.json());
 authRouter.use(bodyParser.urlencoded({ extended: true }));
