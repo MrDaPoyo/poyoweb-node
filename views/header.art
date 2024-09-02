@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 	<html lang="en">
 
 	<head>
@@ -12,10 +12,13 @@
 		<div id="header">
 			<div class="logo" height="10vh">
 				<a href="{{ url }}" title="" height="10vh">
-					<img src="logos/you.webp"
+					<img src="logos/poyo_globe.png"
 						alt="Benjamin Maintenance"
 						class="logo-img">
 				</a>
+				<h1>
+					PoyoWeb!
+				</h1>
 			</div><!-- /#logo -->
 
 

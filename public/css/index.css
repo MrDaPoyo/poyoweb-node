@@ -32,11 +32,24 @@ ul {
     height: 10vh;
     display: flex;
     justify-content: space-around;
+    color: #000;
+    text-shadow: 0 1px 1px #fff;
+}
+
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
 }
 
 .logo, .logo-img {
     height: 10vh;
-    box-sizing: border-box;
+}
+
+.logo-img {
+    border: 4px solid #325164;
+    background-image: url('../wallpapers/texture.jpg');
 }
 
 /* Links Section */
