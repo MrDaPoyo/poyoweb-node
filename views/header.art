@@ -17,7 +17,7 @@
 		<% if (loggedIn) { %>
 			<a href="{{url}}/auth/logout" class="logout">Logout</a>
 		<% } else { %>
-			<a href="{{url}}/auth/login" class="login">Login</a>
+			<a href="{{url}}/auth" class="login">Login</a>
 		<% } endif %>
 		<h1>
 			{{ title }} - <a href="{{url}}" class="hidden-link">PoyoWeb!</a>

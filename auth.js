@@ -61,7 +61,7 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                         const token = jwt.sign(
                             { id: row.id, username, email: email },
                             process.env.TOKEN_KEY,
-                            { expiresIn: "5h" }
+                            { expiresIn: "24h" }
                         );
                         tokenSender(token, email);
                     }
