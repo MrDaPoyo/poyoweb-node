@@ -63,7 +63,6 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                             process.env.TOKEN_KEY,
                             { expiresIn: "24h" }
                         );
-                        user.token = token;
                         res.cookie('x-access-token', token);
                         tokenSender(token, email);
                     }
