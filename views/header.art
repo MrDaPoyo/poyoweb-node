@@ -9,75 +9,11 @@
 </head>
 
 <body>
-	<div id="header">
-		<div class="logo" height="10vh">
-			<a href="{{ url }}" title="" height="10vh">
-				<img src="logos/poyo_globe.png" alt="Benjamin Maintenance" class="logo-img">
-			</a>
-			<h1>
-				PoyoWeb!
-			</h1>
-		</div><!-- /#logo -->
-
-
-		<div class="links">
-
-			<div class="fl">
-
-				<p><strong>Super Useful Links</strong><br>
-					<a href="{{url}}/about" style="color:black; text-decoration:none">About</a><br>
-					<a href="{{url}}/donate" style="color:black; text-decoration:none">Donate</a><br>
-					<% if (loggedIn) { %>
-						<a href="{{url}}/dashboard" style="color:black; text-decoration:none">Dashboard</a><br>
-						<a href="{{url}}/auth/logout">Logout</a>
-					<% } else { %>
-						<a href="{{url}}/auth" style="color:black; text-decoration:none">Login/Register</a>
-					<% } %>
-				</p>
-			</div><!-- /.fl -->
-
-
-		</div><!-- /#header-right -->
-
-	</div>
-	<div id="navigation-out">
-
-		<div id="navigation">
-
-			<ul id="main-nav">
-				<li class="menu-item">
-					<a href="{{ url }}">Home</a>
-				</li>
-				<li class="menu-item">
-					<a href="{{ url }}/tutorials">Tutorials</a>
-				</li>
-				<li class="menu-item">
-					<a href="{{ url }}" class="sf-with-ul">PoyoSSG</a>
-
-				<li class="menu-item">
-					<a href="{{ url }}/tilemap">WebMap</a>
-				</li>
-				<li class="menu-item">
-					<a href="{{ url }}/featured">Featured</a>
-				</li>
-				</li>
-			</ul>
-
-			<div id="search-top">
-				<div class="search_main">
-					<form method="get" class="searchform" action="">
-						<input type="text" class="field s" name="s" value="Search..."
-							onfocus="if (this.value == 'Search...') {this.value = '';}"
-							onblur="if (this.value == '') {this.value = 'Search...';}">
-						<input type="image"
-							src="https://web.archive.org/web/20130331013719im_/http://benmaintenance.com/wp-content/themes/empire/images/ico-search.png"
-							class="search-submit" name="submit" value="Go">
-					</form>
-					<div class="fix"></div>
-				</div>
-			</div>
-
-		</div><!-- /#navigation -->
-
-	</div>
-	<main>
+<div id="window">
+<div class="window-top">
+	<img src="logos/poyo_globe.png" alt="PoyoWeb" class="logo-img">
+	<h1>
+		{{ title }} - PoyoWeb!
+	</h1>
+</div>
+<div class="window-content">
