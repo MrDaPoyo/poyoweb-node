@@ -1,14 +1,11 @@
-// Filename - tokenSender.js
-
 const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: secure_configuration.EMAIL_USERNAME,
-        pass: secure_configuration.EMAIL_USERNAME
+        pass: process.env.EMAIL_PASSWORD,
+        user: process.env.EMAIL_USERNAME,
     }
 });
 
@@ -25,7 +22,7 @@ function sendVerificationEmail(token, email) {
         subject: 'PoyoWeb - Email Verification',
 
         // This would be the text of email body
-        text: `Hi! You have recently registered on the PoyoWeb and entered your email. Please follow the given link to verify your email, and build a better web. ${process.env.URL}auth/verify/${token} \n Thanks!\n--The PoyoWeb Team`
+        text: `Hi! You have recently registered on the PoyoWeb and entered your email. Please follow the given link to verify your email, and build a better web. <a href="${process.env.URL}auth/verify/${token}">${process.env.URL}auth/verify/${token}</a> \n Thanks!\n--The PoyoWeb Team`
     };
 
     transporter.sendMail(mailConfigurations, function (error, info) {

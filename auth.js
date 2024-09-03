@@ -59,11 +59,11 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                             }
                         });
                         const token = jwt.sign(
-                            { id: user.id, username, email: user.email },
+                            { id: row.id, username, email: email },
                             process.env.TOKEN_KEY,
                             { expiresIn: "5h" }
                         );
-                        tokenSender.sendVerificationEmail(token, email);
+                        tokenSender(token, email);
                     }
                 });
             }
@@ -127,20 +127,6 @@ authRouter.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.get('/verify/:token', (req, res)=>{
-    const {token} = req.params;
 
-    // Verifying the JWT token 
-    jwt.verify(token, process.env.TOKEN_KEY, function(err, decoded) {
-        if (err) {
-            console.log(err);
-            res.send("Email verification failed, possibly the link is invalid or expired");
-        }
-        else {
-            db.run('UPDATE users SET verified = TRUE WHERE email = ?;', [decoded.email]);
-            res.send("Email verifified successfully");
-        }
-    });
-});
 
 module.exports = authRouter;

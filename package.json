@@ -20,6 +20,7 @@
     "express-art-template": "^1.0.1",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.15",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   }
