@@ -186,7 +186,6 @@ a {
 .main {
     padding: 1rem;
     margin: 10px auto;
-    border-radius: 10px;
     color: black;
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
     background: url("../wallpapers/texture.jpg");

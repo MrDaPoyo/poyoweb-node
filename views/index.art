@@ -1,8 +1,6 @@
 <%- include("./header") %>
-<div class="index-container">
 <div class="main">
     <h1>Welcome to the Poyoweb!</h1>
     <p>The *<i>indie</i>* WebHost.</p>
-</div>
 </div>
 <%- include("./footer") %>
