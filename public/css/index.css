@@ -186,11 +186,16 @@ a {
 .main {
     padding: 1rem;
     margin: 10px auto;
-    color: black;
+    color: whitesmoke;
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
-    background: url("../wallpapers/texture.jpg");
+    background: transparent;
     width: 80vw;
     height: 70vw;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.main h1, .main h2,.main h3,.main h4,.main h5,.main h6 {
+    color: #9EC0D4;
+    text-shadow: 0 1px 1px #000;
 }

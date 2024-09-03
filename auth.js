@@ -6,6 +6,7 @@ var bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const reverseVerify = require('./middleware/reverseVerify');
+const fs = require('fs');
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
@@ -27,17 +28,37 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                 console.error(err.message);
                 res.status(404).send('User Already Exists');
             } else {
-                res.redirect('/dashboard', { cookie: 'specialCookie' });
+                res.redirect('/dashboard');
             }
         });
         db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
-            db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
-                if (err) {
-                    console.error(err.message);
-                }
-                console.log('Website added', row);
-            });
+            if (err) {
+                console.error(err.message);
+            } else {
+                db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
+                    if (err) {
+                        console.error(err.message);
+                        res.send('User Already Exists');
+                    } else {
+                        fs.mkdir('./websites/users/' + username, { recursive: true }, (err) => {
+                            if (err) {
+                                console.error(err.message);
+                            } else {
+                                fs.copyFile('./websites/src/index.html', './websites/users/' + username + '/index.html', (err) => {
+                                    if (err) {
+                                        console.error(err.message);
+                                    }
+                                    else {
+                                        res.send('User Created');
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
+        
     }
 });
 
