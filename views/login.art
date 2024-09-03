@@ -16,8 +16,8 @@
     <div class="register-container">
         <h2>Register</h2>
         <form action="/auth/register" method="POST">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username">Username/Website Name</label>
+                <input type="text" id="username" name="username" required placeholder="This will be your website's name. ">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" width="100%" required placeholder="We wont disclose your email with anyone. We`ll use it exclusively to contact you if needed.">
                 <label for="password">Password</label>

@@ -13,18 +13,17 @@ function setupDB() {
     // Create users table
     db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
+    username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    email TEXT NOT NULL
+    email TEXT UNIQUE NOT NULL
 )`);
 
     // Create websites table
     db.run(`CREATE TABLE IF NOT EXISTS websites (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userID INTEGER NOT NULL,
-    name TEXT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES users(id)
-)`);
+    name TEXT UNIQUE NOT NULL,
+    FOREIGN KEY (userID) REFERENCES users(id))`);
 }
 
 setupDB();

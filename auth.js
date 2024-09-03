@@ -14,7 +14,7 @@ authRouter.use(express.static('public'));
 authRouter.use(express.json());
 authRouter.use(bodyParser.urlencoded({ extended: true }));
 
-authRouter.post('/register',reverseVerify, async (req, res) => {
+authRouter.post('/register', reverseVerify, async (req, res) => {
     console.log(req.body);
     var username = req.body.username;
     var password = await bcrypt.hash(req.body.password, 10);
@@ -22,33 +22,22 @@ authRouter.post('/register',reverseVerify, async (req, res) => {
     var email = req.body.email;
 
     if (await email && password && await username) {
-        db.get('SELECT * FROM users WHERE username = ? OR email = ?', [username, email], (err, row) => {
-            if (err) {
-                console.error(err.message);
-                res.status(500).send('Internal Server Error');
-            } else if (row) {
-                res.status(400).send('User or email already exists');
-            } else {
-                db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err) => {
-                    if (err) {
-                        console.error(err.message);
-                        res.status(500).send('Internal Server Error');
-                    } else {
-                        res.redirect('/onboard', { cookie: 'specialCookie' });
-                    }
-                });
-            }
-        });
         db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err) => {
             if (err) {
                 console.error(err.message);
-                res.status(500).send('Internal Server Error');
+                res.status(404).send('User Already Exists');
             } else {
-                res.redirect('/onboard');
+                res.redirect('/dashboard', { cookie: 'specialCookie' });
             }
         });
-    } else {
-        res.status(400).send('Invalid request');
+        db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
+            db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
+                if (err) {
+                    console.error(err.message);
+                }
+                console.log('Website added', row);
+            });
+        });
     }
 });
 
@@ -98,7 +87,7 @@ authRouter.post("/login", async (req, res) => {
 });
 
 
-authRouter.get('/', reverseVerify,(req, res) => {
+authRouter.get('/', reverseVerify, (req, res) => {
     res.render('login', data = { title: 'Authentication Check', url: process.env.URL });
 });
 
@@ -106,5 +95,7 @@ authRouter.get('/logout', (req, res) => {
     res.clearCookie('x-access-token');
     res.redirect('/');
 });
+
+
 
 module.exports = authRouter;
