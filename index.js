@@ -1,10 +1,12 @@
 const express = require('express');
-const db = require('./startdb');
+const startDB = require('./startdb');
 const authRouter = require('./auth');
 const authToken = require('./middleware/auth');
 require('dotenv').config();
+var cookieParser = require('cookie-parser')
 
-db.setupDB();
+db = startDB.db;
+startDB.setupDB();
 
 const app = express();
 app.use(express.static('public'));
@@ -16,15 +18,16 @@ app.set('view options', {
     ignore: ['Math', 'Date', 'JSON', 'encodeURIComponent'],
     minimize: false
 });
+app.use(cookieParser())
 
 // Retrieve all users from the table
-app.get('/users', authToken, (req, res) => {
-    db.all('SELECT * FROM users', (err, rows) => {
+app.get('/users', authToken, async (req, res) => {
+    db.run('SELECT * FROM users', async (err, rows) => {
         if (err) {
             console.error(err.message);
             res.status(500).send('Internal Server Error');
         } else {
-            res.json(rows);
+            res.json(await startDB.readUsers());
         }
     });
 });
@@ -35,7 +38,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRouter);
-
 
 
 

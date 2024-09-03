@@ -6,7 +6,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
     height: 100vh;
     width: 100vw;
 
@@ -83,13 +82,6 @@ ul {
     text-decoration: underline;
 }
 
-/* Clear Floats */
-.clearfix:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 a {
     color: #FFF;
     text-decoration: underline;
@@ -119,6 +111,10 @@ a {
     border-top: 1px solid #20313A;
     border-bottom: 1px solid #182B37;
     height: fit-content;
+}
+
+#navigation-out > * {
+    height: 100%;
 }
 
 #main-nav {
@@ -153,6 +149,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
 }
 
 .search_main, #search-top, .searchform, .searchform > input {
@@ -162,18 +159,6 @@ a {
     flex-direction: row;
     height: 100%;
 }	
-
-.nav {
-    z-index: 99;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    line-height: 1;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: row;
-}
 
 .menu-item {
     height: 5vh;

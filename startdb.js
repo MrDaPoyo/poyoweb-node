@@ -25,18 +25,14 @@ function setupDB() {
     name TEXT NOT NULL,
     FOREIGN KEY (userID) REFERENCES users(id)
 )`);
-
-    db.run('FROM users SELECT *', (err, rows) => {
-        if (err) {
-            db.run(`INSERT INTO users (username, password, email) VALUES ('test', 'test', 'a@example.com')`);
-        } else {
-            console.log(rows);
-        }
-    });
-    
-
 }
 
 setupDB();
 
-module.exports = { setupDB, db };
+function readUsers() {
+    db.all('SELECT * FROM users',async (err, rows) => {
+            return rows;
+    });
+}
+
+module.exports = { setupDB, readUsers, db };
