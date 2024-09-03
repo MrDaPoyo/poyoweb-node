@@ -2,7 +2,7 @@
 <div class="index-container">
 <div class="main">
     <h1>Welcome to the Poyoweb!</h1>
-    <p>The *<i>almost</i>* unlimited WebHost.</p>
+    <p>The *<i>indie</i>* WebHost.</p>
 </div>
 </div>
 <%- include("./footer") %>

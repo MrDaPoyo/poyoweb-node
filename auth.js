@@ -33,7 +33,7 @@ authRouter.post('/register', async (req, res) => {
                         console.error(err.message);
                         res.status(500).send('Internal Server Error');
                     } else {
-                        res.redirect('/onboard');
+                        res.redirect('/onboard', { cookie: 'specialCookie' });
                     }
                 });
             }
