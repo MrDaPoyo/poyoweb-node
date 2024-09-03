@@ -15,7 +15,8 @@ function setupDB() {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL
+    email TEXT UNIQUE NOT NULL,
+    verified BOOLEAN DEFAULT FALSE,
 )`);
 
     // Create websites table
