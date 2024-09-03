@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const verifySessionToken = async (req, res, next) => {
     await cookieParser(req, res); // Parse the cookies
     var cookie = req.cookies; // Access the parsed cookies
-    console.log(cookie); // Log the received cookies
     try {
         const token = cookie.sessionToken; // Assuming the token is stored in the 'sessionToken' cookie
         // Perform any additional verification or checks here if needed

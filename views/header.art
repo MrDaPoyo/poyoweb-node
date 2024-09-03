@@ -23,11 +23,16 @@
 		<div class="links">
 
 			<div class="fl">
-				<%- loggedIn %>
+
 				<p><strong>Super Useful Links</strong><br>
 					<a href="{{url}}/about" style="color:black; text-decoration:none">About</a><br>
 					<a href="{{url}}/donate" style="color:black; text-decoration:none">Donate</a><br>
-					<a href="{{url}}/auth" style="color:black; text-decoration:none">Login/Register</a>
+					<% if (loggedIn) { %>
+						<a href="{{url}}/dashboard" style="color:black; text-decoration:none">Dashboard</a><br>
+						<a href="{{url}}/auth/logout">Logout</a>
+					<% } else { %>
+						<a href="{{url}}/auth" style="color:black; text-decoration:none">Login/Register</a>
+					<% } %>
 				</p>
 			</div><!-- /.fl -->
 
