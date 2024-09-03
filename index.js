@@ -33,8 +33,8 @@ app.get('/', async (req, res) => {
 
 app.use('/auth', authRouter);
 
-app.get('/dashboard', authToken, (req, res) => {
-    res.render('dashboard', { title: 'Dashboard', url: process.env.URL });
+app.get('/verified', (req, res) => {
+    res.render('verified', { title: 'Verified', url: process.env.URL });
 });
 
 // 404 Error Handler

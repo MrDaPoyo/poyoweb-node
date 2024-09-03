@@ -1,0 +1,4 @@
+<%- include("./header") %>
+<h1>You are now verified!</h1>
+<a href="{{url}}">Enjoy!</a>
+<%- include("./footer") %>

@@ -26,11 +26,18 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
     var email = req.body.email;
 
     if (await email && password && await username) {
-        db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err) => {
+        db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
+            const token = jwt.sign(
+                { id: username, email: email },
+                process.env.TOKEN_KEY,
+                { expiresIn: "24h" }
+            );
+            res.cookie('x-access-token', token);
             if (err) {
                 console.error(err.message);
                 res.status(404).send('User Already Exists');
             } else {
+                res.cookie('x-access-token', token);
                 res.redirect('/');
             }
         });
@@ -59,11 +66,10 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                             }
                         });
                         const token = jwt.sign(
-                            { id: row.id, username, email: email },
+                            { id: username, email: email },
                             process.env.TOKEN_KEY,
                             { expiresIn: "24h" }
                         );
-                        res.cookie('x-access-token', token);
                         tokenSender(token, email);
                     }
                 });
@@ -97,7 +103,7 @@ authRouter.post("/login", async (req, res) => {
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (isPasswordValid) {
                     const token = jwt.sign(
-                        { id: user.id, username, email: user.email },
+                        { username, email: user.email },
                         process.env.TOKEN_KEY,
                         { expiresIn: "5h" }
                     );
@@ -128,6 +134,29 @@ authRouter.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+authRouter.get('/verify/:token', (req, res)=>{
+    const {token} = req.params;
+
+    // Verifying the JWT token 
+    jwt.verify(token, process.env.TOKEN_KEY, function(err, decoded) {
+        if (err) {
+            console.log(err);
+            res.send("Email verification failed, possibly the link is invalid or expired");
+        }
+        else {
+            db.run('UPDATE users SET verified = true  WHERE email = ?', [decoded.email], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    res.send("Email verification failed, possibly the link is invalid or expired");
+                } else {
+                    res.cookie('x-access-token', token);
+                    res.redirect('/verified', 200, { title: 'Email Verified', url: process.env.URL });
+                }
+            });
+            
+        }
+    });
+});
 
 
 module.exports = authRouter;
