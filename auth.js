@@ -31,7 +31,7 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                 console.error(err.message);
                 res.status(404).send('User Already Exists');
             } else {
-                res.redirect('/dashboard');
+                res.redirect('/');
             }
         });
         db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
