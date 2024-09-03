@@ -10,6 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@zohocrm/nodejs-sdk-2.1": "^2.0.0",
+    "@zohocrm/nodejs-sdk-7.0": "^2.0.0",
     "art-template": "^4.13.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",

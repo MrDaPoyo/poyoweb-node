@@ -119,4 +119,8 @@ authRouter.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+authRouter.get('/verify', reverseVerify, (req, res) => {
+    res.render('verify', data = { title: 'Are You Logged In?', url: process.env.URL });
+});
+
 module.exports = authRouter;
