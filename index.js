@@ -2,6 +2,7 @@ const express = require('express');
 const startDB = require('./startdb');
 const authRouter = require('./auth');
 const authToken = require('./middleware/auth');
+const authVerifier = require('./middleware/authenticated');
 require('dotenv').config();
 var cookieParser = require('cookie-parser')
 
@@ -18,28 +19,23 @@ app.set('view options', {
     ignore: ['Math', 'Date', 'JSON', 'encodeURIComponent'],
     minimize: false
 });
-app.use(cookieParser())
+app.use(cookieParser());
+app.use(authVerifier);
 
-// Retrieve all users from the table
-app.get('/users', authToken, async (req, res) => {
-    db.run('SELECT * FROM users', async (err, rows) => {
-        if (err) {
-            console.error(err.message);
-            res.status(500).send('Internal Server Error');
-        } else {
-            res.json(await startDB.readUsers());
-        }
-    });
-});
 
 // Routes
-app.get('/', (req, res) => {
-    res.render('index', data = { title: 'Home', url: process.env.URL });
+async function authenticated(req) {
+    return req.cookies['x-session-token'] ? true : false;
+}
+app.get('/', async (req, res) => {
+    res.render('index', { title: 'Home', url: process.env.URL});
 });
 
 app.use('/auth', authRouter);
 
-
+app.get('/dashboard', authToken, (req, res) => {
+    res.render('dashboard', { title: 'Dashboard', url: process.env.URL });
+});
 
 // 404 Error Handler
 app.use((req, res, next) => {

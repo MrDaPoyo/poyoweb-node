@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const reverseVerify = require('./middleware/reverseVerify');
 const fs = require('fs');
+const verifySessionToken = require('./middleware/authenticated');
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
@@ -14,6 +15,7 @@ authRouter.use(express.static('public'));
 // Middleware to parse request body
 authRouter.use(express.json());
 authRouter.use(bodyParser.urlencoded({ extended: true }));
+authRouter.use(verifySessionToken);
 
 authRouter.post('/register', reverseVerify, async (req, res) => {
     console.log(req.body);
@@ -116,7 +118,5 @@ authRouter.get('/logout', (req, res) => {
     res.clearCookie('x-access-token');
     res.redirect('/');
 });
-
-
 
 module.exports = authRouter;

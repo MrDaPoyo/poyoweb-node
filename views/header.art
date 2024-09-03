@@ -21,15 +21,15 @@
 
 
 		<div class="links">
-		{{if (x-session-token)}}
+
 			<div class="fl">
+				<%- loggedIn %>
 				<p><strong>Super Useful Links</strong><br>
 					<a href="{{url}}/about" style="color:black; text-decoration:none">About</a><br>
 					<a href="{{url}}/donate" style="color:black; text-decoration:none">Donate</a><br>
 					<a href="{{url}}/auth" style="color:black; text-decoration:none">Login/Register</a>
 				</p>
 			</div><!-- /.fl -->
-		{{/if}}
 
 
 		</div><!-- /#header-right -->
