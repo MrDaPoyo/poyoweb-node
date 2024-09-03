@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const reverseVerify = require('./middleware/reverseVerify');
 const fs = require('fs');
 const verifySessionToken = require('./middleware/authenticated');
+const tokenSender = require('./tokenSender');
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
@@ -51,11 +52,18 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
                                         console.error(err.message);
                                     }
                                     else {
+
                                         res.send('User Created');
                                     }
                                 });
                             }
                         });
+                        const token = jwt.sign(
+                            { id: user.id, username, email: user.email },
+                            process.env.TOKEN_KEY,
+                            { expiresIn: "5h" }
+                        );
+                        tokenSender.sendVerificationEmail(token, email);
                     }
                 });
             }
@@ -88,7 +96,7 @@ authRouter.post("/login", async (req, res) => {
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (isPasswordValid) {
                     const token = jwt.sign(
-                        { user_id: user.id, username },
+                        { id: user.id, username, email: user.email },
                         process.env.TOKEN_KEY,
                         { expiresIn: "5h" }
                     );
@@ -119,8 +127,20 @@ authRouter.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-authRouter.get('/verify', reverseVerify, (req, res) => {
-    res.render('verify', data = { title: 'Are You Logged In?', url: process.env.URL });
+app.get('/verify/:token', (req, res)=>{
+    const {token} = req.params;
+
+    // Verifying the JWT token 
+    jwt.verify(token, process.env.TOKEN_KEY, function(err, decoded) {
+        if (err) {
+            console.log(err);
+            res.send("Email verification failed, possibly the link is invalid or expired");
+        }
+        else {
+            db.run('UPDATE users SET verified = TRUE WHERE email = ?;', [decoded.email]);
+            res.send("Email verifified successfully");
+        }
+    });
 });
 
 module.exports = authRouter;
