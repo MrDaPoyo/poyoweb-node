@@ -6,7 +6,7 @@ const dirWalker = require('./snippets/dirWalker');
 router.get('/', async (req, res) => {
     try {
         var results = {};
-        results = await dirWalker.walk("websites/users/" + req.user.username);
+        results = await dirWalker("websites/users/" + req.user.username);
         res.render('dashboard', { files: results });
     } catch (err) {
         throw err;
