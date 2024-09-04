@@ -3,7 +3,11 @@
 <div class="grid">
     <% for (const file of files) { %>
         <div class="dashboard-icon">
-            <a class="hidden-link" href="{{url}}/editor/{{file.path}}">
+            <% if (!file.isDirectory) { %>
+                <a class="hidden-link" href="{{url}}/editor/{{file.cleanPath}}">
+            <% } else { %>
+            <a class="hidden-link" href="{{url}}/dashboard/{{file.cleanPath}}">
+            <% } %>
                 <img class="{{file.isDirectory ? 'folder' : 'document'}}" src="/icons/{{file.isDirectory ? 'folder' : 'document'}}-small.webp"></img>
             </a>
             {{ file.name }}

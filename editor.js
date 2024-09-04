@@ -1,10 +1,16 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
 var router = express.Router();
 
-router.get('/', async function(req, res, next) {
-    const dir = path.resolve(__dirname, '../public');
-    const results = await walkSync(dir);
-    res.json(results);
+router.get('/:filename', async function(req, res, next) {
+    fs.readFile(`websites/users/${req.user.name}/${req.params.filename}`, 'utf8', function(err, data) {
+        if (err) {
+            console.log(err);
+            res.send('An error occurred');
+        } else {
+            res.send(data);
+        }
+    });
 });
+
+module.exports = router;

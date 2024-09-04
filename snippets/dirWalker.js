@@ -13,6 +13,7 @@ function readDir(dir) {
                     return {
                         name: file,
                         path: filePath,
+                        cleanPath: path.relative(dir, filePath),
                         isDirectory: stats.isDirectory(),
                         size: stats.size,
                         createdAt: stats.birthtime,

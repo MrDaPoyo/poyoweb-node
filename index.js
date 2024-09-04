@@ -1,6 +1,7 @@
 const express = require('express');
 const startDB = require('./startdb');
 const authRouter = require('./auth');
+const editorRouter = require('./editor');
 const authToken = require('./middleware/auth');
 const redirectIfNotVerified = require('./middleware/verified');
 const authUser = require('./middleware/authUser');
@@ -35,6 +36,8 @@ app.get('/', async (req, res) => {
 });
 
 app.use('/auth', authRouter);
+
+app.use('/editor', authToken, redirectIfNotVerified, editorRouter);
 
 app.get('/verified', (req, res) => {
     res.render('verified', { title: 'Verified', url: process.env.URL });
