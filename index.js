@@ -40,9 +40,7 @@ app.get('/verified', (req, res) => {
     res.render('verified', { title: 'Verified', url: process.env.URL });
 });
 
-app.get('/dashboard', authToken, async (req, res) => {
-    res.render('dashboard', { title: 'Dashboard', url: process.env.URL });
-});
+app.use('/dashboard', authToken, redirectIfNotVerified, require('./dashboard'));
 
 // 404 Error Handler
 app.use((req, res) => {

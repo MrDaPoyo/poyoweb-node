@@ -35,4 +35,21 @@ function readUsers() {
     });
 }
 
-module.exports = { setupDB, readUsers, db };
+function findUserByEmail(email) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM users WHERE email = ?', [email], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(row)
+        })
+    });
+}
+
+async function isUserVerifiedById(id) {
+    var verified = db.get('SELECT * FROM users WHERE id = ?', [id]);
+    console.log("verified: ", verified.id);
+    return verified;
+}
+
+module.exports = { setupDB, readUsers, findUserByEmail, isUserVerifiedById, db };

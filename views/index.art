@@ -1,5 +1,9 @@
 <%- include("./header") %>
 <h1>Welcome to the PoyoWeb!</h1>
 <p>The indie web hosting service for *<i>almost</i>* all your needs!</p>
+{{ if user }}
 <p>Hi, <%= user.username %>.</p>
+{{ else }}
+<p>Hi, guest.</p>
+{{ /if }}
 <%- include("./footer") %>

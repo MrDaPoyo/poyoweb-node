@@ -1,4 +1,6 @@
 <%- include("./header") %>
 <h1>Welcome to the PoyoWeb!</h1>
 <p>Hi, <%= user.username %></p>
+<ul>
+</ul>
 <%- include("./footer") %>
