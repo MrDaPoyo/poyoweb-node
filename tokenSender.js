@@ -25,10 +25,9 @@ function sendVerificationEmail(token, email) {
         text: `Haii! :3\n You have recently registered on the PoyoWeb!\nPlease follow the given link to verify your email, and start buildig a better web. :D \n${process.env.URL}/auth/verify/${token}\n Thanks!\n--The PoyoWeb Team`
     };
 
-    transporter.sendMail(mailConfigurations, function (error, info) {
+    transporter.sendMail(mailConfigurations, function (error) {
         if (error) throw Error(error);
         console.log('Email Sent Successfully');
-        console.log(info);
     });
 }
 

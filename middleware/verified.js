@@ -1,14 +1,10 @@
 const startDB = require("../startdb");
 var db = startDB.db;
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const cookieParser = require("cookie-parser");
+const loggedIn = require("../verifyJwt");
 
 const verified = async (req, res, next) => {
-    cookieParser(req, res);
-    const token = req.cookies["x-access-token"];
-    const decoded = jwt.verify(token, config.TOKEN_KEY);
-    db.query(`SELECT * FROM users WHERE email = '${req.user.email}'`, (err, row) => {
+    const decoded = loggedIn(req, res, next);
+    db.query(`SELECT * FROM users WHERE email = '${decoded.email}'`, (err, row) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Internal Server Error");
@@ -22,10 +18,8 @@ const verified = async (req, res, next) => {
 )};
 
 const redirectIfNotVerified = async (req, res, next) => {
-    cookieParser(req, res);
-    const token = await req.cookies["x-access-token"];
-    const decoded = jwt.verify(token, config.TOKEN_KEY);
-    db.query(`SELECT * FROM users WHERE email = '${req.user.email}'`, (err, row) => {
+    const decoded = loggedIn(req, res, next);
+    db.query(`SELECT * FROM users WHERE email = '${decoded.email}'`, (err, row) => {
         if (err) {
             console.log(err);
             return res.status(500).send("Internal Server Error");
