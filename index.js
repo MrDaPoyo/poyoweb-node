@@ -2,6 +2,8 @@ const express = require('express');
 const startDB = require('./startdb');
 const authRouter = require('./auth');
 const authToken = require('./middleware/auth');
+const redirectIfNotVerified = require('./middleware/verified');
+const authUser = require('./middleware/authUser');
 const authVerifier = require('./middleware/authenticated');
 require('dotenv').config();
 var cookieParser = require('cookie-parser')
@@ -21,6 +23,7 @@ app.set('view options', {
 });
 app.use(cookieParser());
 app.use(authVerifier);
+app.use(authUser);
 
 
 // Routes
@@ -35,6 +38,10 @@ app.use('/auth', authRouter);
 
 app.get('/verified', (req, res) => {
     res.render('verified', { title: 'Verified', url: process.env.URL });
+});
+
+app.get('/dashboard', authToken, async (req, res) => {
+    res.render('dashboard', { title: 'Dashboard', url: process.env.URL });
 });
 
 // 404 Error Handler

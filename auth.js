@@ -28,7 +28,7 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
     if (await email && password && await username) {
         db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
             const token = jwt.sign(
-                { id: username, email: email },
+                { username: username, email: email },
                 process.env.TOKEN_KEY,
                 { expiresIn: "24h" }
             );
@@ -39,43 +39,35 @@ authRouter.post('/register', reverseVerify, async (req, res) => {
             } else {
                 res.cookie('x-access-token', token);
                 res.redirect('/');
-            }
-        });
-        db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
-            if (err) {
-                console.error(err.message);
-            } else {
-                db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
+                db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
                     if (err) {
                         console.error(err.message);
-                        res.send('User Already Exists');
                     } else {
-                        fs.mkdir('./websites/users/' + username, { recursive: true }, (err) => {
+                        db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
                             if (err) {
                                 console.error(err.message);
+                                res.send('User Already Exists');
                             } else {
-                                fs.copyFile('./websites/src/index.html', './websites/users/' + username + '/index.html', (err) => {
+                                fs.mkdir('./websites/users/' + username, { recursive: true }, (err) => {
                                     if (err) {
                                         console.error(err.message);
-                                    }
-                                    else {
-
-                                        res.send('User Created');
+                                    } else {
+                                        fs.copyFile('./websites/src/index.html', './websites/users/' + username + '/index.html', (err) => {
+                                            if (err) {
+                                                console.error(err.message);
+                                            }
+                                            tokenSender(token, email);
+                                            console.log('User Created');
+                                        });
                                     }
                                 });
                             }
                         });
-                        const token = jwt.sign(
-                            { id: username, email: email },
-                            process.env.TOKEN_KEY,
-                            { expiresIn: "24h" }
-                        );
-                        tokenSender(token, email);
                     }
                 });
             }
         });
-        
+
     }
 });
 
@@ -134,11 +126,11 @@ authRouter.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-authRouter.get('/verify/:token', (req, res)=>{
-    const {token} = req.params;
+authRouter.get('/verify/:token', (req, res) => {
+    const { token } = req.params;
 
     // Verifying the JWT token 
-    jwt.verify(token, process.env.TOKEN_KEY, function(err, decoded) {
+    jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
         if (err) {
             console.log(err);
             res.send("Email verification failed, possibly the link is invalid or expired");
@@ -153,7 +145,7 @@ authRouter.get('/verify/:token', (req, res)=>{
                     res.redirect('/verified', 200, { title: 'Email Verified', url: process.env.URL });
                 }
             });
-            
+
         }
     });
 });

@@ -62,3 +62,11 @@ body {
     margin: 0 auto 0 0;
     box-sizing: border-box;
 }
+
+.icon {
+    image-rendering:pixelated;
+    height: 100px;
+    width: 100px;
+    margin: 0 0 0 1%;
+    box-sizing: border-box;
+}

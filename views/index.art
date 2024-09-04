@@ -1,5 +1,4 @@
 <%- include("./header") %>
-{{loggedIn}} 
 <h1>Welcome to the PoyoWeb!</h1>
 <p>The indie web hosting service for *<i>almost</i>* all your needs!</p>
-<%- include("./footer") %>
+<p>Hi, <%= user %></p>
