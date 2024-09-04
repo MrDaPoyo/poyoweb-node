@@ -1,8 +1,8 @@
 <%- include("./header") %>
-<p><%= user.username %>'s Files: </p>
+<h2 margin="0 auto"><%= user.username %>'s Files:</h2>
 <div class="grid">
     <% files.forEach(function(file) { %>
-        <div style="dashboard-icon"><%= file.name %></div>
+        <div class="dashboard-icon"><a class="hidden-link" href="{{url}}/editor/{{file.cleanPath}}"><img class="icon" src="/icons/document-small.webp"></img></a><%= file.name %></div>
     <% }) %>
 </div>
 <%- include("./footer") %>

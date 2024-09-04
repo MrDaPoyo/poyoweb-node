@@ -63,10 +63,31 @@ body {
     box-sizing: border-box;
 }
 
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-flow: column;
+    grid-gap: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
 .icon {
     image-rendering:pixelated;
     height: 100px;
     width: 100px;
-    margin: 0 0 0 1%;
+}
+
+.dashboard-icon {
+    image-rendering:pixelated;
+    height: 150px;
+    font-size : 20px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     box-sizing: border-box;
 }

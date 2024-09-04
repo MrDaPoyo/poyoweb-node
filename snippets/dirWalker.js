@@ -17,11 +17,11 @@ async function* walk(dir) {
 async function walkSync(dir) {
     var results = [];
     for await (const p of walk(dir)) {
-        console.log(p);
         const fileStats = await fs.promises.stat(p);
         const fileInfo = {
             name: path.basename(p),
             path: p,
+            cleanPath: path.relative(dir, p),
             size: fileStats.size,
             createdAt: fileStats.birthtime,
             modifiedAt: fileStats.mtime
