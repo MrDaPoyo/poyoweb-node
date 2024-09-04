@@ -1,6 +1,8 @@
 <%- include("./header") %>
-<h1>Welcome to the PoyoWeb!</h1>
-<p>Hi, <%= user.username %></p>
+<p><%= user.username %>'s Files: </p>
 <ul>
+    <% files.forEach(function(file) { %>
+        <li><%= file.name %></li>
+    <% }) %>
 </ul>
 <%- include("./footer") %>
