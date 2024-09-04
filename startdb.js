@@ -47,8 +47,7 @@ function findUserByEmail(email) {
 }
 
 async function isUserVerifiedById(id) {
-    var verified = db.get('SELECT * FROM users WHERE id = ?', [id]);
-    console.log("verified: ", verified.id);
+    var verified = db.get('SELECT verified FROM users WHERE id = ?', [id]);
     return verified;
 }
 
