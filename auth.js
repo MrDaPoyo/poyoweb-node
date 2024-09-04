@@ -18,7 +18,7 @@ authRouter.use(express.json());
 authRouter.use(bodyParser.urlencoded({ extended: true }));
 authRouter.use(verifySessionToken);
 
-authRouter.post('/register', reverseVerify, async (req, res) => {
+authRouter.post('/register', async (req, res) => {
     console.log(req.body);
     var username = req.body.username;
     var password = await bcrypt.hash(req.body.password, 10);

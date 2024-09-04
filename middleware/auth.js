@@ -1,23 +1,12 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-
-const config = process.env;
+const loggedIn = require("../verifyJwt");
 
 const verifyToken = async (req, res, next) => {
-    const token = req.cookies["x-access-token"];
-    console.log("Token received:", token); // Log the received token
-
-    if (!token) {
-        return res.status(403).send("A token is required for authentication");
-    }
-
-    try {
-        const decoded = jwt.verify(token, config.TOKEN_KEY);
-        req.user = decoded;
+    const user = await loggedIn(req, res, next);
+    if (user) {
+        req.user = user;
         next();
-    } catch (err) {
-        console.error("Token verification failed:", err); // Log the error
-        return res.status(401).send("Invalid Token");
+    } else {
+        res.status(403).send("You must be logged in to access this page");
     }
 };
 

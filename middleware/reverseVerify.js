@@ -1,16 +1,12 @@
-const jwt = require("jsonwebtoken");
-
-const config = process.env;
+const loggedIn = require("../verifyJwt");
 
 const verifyToken = async (req, res, next) => {
-    const token = req.cookies["x-access-token"];
-    console.log("Token received:", token); // Log the received token
-
-    if (!token) {
+    const user = await loggedIn(req, res, next);
+    if (user) {
+        req.user = user;
+        redirect('/');
+    } else {
         next();
-    }
-    else {
-        res.redirect('/'); // Redirect to the home page
     }
 };
 

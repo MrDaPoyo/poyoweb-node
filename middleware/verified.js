@@ -8,7 +8,6 @@ const verified = async (req, res, next) => {
     cookieParser(req, res);
     const token = req.cookies["x-access-token"];
     const decoded = jwt.verify(token, config.TOKEN_KEY);
-    req.user = decoded;
     db.query(`SELECT * FROM users WHERE email = '${req.user.email}'`, (err, row) => {
         if (err) {
             console.log(err);
@@ -26,7 +25,6 @@ const redirectIfNotVerified = async (req, res, next) => {
     cookieParser(req, res);
     const token = await req.cookies["x-access-token"];
     const decoded = jwt.verify(token, config.TOKEN_KEY);
-    req.user = decoded;
     db.query(`SELECT * FROM users WHERE email = '${req.user.email}'`, (err, row) => {
         if (err) {
             console.log(err);

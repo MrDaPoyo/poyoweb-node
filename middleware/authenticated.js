@@ -5,16 +5,19 @@ const cookieParser = require("cookie-parser");
 const verifySessionToken = async (req, res, next) => {
     await cookieParser(req, res); // Parse the cookies
     var cookie = req.cookies; // Access the parsed cookies
-    if (cookie) { 
-    if (cookie["x-access-token"]) {
-        res.locals.loggedIn = true;
-        next();
-    } else {
-        // Handle token verification error
-        console.error("Token verification failed:");
-        res.locals.loggedIn = false;
-        next();
+    if (cookie) {
+        if (cookie["x-access-token"]) {
+            jwt.verify(cookie["x-access-token"], process.env.TOKEN_KEY, (err, decoded) => {
+                res.locals.loggedIn = true;
+                next();
+            });
+        } else {
+            // Handle token verification error
+            console.error("Token verification failed:");
+            res.locals.loggedIn = false;
+            next();
+        }
     }
-}};
+};
 
 module.exports = verifySessionToken;

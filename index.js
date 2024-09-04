@@ -45,7 +45,7 @@ app.get('/dashboard', authToken, async (req, res) => {
 });
 
 // 404 Error Handler
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).send('404 Not Found, Silly!');
 });
 
