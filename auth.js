@@ -9,6 +9,7 @@ const reverseVerify = require('./middleware/reverseVerify');
 const fs = require('fs');
 const verifySessionToken = require('./middleware/authenticated');
 const tokenSender = require('./tokenSender');
+const user = require('./users');
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
@@ -57,6 +58,7 @@ authRouter.post('/register', async (req, res) => {
                                                 console.error(err.message);
                                             }
                                             tokenSender(token, email);
+                                            user.createUser(username, password);
                                             console.log('User Created');
                                         });
                                     }
