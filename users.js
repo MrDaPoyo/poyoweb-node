@@ -1,9 +1,9 @@
 const { exec } = require('child_process');
 
-function createUser(username, password) {
-    const createUserCommand = `useradd --no-create-home -p ${password} ${username}`;
-    const linkUserToFolderCommand = `chown -R ${username}:${username} ./websites/users/${username}`;
-    const setPermissionsCommand = `chmod -R 750 ./websites/users/${username}`;
+async function createUser(username, password) {
+    const createUserCommand =  `useradd --no-create-home ${await username} -p ${await password}`;
+    const linkUserToFolderCommand = `chown -R ${await username} websites/users/${await username}`;
+    const setPermissionsCommand = `chmod -R 770 websites/users/${await username}`;
     try {
         exec(createUserCommand, (error, stdout, stderr) => {
             if (error) {
