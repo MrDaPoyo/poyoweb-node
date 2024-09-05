@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/remove', (req, res) => {
+router.post('/removeFolder/', (req, res) => {
     try {
         fs.unlinkSync("websites/users/" + req.user.username + "/" + req.body.cleanPath);
         res.redirect('/dashboard');

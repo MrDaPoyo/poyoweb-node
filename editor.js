@@ -6,15 +6,20 @@ require('dotenv').config();
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.get('/:filename', async function (req, res, next) {
-    fs.readFile(`websites/users/${req.user.username}/${req.params.filename}`, 'utf8', function (err, data) {
-        if (err) {
-            console.log(err);
-            res.send('An error occurred');
-        } else {
-            res.render("editor", { filename: req.params.filename, file: data, url: process.env.URL });
-        }
-    });
+router.get('/', async function (req, res) {
+    const dirPath = req.query.file ? "/" + req.query.file : "";
+    if (dirPath.includes("..")) {
+        res.send("HA! Good try, Hacker :3", 404);
+    } else {
+        fs.readFile(`websites/users/${req.user.username}/${dirPath}`, 'utf8', function (err, data) {
+            if (err) {
+                console.log(err);
+                res.send('An error occurred');
+            } else {
+                res.render("editor", { filename: req.params.filename, file: data, url: process.env.URL });
+            }
+        });
+    }
 });
 
 router.post('/save', async function (req, res, next) {

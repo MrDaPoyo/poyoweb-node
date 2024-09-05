@@ -13,7 +13,7 @@
     <% for (const file of files) { %>
         <div class="dashboard-icon">
             <% if (!file.isDirectory) { %>
-                <a class="hidden-link" href="{{url}}/editor/{{file.cleanPath}}">
+                <a class="hidden-link" href="{{url}}/editor/?file={{file.cleanPath}}">
             <% } else { %>
             <a class="hidden-link" href="?dir={{file.cleanPath}}">
             <% } %>
