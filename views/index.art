@@ -1,8 +1,9 @@
 <%- include("./header") %>
 <h1>Welcome to the PoyoWeb!</h1>
-<p>KEEP THE WEB *<i>free</i>*, SAY NO TO WEB3!</p>
+<p>PoyoWeb! *<i>quality</i>*, over qua<b>n</b>tity!</p>
 {{ if user }}
 <p>Hi, <%= user.username %>.</p>
+<p>Go to the <a href="/dashboard">dashboard</a></p>
 {{ else }}
 <p>Hi, guest.</p>
 {{ /if }}
