@@ -84,10 +84,11 @@ body {
     image-rendering:pixelated;
     height: 150px;
     font-size : 20px;
-    width: 100px;
+    width: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     box-sizing: border-box;
+    flex-wrap: wrap;
 }

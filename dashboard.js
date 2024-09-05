@@ -25,7 +25,7 @@ router.post('/remove', (req, res) => {
 router.post('/create', (req, res) => {
     try {
         fs.writeFileSync(req.body.path, "");
-        res.redirect('/dashboard');
+        res.redirect('/dashboard/'+req.body.dir);
     } catch (err) {
         throw err;
     }

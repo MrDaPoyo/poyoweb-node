@@ -1,6 +1,6 @@
 <%- include("./header") %>
 <h1>Welcome to the PoyoWeb!</h1>
-<p>The indie web hosting service for *<i>almost</i>* all your needs!</p>
+<p>KEEP THE WEB *<i>free</i>*, SAY NO TO WEB3!</p>
 {{ if user }}
 <p>Hi, <%= user.username %>.</p>
 {{ else }}
