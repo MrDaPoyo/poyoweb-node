@@ -1,0 +1,81 @@
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.4/codemirror.css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/lucario.min.css"
+  integrity="sha512-8CW1guslz3VSq681ZW1+pB3YXhfq5tGNqMsINg+1MyluwAu24D0LKlKVih8g/i1nYQOfhkenzNC0TZX9ZT5Nzg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  #code {
+    width: 100%;
+    height: 500px;
+    border: none;
+  }
+
+  .CodeMirror {
+    height: 500px;
+  }
+
+  .code-container {
+    position: relative;
+    overflow: hidden;
+    width: 40%;
+    height: 500px;
+    border-radius: 3px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, .3);
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+  }
+
+  .btn {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+</style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="code-container">
+      <textarea id="code">{{ file }}</textarea>
+    </div>
+    <iframe id="code_result" width="100%" height="500px" style="border: 5px solid gray"></iframe>
+  </div>
+  <button onclick="run()" class="btn">Run code!</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"
+    integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script id="rendered-js">
+    var doc = document.getElementById('code_result').contentWindow.document;
+    var html_value;
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      styleActiveLine: true,
+      lineNumbers: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      mode: "htmlmixed",
+    });
+    function run() {
+      html_value = editor.getValue();
+      doc.open();
+      doc.write(html_value);
+      doc.close();
+    }
+  </script>
+</body>
+
+</html>
