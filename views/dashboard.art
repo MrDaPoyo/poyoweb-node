@@ -8,7 +8,7 @@
             <% if (!file.isDirectory) { %>
                 <a class="hidden-link" href="{{url}}/editor/{{file.cleanPath}}">
             <% } else { %>
-            <a class="hidden-link" href="{{url}}/dashboard/{{file.cleanPath}}">
+            <a class="hidden-link" href="?dir={{file.cleanPath}}">
             <% } %>
                 <img class="{{file.isDirectory ? 'folder' : 'document'}}" src="/icons/{{file.isDirectory ? 'folder' : 'document'}}-small.webp"></img>
             </a>
