@@ -1,6 +1,6 @@
 :root {
     --primary: #F8F3F6;
-    --secondary: black;
+    --secondary: #2a1501;
 }
 
 
@@ -97,14 +97,16 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    color: var(--primary);
+    color: var(--secondary);
     font-size: 20px;
     cursor: pointer;
-    background-color: red;
+    background-color: transparent;
     border-radius: 3px;
-    transition: 1s;
+    transition: 0.2s;
+    z-index: 1000;
 }
 
 .dashboard-icon:hover .dashboard-close:hover {
-    background-color: darkred;
+    background-color: var(--secondary);
+    color: var(--primary);
 }

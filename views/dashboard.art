@@ -17,8 +17,9 @@
             <% } else { %>
             <a class="hidden-link" href="?dir={{file.cleanPath}}">
             <% } %>
-                <img class="{{file.isDirectory ? 'folder' : 'document'}}" src="/icons/{{file.isDirectory ? 'folder' : 'document'}}-small.webp"></img><button class="dashboard-close">X</button>
+                <img class="{{file.isDirectory ? 'folder' : 'document'}}" src="/icons/{{file.isDirectory ? 'folder' : 'document'}}-small.webp"></img>
             </a>
+            <button class="dashboard-close">X</button>
             {{ file.name }}
         </div>
     <% } %>
