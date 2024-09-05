@@ -36,9 +36,9 @@ router.get('/remove', (req, res) => {
 router.post('/create', async (req, res) => {
     try {
         var dirname = "websites/users/" + await req.user.username + "/" + await req.body.dir;
-               if (dirname.includes("..")) {
+        if (dirname.includes("..")) {
             res.status(404).send("HA! Good try, Hacker :3");
-        } else {
+        } else if (!fs.existsSync(dirname)) {
             if (!dirname.includes(".")) {
                 fs.mkdirSync(dirname, { recursive: true });
                 res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
@@ -46,6 +46,8 @@ router.post('/create', async (req, res) => {
                 fs.writeFileSync(dirname, '');
                 res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
             };
+        } else {
+            res.send("File/Directory already exists.");
         }
     } catch (err) {
         console.log(err);
