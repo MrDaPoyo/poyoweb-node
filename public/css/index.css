@@ -91,4 +91,20 @@ body {
     flex-direction: column;
     box-sizing: border-box;
     flex-wrap: wrap;
+    position: relative;
+}
+.dashboard-icon .dashboard-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--primary);
+    font-size: 20px;
+    cursor: pointer;
+    background-color: red;
+    border-radius: 3px;
+    transition: 1s;
+}
+
+.dashboard-icon:hover .dashboard-close:hover {
+    background-color: darkred;
 }

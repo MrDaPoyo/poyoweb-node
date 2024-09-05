@@ -54,7 +54,7 @@
       <form action="save/?q={{filename}}" method="POST">
         <textarea id="code" name="code" >{{ file }}</textarea>
         <button type="submit" class="btn-left">Save</button>
-    </form>
+      </form>
     </div>
     <iframe id="code_result" width="100%" height="500px" style="border: 5px solid gray"></iframe>
   </div>
