@@ -3,7 +3,7 @@
 <p>PoyoWeb! *<i>quality</i>*, over qua<b>n</b>tity!</p>
 {{ if user }}
 <p>Hi, <%= user.username %>.</p>
-<p>Go to the <a href="/dashboard">dashboard</a></p>
+<p>Go to the <a href="/dashboard">dashboard</a>.</p>
 {{ else }}
 <p>Hi, guest.</p>
 {{ /if }}
