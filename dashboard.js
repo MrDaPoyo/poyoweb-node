@@ -13,4 +13,13 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/remove', (req, res) => {
+    try {
+        fs.unlinkSync("websites/users/" + req.user.username + "/" + req.body.cleanPath);
+        res.redirect('/dashboard');
+    } catch (err) {
+        throw err;
+    }
+});
+
 module.exports = router;
