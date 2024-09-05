@@ -5,11 +5,11 @@ const dirWalker = require('./snippets/dirWalker');
 
 router.get('/', async (req, res) => {
     try {
-        var results = {};
-        results = await dirWalker("websites/users/" + req.user.username);
-        res.render('dashboard', { files: results });
+        const dirPath = "websites/users/" + req.user.username + (req.query.dir ? "/" + req.query.dir : "");
+        const results = await dirWalker(dirPath);
+        res.render('dashboard', { files: await results });
     } catch (err) {
-        throw err;
+        res.send("Directory Not Found. Good try, Hacker :3");
     }
 });
 

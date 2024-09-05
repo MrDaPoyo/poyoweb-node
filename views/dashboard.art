@@ -1,5 +1,7 @@
 <%- include("./header") %>
 <h2 margin="0 auto"><%= user.username %>'s Files:</h2>
+<br>
+<form action="/add/?q={{currentPath}}" method="POST">
 <div class="grid">
     <% for (const file of files) { %>
         <div class="dashboard-icon">
