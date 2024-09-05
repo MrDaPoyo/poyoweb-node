@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const dirWalker = require('./snippets/dirWalker');
 const bodyParser = require('body-parser');
+const checkFileName = require('./snippets/verifyFile');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -35,8 +36,11 @@ router.get('/remove', (req, res) => {
 
 router.post('/create', async (req, res) => {
     try {
-        var dirname = "websites/users/" + await req.user.username + "/" + await req.body.cleanPath +"/"+ await req.body.dir;
-        if (dirname.includes("..")) {
+        var dirname = "websites/users/" + await req.user.username + "/" + await req.body.cleanPath + "/" + await req.body.dir;
+        var valid = checkFileName(dirname);
+        if (!valid) {
+            res.status(404).send("FileType not allowed.");
+        } else if (dirname.includes("..")) {
             res.status(404).send("HA! Good try, Hacker :3");
         } else {
             if (!dirname.includes(".")) {
