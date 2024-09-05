@@ -25,12 +25,11 @@ authRouter.post('/register', async (req, res, next) => {
     var password = await bcrypt.hash(req.body.password, 10);
     var email = req.body.email;
     var valid = user.checkUsername(await username, req, res);
-    console.log(await valid);
     if (valid == true) {
         if (await email && password && await username) {
             db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
                 const token = jwt.sign(
-                    { username: username, email: email },
+                    { username: username, email: email, verified: 0 },
                     process.env.TOKEN_KEY,
                     { expiresIn: "24h" }
                 );
@@ -95,12 +94,13 @@ authRouter.post("/login", async (req, res) => {
                     id: row.id,
                     email: row.email,
                     password: row.password,
+                    verified: row.verified
                 };
 
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (isPasswordValid) {
                     const token = jwt.sign(
-                        { username, email: user.email },
+                        { username, email: user.email, verified: user.verified },
                         process.env.TOKEN_KEY,
                         { expiresIn: "5h" }
                     );
