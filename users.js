@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
 async function createUser(username, password) {
-    const createUserCommand =  `useradd --no-create-home ${await username} -p ${await password}`;
+    const createUserCommand = `useradd --no-create-home ${await username} -p ${await password}`;
     const linkUserToFolderCommand = `chown -R ${await username} websites/users/${await username}`;
     const setPermissionsCommand = `chmod -R 770 websites/users/${await username}`;
     try {
@@ -39,6 +39,17 @@ async function createUser(username, password) {
         console.error(`Error creating user: ${error.message}`);
     }
     console.log(`User ${username} created successfully`);
+}
+
+function checkUsername(username, req, res, next) {
+    const regex = /^[a-zA-Z0-9]+$/;
+    if (username.length > 10) {
+        res.status(400).send('Username must have at max 10 characters');
+    } else if (!regex.test(username)) {
+        res.status(400).send('Username must contain only numbers and characters');
+    } else {
+        next();
+    }
 }
 
 module.exports = { createUser };
