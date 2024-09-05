@@ -1,88 +1,40 @@
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.4/codemirror.css'>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jshint/2.9.3/jshint.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/mode/javascript/javascript.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/addon/lint/lint.js"></script>
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+<!DOCTYPE html>
+<html lang="en">
 
-  .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-
-  .CodeMirror {
-    height: 100%;
-    width: 100%;
-  }
-
-  .code-container {
-    position: relative;
-    overflow: hidden;
-    width: 40%;
-    height: 95%;
-    border-radius: 3px;
-    box-shadow: 3px 3px 6px rgba(0, 0, 0, .3);
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-  }
-
-  .btn {
-    position: fixed;
-    top: 0;
-    right: 0;
-  }
-  .btn-left {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PoyoWeb</title>
+  <span style="display: none;" id="fileData">{{ file }}</span>
 </head>
 
-<body>
-  <div class="container">
-    <div class="code-container">
-      <form action="save/?q={{filename}}" method="POST">
-        <textarea id="code" name="code" >{{ file }}</textarea>
-        <button type="submit" class="btn-left">Save</button>
-      </form>
-    </div>
-    <iframe id="code_result" width="100%" height="95%" style="border: 5px solid gray"></iframe>
-  </div>
-  <button onclick="run()" class="btn">Run code!</button>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"
-    integrity="sha512-8RnEqURPUc5aqFEN04aQEiPlSAdE0jlFS/9iGgUyNtwFnSKCXhmB6ZTNl7LnDtDWKabJIASzXrzD0K+LYexU9g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script id="rendered-js">
-    var doc = document.getElementById('code_result').contentWindow.document;
-    var html_value;
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-      styleActiveLine: true,
-      lineNumbers: true,
-      matchBrackets: true,
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-      autocomplete: true,
-      mode: "htmlmixed",
-    });
-    function run() {
-      html_value = editor.getValue();
-      doc.open();
-      doc.write(html_value);
-      doc.close();
+<body height="100%">
+  <form action="save/?q={{filename}}" method="POST">
+    <div id="editor" height="100%" name="code">{{ file }}</div>
+    <button type="submit" class="btn-left">Save</button>
+  </form>
+  <script type="importmap">
+    {
+      "imports": {
+        "prism-code-editor/": "https://cdn.jsdelivr.net/npm/prism-code-editor@3.4.0/dist/"
+      }
     }
-    run();
+  </script>
+  <script type="module">
+    import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups/index.js"
+    import "prism-code-editor/prism/languages/markup.js"
 
-    
+    const fulleditor = fullEditor(
+      "#editor",
+      {
+        language: "html",
+        theme: "github-dark",
+        value: document.getElementById("fileData").innerText,
+      },
+      () => console.log("ready"),
+    )
+
+    import("prism-code-editor/prism/languages/common").then(() => editor.update())
   </script>
 </body>
 

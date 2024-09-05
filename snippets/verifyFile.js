@@ -1,6 +1,6 @@
 const disallowedExtensions = [
     ".exe", ".dll", ".bat", ".sh", ".ps1", ".apk", ".dmg", ".pkg", ".deb", ".rpm", 
-    ".bin", ".cmd", ".msi", ".vbs", ".jar", ".app", ".scr", ".cpl", ".bat",
+    ".bin", ".cmd", ".msi", ".vbs", ".jar", ".app", ".scr", ".cpl", ".bat", ".zip",
     ".sh", ".bash", ".bashrc", ".bash_profile", ".zsh", ".zshrc", ".zsh_profile", ".zsh_history"
 ];
 
