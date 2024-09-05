@@ -22,7 +22,6 @@ function readDir(basedir, dir) {
                         modifiedAt: stats.mtime
                     };
                 });
-                console.log(files);
                 resolve(files);
             }
         });
