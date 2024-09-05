@@ -1,5 +1,9 @@
 <%- include("./header") %>
 <h2 margin="0 auto"><%= user.username %>'s Files: /{{ cleanPath }}</h2>
+<form method="POST" action="dashboard/create">
+    <input type="text" name="dir" placeholder="New filename/foldername" required>
+    <button type="submit">Create Folder</button>
+</form>
 <br>
 <div class="grid">
     <% if (!dashboard) { %>
@@ -19,7 +23,7 @@
             <% } %>
                 <img class="{{file.isDirectory ? 'folder' : 'document'}}" src="/icons/{{file.isDirectory ? 'folder' : 'document'}}-small.webp"></img>
             </a>
-            <button class="dashboard-close">X</button>
+            <a class="hidden-link" href="{{url}}/dashboard/remove/?dir={{file.cleanPath}}"><button class="dashboard-close">X</button></a>
             {{ file.name }}
         </div>
     <% } %>
