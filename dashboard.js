@@ -3,6 +3,9 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const dirWalker = require('./snippets/dirWalker');
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', async (req, res) => {
     try {
@@ -30,21 +33,19 @@ router.get('/remove', (req, res) => {
     }
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', async (req, res) => {
     try {
-        var dirname = "websites/users/" + req.user.username + "/" + req.query.dir
-        if (dirname.includes("..")) {
-            res.send("HA! Good try, Hacker :3", 404);
-        } else if (!fs.existsSync(dirname)) {
-            dirname.replace(/\\/g, "/");
-            if (dirname.includes(".")) {
-                fs.writeFileSync(dirname, "");
-            } else {
-                fs.mkdirSync(dirname);
-                res.redirect('/dashboard/?dir=' + req.body.dir);
-            }
+        var dirname = "websites/users/" + await req.user.username + "/" + await req.body.dir;
+               if (dirname.includes("..")) {
+            res.status(404).send("HA! Good try, Hacker :3");
         } else {
-            res.send("File/Directory already exists.");
+            if (!dirname.includes(".")) {
+                fs.mkdirSync(dirname, { recursive: true });
+                res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
+            } else {
+                fs.writeFileSync(dirname, '');
+                res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
+            };
         }
     } catch (err) {
         console.log(err);

@@ -1,7 +1,8 @@
 <%- include("./header") %>
 <h2 margin="0 auto"><%= user.username %>'s Files: /{{ cleanPath }}</h2>
-<form method="POST" action="dashboard/create">
+<form action="dashboard/create" method="POST">
     <input type="text" name="dir" placeholder="New filename/foldername" required>
+    <input type="hidden" name="cleanPath" value="{{cleanPath}}">
     <button type="submit">Create Folder</button>
 </form>
 <br>

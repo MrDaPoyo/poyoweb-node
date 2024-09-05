@@ -44,8 +44,8 @@ async function createUser(username, password) {
 
 function checkUsername(username, req, res) {
     const regex = /^[a-zA-Z0-9]+$/;
-    if (username.length > 10) {
-        return 'Username must have at max 10 characters';
+    if (username.length > 20) {
+        return 'Username must have at max 20 characters';
     } else if (!regex.test(username)) {
         return 'Username must contain only letters and numbers';
     } else if (userBlacklist.includes(username)) {
