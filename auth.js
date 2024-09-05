@@ -59,7 +59,6 @@ authRouter.post('/register', async (req, res, next) => {
                                                     console.error(err.message);
                                                 }
                                                 tokenSender(token, email);
-                                                user.createUser(username, password);
                                                 console.log('User Created');
                                             });
                                         }
