@@ -19,57 +19,61 @@ authRouter.use(express.json());
 authRouter.use(bodyParser.urlencoded({ extended: true }));
 authRouter.use(verifySessionToken);
 
-authRouter.post('/register', async (req, res) => {
+authRouter.post('/register', async (req, res, next) => {
     console.log(req.body);
     var username = req.body.username;
     var password = await bcrypt.hash(req.body.password, 10);
-    console.log(password);
     var email = req.body.email;
-
-    if (await email && password && await username) {
-        db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
-            const token = jwt.sign(
-                { username: username, email: email },
-                process.env.TOKEN_KEY,
-                { expiresIn: "24h" }
-            );
-            res.cookie('x-access-token', token);
-            if (err) {
-                console.error(err.message);
-                res.status(404).send('User Already Exists');
-            } else {
+    var valid = user.checkUsername(await username, req, res);
+    console.log(await valid);
+    if (valid == true) {
+        if (await email && password && await username) {
+            db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
+                const token = jwt.sign(
+                    { username: username, email: email },
+                    process.env.TOKEN_KEY,
+                    { expiresIn: "24h" }
+                );
                 res.cookie('x-access-token', token);
-                res.redirect('/');
-                db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
-                    if (err) {
-                        console.error(err.message);
-                    } else {
-                        db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
-                            if (err) {
-                                console.error(err.message);
-                                res.send('User Already Exists');
-                            } else {
-                                fs.mkdir('./websites/users/' + username, { recursive: true }, (err) => {
-                                    if (err) {
-                                        console.error(err.message);
-                                    } else {
-                                        fs.copyFile('./websites/src/index.html', './websites/users/' + username + '/index.html', (err) => {
-                                            if (err) {
-                                                console.error(err.message);
-                                            }
-                                            tokenSender(token, email);
-                                            user.createUser(username, password);
-                                            console.log('User Created');
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
+                if (err) {
+                    console.error(err.message);
+                    res.status(404).send('User Already Exists');
+                } else {
+                    res.cookie('x-access-token', token);
+                    res.redirect('/');
+                    db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
+                        if (err) {
+                            console.error(err.message);
+                        } else {
+                            db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
+                                if (err) {
+                                    console.error(err.message);
+                                    res.send('User Already Exists');
+                                } else {
+                                    fs.mkdir('./websites/users/' + username, { recursive: true }, (err) => {
+                                        if (err) {
+                                            console.error(err.message);
+                                        } else {
+                                            fs.copyFile('./websites/src/index.html', './websites/users/' + username + '/index.html', (err) => {
+                                                if (err) {
+                                                    console.error(err.message);
+                                                }
+                                                tokenSender(token, email);
+                                                user.createUser(username, password);
+                                                console.log('User Created');
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
 
+        }
+    } else {
+        res.status(404).send(valid);
     }
 });
 

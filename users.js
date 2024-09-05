@@ -41,15 +41,15 @@ async function createUser(username, password) {
     console.log(`User ${username} created successfully`);
 }
 
-function checkUsername(username, req, res, next) {
+function checkUsername(username, req, res) {
     const regex = /^[a-zA-Z0-9]+$/;
     if (username.length > 10) {
-        res.status(400).send('Username must have at max 10 characters');
+        return 'Username must have at max 10 characters';
     } else if (!regex.test(username)) {
-        res.status(400).send('Username must contain only numbers and characters');
+        return 'Username must contain only letters and numbers';
     } else {
-        next();
+        return true;
     }
 }
 
-module.exports = { createUser };
+module.exports = { createUser, checkUsername };
