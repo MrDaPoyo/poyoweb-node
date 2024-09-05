@@ -12,7 +12,7 @@
 <div id="window">
 	<div class="window-top">
 		<a href="{{url}}" class="logo-img">
-			<img src="logos/poyo_globe.png" alt="PoyoWeb" class="logo-img">
+			<img src="/logos/poyo_globe.png" alt="PoyoWeb" class="logo-img">
 		</a>
 		<% if (loggedIn) { %>
 			<a href="{{url}}/auth/logout" class="logout">Logout</a>

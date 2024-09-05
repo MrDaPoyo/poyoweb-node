@@ -1,7 +1,6 @@
 <%- include("./header") %>
-<h2 margin="0 auto"><%= user.username %>'s Files:</h2>
+<h2 margin="0 auto"><%= user.username %>'s Files: /{{ cleanPath }}</h2>
 <br>
-<form action="/add/?q={{currentPath}}" method="POST">
 <div class="grid">
     <% if (!dashboard) { %>
         <div class="dashboard-icon">

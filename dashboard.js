@@ -12,7 +12,9 @@ router.get('/', async (req, res) => {
         } else {
         const results = await dirWalker("websites/users/" + await req.user.username, dirPath);
         const pastDir = path.relative("websites/users/" + req.user.username, path.dirname(dirPath));
-        res.render('dashboard', { files: await results, past: pastDir, dashboard: (dirPath == "websites/users/" + await req.user.username) });
+        const cleanPath = path.relative("websites/users/" + req.user.username, dirPath);
+
+        res.render('dashboard', { files: await results, past: pastDir, cleanPath, dashboard: (dirPath == "websites/users/" + await req.user.username) });
         }
     } catch (err) {
         res.send("Directory Not Found. Good try, Hacker :3");
