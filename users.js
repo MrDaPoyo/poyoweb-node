@@ -1,4 +1,5 @@
 const { exec } = require('child_process');
+const userBlacklist = ["poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix"];
 
 async function createUser(username, password) {
     const createUserCommand = `useradd --no-create-home ${await username} -p ${await password}`;
@@ -47,6 +48,8 @@ function checkUsername(username, req, res) {
         return 'Username must have at max 10 characters';
     } else if (!regex.test(username)) {
         return 'Username must contain only letters and numbers';
+    } else if (userBlacklist.includes(username)) {
+        return 'Username is blacklisted, try again with another different username';
     } else {
         return true;
     }

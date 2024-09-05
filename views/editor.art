@@ -1,7 +1,8 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.4/codemirror.css'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/lucario.min.css"
-  integrity="sha512-8CW1guslz3VSq681ZW1+pB3YXhfq5tGNqMsINg+1MyluwAu24D0LKlKVih8g/i1nYQOfhkenzNC0TZX9ZT5Nzg=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jshint/2.9.3/jshint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/mode/javascript/javascript.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/addon/lint/lint.js"></script>
 <style>
   * {
     margin: 0;
@@ -19,6 +20,7 @@
 
   .CodeMirror {
     height: 500px;
+    width: 100%;
   }
 
   .code-container {
@@ -69,6 +71,7 @@
       matchBrackets: true,
       autoCloseBrackets: true,
       autoCloseTags: true,
+      autocomplete: true,
       mode: "htmlmixed",
     });
     function run() {
@@ -77,6 +80,8 @@
       doc.write(html_value);
       doc.close();
     }
+    run();
+
   </script>
 </body>
 

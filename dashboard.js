@@ -22,4 +22,13 @@ router.post('/remove', (req, res) => {
     }
 });
 
+router.post('/create', (req, res) => {
+    try {
+        fs.writeFileSync(req.body.path, "");
+        res.redirect('/dashboard');
+    } catch (err) {
+        throw err;
+    }
+});
+
 module.exports = router;

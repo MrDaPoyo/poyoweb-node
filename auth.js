@@ -21,7 +21,7 @@ authRouter.use(verifySessionToken);
 
 authRouter.post('/register', async (req, res, next) => {
     console.log(req.body);
-    var username = req.body.username;
+    var username = (req.body.username).toLowerCase();
     var password = await bcrypt.hash(req.body.password, 10);
     var email = req.body.email;
     var valid = user.checkUsername(await username, req, res);
