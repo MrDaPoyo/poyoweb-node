@@ -1,0 +1,35 @@
+<%- include('./header') %>
+<div class="container tos">
+<h1>Terms of Service</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>Welcome to The Poyoweb, also known as &quot;PoyoWeb&quot;. By using our services, you agree to comply with and be bound by the following terms and conditions.
+In case you do not agree with our Terms of Service, you will be restricted access to The PoyoWeb.</p>
+<h2 id="2-prohibited-content">2. Prohibited Content</h2>
+<p>You are not permitted to use our hosting services to store, share, or distribute any of the following:</p>
+<ul>
+<li><strong>NSFW Material</strong>: No adult content, including but not limited to pornography or obscene material.</li>
+<li><strong>Hate Speech</strong>: Any content that promotes violence, discrimination, or hatred based on race, ethnicity, gender, religion, or any other protected characteristics.</li>
+<li><strong>Illegal Activity</strong>: Content that violates any laws or regulations in the country of Spain is strictly prohibited.</li>
+<li><strong>Breaking in</strong>: Nothing that&#39;d break our service, website or other people&#39;s website</li>
+<li><strong>No spam</strong>: Spamming isn&#39;t allowed.</li>
+<li><strong>No malware</strong>: phishing sites, or any malicious code isnt allowed.</li>
+<li><strong>No piracy</strong>: No hosting pirated or cracked software of any kind.</li>
+<li><strong>No impersonation</strong>: Impersonating anyone can be punished with a ban.</li>
+<li><strong>No Copyright infringement</strong>: No copyrighted material that isnt yours is allowed.</li>
+</ul>
+<h2 id="3-no-guarantee-of-uptime">3. No Guarantee of Uptime</h2>
+<p>While we strive to provide reliable hosting services, we cannot guarantee uninterrupted uptime. Outages or downtime may occur due to maintenance, technical issues, or other unforeseen circumstances.</p>
+<h2 id="4-termination-of-service">4. Termination of Service</h2>
+<p>We reserve the right to suspend or terminate your access to our hosting services at any time, without notice, for any violation of these Terms of Service.</p>
+<h2 id="5-no-guarantee-of-indefinite-service">5. No Guarantee of Indefinite Service</h2>
+<p>We make no guarantees that our hosting service will be available indefinitely. We reserve the right to discontinue our services at any time, with or without prior notice.</p>
+<h2 id="6-limitation-of-liability">6. Limitation of Liability</h2>
+<p>The Poyoweb shall not be held liable for any damages or losses arising from the use or inability to use our services.</p>
+<h2 id="7-changes-to-these-terms">7. Changes to These Terms</h2>
+<p>We reserve the right to update or modify these Terms of Service at any time without prior notice. It is your responsibility to review the terms regularly.</p>
+<h2 id="8-contact-information">8. Contact Information</h2>
+<p>If you have any questions regarding these terms, please contact us at admin@poyo.study.</p>
+<hr>
+<p><em>Last updated: 6th of September of 2024</em></p>
+</div>
+<%- include('./footer') %>

@@ -32,6 +32,10 @@ app.get('/', async (req, res) => {
     res.render('index', { title: 'Home', url: process.env.URL});
 });
 
+app.get('/tos', async (req, res) => {
+    res.render('tos', { title: 'Terms of Service', url: process.env.URL});
+});
+
 app.use('/auth', authRouter);
 
 app.use('/editor', authToken, redirectIfNotVerified, editorRouter);
