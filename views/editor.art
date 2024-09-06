@@ -10,8 +10,8 @@
 </head>
 
 <body height="100%">
-    <div id="editor" height="100%"></div>
-    <button>Save</button>
+  <div id="editor" height="100%"></div>
+  <button id="saveBtn">Save</button>
 
   <script type="importmap">
     {
@@ -20,10 +20,12 @@
       }
     }
   </script>
+
   <script type="module">
-    import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups/index.js"
+    import { fullEditor } from "prism-code-editor/setups/index.js"
     import "prism-code-editor/prism/languages/markup.js"
 
+    // Initialize the editor
     const fulleditor = fullEditor(
       "#editor",
       {
@@ -31,12 +33,38 @@
         theme: "github-dark",
         value: document.getElementById("fileData").innerText,
       },
-      () => console.log("ready"),
+      () => console.log("Editor is ready")
     )
 
-    import("prism-code-editor/prism/languages/common").then(() => editor.update())
+    // Function to send the content via POST request
+    const saveContent = async () => {
+      const editorContent = fulleditor.value; // Get the content of the editor
+      const fileName = document.getElementById("fileName").innerText; // Get the file name
 
-    console.log("value: "+fulleditor.value);
+      try {
+        const response = await fetch('/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fileName: fileName,
+            fileContent: editorContent,
+          }),
+        });
+
+        if (response.ok) {
+          console.log('File saved successfully');
+        } else {
+          console.log('Failed to save the file');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    // Add event listener to the save button
+    document.getElementById("saveBtn").addEventListener("click", saveContent);
   </script>
 </body>
 

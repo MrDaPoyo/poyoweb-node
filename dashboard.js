@@ -42,7 +42,7 @@ router.post('/create', async (req, res) => {
             res.status(404).send("FileType not allowed.");
         } else if (dirname.includes("..")) {
             res.status(404).send("HA! Good try, Hacker :3");
-        } else if (dirname.length > 30) {
+        } else if (req.body.dir.length > 30) {
             res.status(404).send("FileName too long.");
         } else {
             if (!dirname.includes(".")) {

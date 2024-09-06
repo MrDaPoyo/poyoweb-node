@@ -7,18 +7,15 @@ var VALID_EDITABLE_EXTENSIONS = [
 ];
 
 function checkFileName(name) {
-    const invalid = ['/', '\\', '?', '%', '*', ':', '|', '"', '<', '>'];
-    for (let i = 0; i < invalid.length; i++) {
-        if (name.includes(invalid[i])) {
-            return false;
+    name.toLowerCase();
+    name.replace(/\s/g, '');
+    for (let i = 0; i < VALID_EXTENSIONS.length; i++) {
+        if (name.endsWith(VALID_EXTENSIONS[i])) {
+            console.log('Valid extension found:', VALID_EXTENSIONS[i]);
+            return true;
         }
     }
-    for (let i = 0; i < disallowedExtensions.length; i++) {
-        if (name.endsWith(disallowedExtensions[i])) {
-            return false;
-        }
-    }
-    return true;
+    return false;
 }
 
 module.exports = checkFileName;
