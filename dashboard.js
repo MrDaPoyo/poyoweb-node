@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const dirWalker = require('./snippets/dirWalker');
 const bodyParser = require('body-parser');
-const checkFileName = require('./snippets/verifyFile');
+const checkCreatableFile = require('./snippets/verifyFile');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,6 +28,9 @@ router.get('/', async (req, res) => {
 router.get('/remove', (req, res) => {
     try {
         fs.unlinkSync("websites/users/" + req.user.username + "/" + req.query.dir);
+        if (req.query.dir.includes(".")) {
+            res.redirect(`/dashboard`);
+        }
         res.redirect(`/dashboard?dir=${path.dirname(req.query.dir)}`);
     } catch (err) {
         fs.rmdirSync("websites/users/" + req.user.username + "/" + req.query.dir, { recursive: true });
@@ -37,7 +40,7 @@ router.get('/remove', (req, res) => {
 router.post('/create', async (req, res) => {
     try {
         var dirname = "websites/users/" + await req.user.username + "/" + await req.body.cleanPath + "/" + await req.body.dir;
-        var valid = checkFileName(dirname);
+        var valid = checkCreatableFile(dirname);
         if (!valid) {
             res.status(404).send("FileType not allowed.");
         } else if (dirname.includes("..")) {

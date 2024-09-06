@@ -18,4 +18,16 @@ function checkFileName(name) {
     return false;
 }
 
-module.exports = checkFileName;
+function checkCreatableFile(name) {
+    name.toLowerCase();
+    name.replace(/\s/g, '');
+    for (let i = 0; i < VALID_EDITABLE_EXTENSIONS.length; i++) {
+        if (name.endsWith(VALID_EDITABLE_EXTENSIONS[i])) {
+            console.log('Valid extension found:', VALID_EDITABLE_EXTENSIONS[i]);
+            return true;
+        }
+    }
+    return false;
+}
+
+module.exports = checkCreatableFile;
