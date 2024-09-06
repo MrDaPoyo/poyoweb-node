@@ -103,6 +103,31 @@ body {
     left: 0;
 }
 
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 3vh 0;
+    box-sizing: border-box;
+}
+
+.row, .column {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(auto, 1fr);

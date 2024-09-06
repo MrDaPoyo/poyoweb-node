@@ -6,6 +6,17 @@ require('dotenv').config();
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
+function fromBinary(encoded) {
+    const binary = atob(encoded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    return String.fromCharCode(...new Uint16Array(bytes.buffer));
+}
+
+// our previous Base64-encoded string
+
 router.get('/', async function (req, res) {
     const dirPath = req.query.file ? "/" + req.query.file : "";
     if (dirPath.includes("..")) {
@@ -26,7 +37,7 @@ router.get('/', async function (req, res) {
 router.post('/save', async function (req, res, next) {
     const filename = req.query.filename;
     const filePath = `websites/users/${await req.user.username}/${filename}`;
-    const fileContent = req.query.data;
+    const fileContent = atob(req.query.data);
 
     fs.writeFile(filePath, fileContent, 'utf8', function (err) {
         if (err) {
