@@ -16,7 +16,8 @@ router.get('/', async function (req, res) {
                 console.log(err);
                 res.send('An error occurred');
             } else {
-                res.render("editor", { filename: req.query.file, file: data, url: process.env.URL });
+                console.log(data);
+                res.render("editor", { fileName: req.query.file, fileData: data, url: process.env.URL });
             }
         });
     }
@@ -25,14 +26,15 @@ router.get('/', async function (req, res) {
 router.post('/save', async function (req, res, next) {
     const filename = req.query.q;
     const filePath = `websites/users/${await req.user.username}/${filename}`;
-    const fileContent = await req.body.code;
+    const fileContent = await req.query.data;
+    console.log(await req.query);
 
     fs.writeFile(filePath, fileContent, 'utf8', function (err) {
         if (err) {
             console.log(err);
             res.status(500).send('An error occurred while saving the file');
         } else {
-            res.redirect(`/editor/?file=${filename}`);
+            res.redirect(`/?file=${filename}`);
         }
     });
 });

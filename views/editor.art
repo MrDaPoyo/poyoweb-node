@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PoyoWeb</title>
-  <span style="display: none;" id="fileData">{{ file }}</span>
+  <title>PoyoWeb's Wonderful Editor</title>
+  <span style="display: none;" id="fileName">{{ fileName }}</span>
+  <span style="display: none;" id="fileData">{{ fileData }}</span>
 </head>
 
 <body height="100%">
-  <form method="POST">
-    <div id="editor" height="100%" name="code">{{ file }}</div>
-    <button type="submit" class="btn-left">Save</button>
-  </form>
+    <div id="editor" height="100%"></div>
+    <button>Save</button>
+
   <script type="importmap">
     {
       "imports": {
@@ -27,38 +27,16 @@
     const fulleditor = fullEditor(
       "#editor",
       {
-      language: "html",
-      theme: "github-dark",
-      value: document.getElementById("fileData").innerText,
+        language: "html",
+        theme: "github-dark",
+        value: document.getElementById("fileData").innerText,
       },
       () => console.log("ready"),
     )
 
-    const form = document.querySelector("form");
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const code = fulleditor.value();
-      const filename = document.getElementById("fileData").innerText;
-      const url = `save/?q=${filename}`;
-      fetch(url, {
-      method: "POST",
-      body: JSON.stringify({ code }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Handle the response data here
-      })
-      .catch((error) => {
-        console.error(error);
-        // Handle any errors here
-      });
-    });
-
     import("prism-code-editor/prism/languages/common").then(() => editor.update())
+
+    console.log("value: "+fulleditor.value);
   </script>
 </body>
 
