@@ -3,7 +3,7 @@ var VALID_EXTENSIONS = [
 ];
 
 var VALID_EDITABLE_EXTENSIONS = [
-    'html', 'htm', 'txt', 'js', 'css', 'scss', 'md', 'manifest', 'less', 'webmanifest', 'xml', 'json', 'opml', 'rdf', 'svg', 'gpg', 'pgp', 'resolveHandle', 'pls', 'yaml', 'yml', 'toml', 'osdx', 'mjs', 'cjs', 'ts', 'py'
+    'html', 'htm', 'txt', 'js', 'css', 'scss', 'md', 'markdown', 'manifest', 'less', 'webmanifest', 'xml', 'json', 'opml', 'rdf', 'svg', 'gpg', 'pgp', 'resolveHandle', 'pls', 'yaml', 'yml', 'toml', 'osdx', 'mjs', 'cjs', 'ts',
 ];
 
 function checkFileName(name) {
