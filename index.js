@@ -28,10 +28,7 @@ app.use(authVerifier);
 app.use(authUser);
 app.use(subdomainHandler);
 
-// Routes
-async function authenticated(req) {
-    return req.cookies['x-session-token'] ? true : false;
-}
+
 app.get('/', async (req, res) => {
     res.render('index', { title: 'Home', url: process.env.URL});
 });

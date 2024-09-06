@@ -5,13 +5,12 @@ const router = express.Router();
 
 router.use((req, res, next) => {
     const subdomain = req.headers.host.split('.')[0];
-    console.log(subdomain);
-    
+    console.log("hit!: "+subdomain);
+
     if (!subdomain.includes('localhost') && subdomain !== 'www') {
-        const subdomainPath = path.join(__dirname , 'websites/users/', subdomain);
+        const subdomainPath = path.join(__dirname, 'websites/users/', subdomain);
         express.static(subdomainPath)(req, res, next);
         res.sendFile(path.join(subdomainPath, 'index.html'));
-        
     } else {
         next();
     }
