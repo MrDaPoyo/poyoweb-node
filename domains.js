@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.use(async (req, res, next) => {
     const subdomain = req.headers.host.split('.')[0];
-    console.log("hit!: "+subdomain + ", views: " + (await startDB.retrieveViews(subdomain)).views);
+    var views = (await startDB.retrieveViews(subdomain)).views;
+    console.log("hit!: "+subdomain + ", views: " + views);
 
     if (!subdomain.includes('localhost') && subdomain !== 'www') {
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain);
