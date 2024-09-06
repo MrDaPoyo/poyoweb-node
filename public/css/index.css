@@ -67,6 +67,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    background-color: var(--primary);
 }
 
 .window-links {
@@ -79,6 +80,7 @@ body {
     flex-direction: row;
     padding: 1px;
     width: 100%;
+    background-color: var(--primary);
     border-bottom: var(--secondary) 1px solid;
 }
 
@@ -101,6 +103,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1000;
 }
 
 .container {
