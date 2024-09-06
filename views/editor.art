@@ -31,7 +31,17 @@
       {
         language: "html",
         theme: "github-dark",
-        value: document.getElementById("fileData").innerText,
+        value: (JSON.parse(document.getElementById("fileData").innerText).slice(1, -1)),
+        insertSpaces: true,
+        tabSize: 2,
+        lineNumbers: true,
+        readOnly: false,
+        wordWrap: false,
+        rtl: false,
+        autoClosingBrackets: true,
+        onUpdate(code) {},
+        onSelectionChange([start, end, direction], code) {},
+        onTokenize(tokens, language, code) {}
       },
       () => console.log("Editor is ready")
     )
@@ -42,15 +52,15 @@
       const fileName = document.getElementById("fileName").innerText; // Get the file name
 
       try {
-        const response = await fetch('/save', {
+        const response = await fetch(`save?filename=${fileName}&data=${JSON.parse(fulleditor.value)}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            fileName: fileName,
-            fileContent: editorContent,
-          }),
+          body: {
+            filename: fileName,
+            data: editorContent,
+          },
         });
 
         if (response.ok) {
@@ -65,6 +75,13 @@
 
     // Add event listener to the save button
     document.getElementById("saveBtn").addEventListener("click", saveContent);
+  </script>
+  <script defer>
+    async function readTextarea() {
+      var text = await document.querySelector("#editor").innerText;
+      console.log(await text);
+    }
+    readTextarea();
   </script>
 </body>
 

@@ -24,10 +24,9 @@ router.get('/', async function (req, res) {
 });
 
 router.post('/save', async function (req, res, next) {
-    const filename = req.query.q;
+    const filename = req.query.filename;
     const filePath = `websites/users/${await req.user.username}/${filename}`;
-    const fileContent = await req.query.data;
-    console.log(await req.query);
+    const fileContent = req.query.data;
 
     fs.writeFile(filePath, fileContent, 'utf8', function (err) {
         if (err) {

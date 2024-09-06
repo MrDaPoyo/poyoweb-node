@@ -105,13 +105,14 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto, 1fr);
     grid-auto-flow: column;
     grid-gap: 10px;
-    width: 100%;
     height: 100%;
     padding: 10px;
     box-sizing: border-box;
+    justify-items: center; 
+    align-items: start;/
 }
 
 .icon {
@@ -130,8 +131,8 @@ body {
     align-items: center;
     flex-direction: column;
     box-sizing: border-box;
-    flex-wrap: wrap;
     position: relative;
+    text-wrap: wrap;
 }
 .dashboard-icon .dashboard-close, .dashboard-icon .dashboard-rename, .dashboard-submit * {
     color: var(--secondary);
@@ -158,4 +159,10 @@ body {
 .dashboard-icon:hover .dashboard-close:hover, .dashboard-icon:hover .dashboard-rename:hover {
     background-color: var(--secondary);
     color: var(--primary);
+}
+
+@media screen and (max-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
