@@ -24,10 +24,9 @@ app.set('view options', {
     minimize: false
 });
 app.use(cookieParser());
+app.use(subdomainHandler);
 app.use(authVerifier);
 app.use(authUser);
-app.use(subdomainHandler);
-
 
 app.get('/', async (req, res) => {
     res.render('index', { title: 'Home', url: process.env.URL});
