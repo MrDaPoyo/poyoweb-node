@@ -33,7 +33,7 @@ router.get('/remove', (req, res) => {
         }
         res.redirect(`/dashboard?dir=${path.dirname(req.query.dir)}`);
     } catch (err) {
-        fs.rmdirSync("websites/users/" + req.user.username + "/" + req.query.dir, { recursive: true });
+        fs.rmSync("websites/users/" + req.user.username + "/" + req.query.dir, { recursive: true });
     }
 });
 
@@ -64,20 +64,43 @@ router.post('/create', async (req, res) => {
 
 router.post('/editName', async (req, res) => {
     try {
-        const newName = await req.body.newName;
-        console.log(await newName);
-        var path = await req.body.path;
-        if (!path) {path = "";}
-        const cleanPath = await req.body.cleanPath;
+        var newName = await req.body.newName;
+        if (req.body.isDirectory == "false") {
+            if (checkCreatableFile(newName) == true) {
+                console.log(await newName);
+                var path = await req.body.path;
+                if (!path) { path = ""; }
+                const cleanPath = await req.body.cleanPath;
 
-        var newPath = "websites/users/" + await req.user.username + "/" + path + "/" + newName;
-        var oldPath = "websites/users/" + await req.user.username + "/" + cleanPath;
+                var newPath = "websites/users/" + await req.user.username + "/" + path + "/" + newName;
+                var oldPath = "websites/users/" + await req.user.username + "/" + cleanPath;
 
-        if (newName.includes("..")) {
-            res.status(404).send("HA! Good try, Hacker :3");
-        } else if (!undefined) {
-            fs.renameSync(oldPath, newPath);
-            res.redirect('/dashboard/?dir=' + await path);
+                if (newName.includes("..")) {
+                    res.status(404).send("HA! Good try, Hacker :3");
+                } else if (!undefined) {
+                    fs.renameSync(oldPath, newPath);
+                    res.redirect('/dashboard/?dir=' + await path);
+                }
+            } else {
+                res.status(404).send("FileType not allowed.");
+            }
+        } else {
+            newName = newName.replace(/ /g, "_");
+            newName = newName.replace(/\./g, "");
+            console.log(await newName);
+            var path = await req.body.path;
+            if (!path) { path = ""; }
+            const cleanPath = await req.body.cleanPath;
+
+            var newPath = "websites/users/" + await req.user.username + "/" + path + "/" + newName;
+            var oldPath = "websites/users/" + await req.user.username + "/" + cleanPath;
+
+            if (newName.includes("..")) {
+                res.status(404).send("HA! Good try, Hacker :3");
+            } else if (!undefined) {
+                fs.renameSync(oldPath, newPath);
+                res.redirect('/dashboard/?dir=' + await path);
+            }
         }
     } catch (err) {
         console.log(err);
