@@ -6,6 +6,7 @@ const authToken = require('./middleware/auth');
 const redirectIfNotVerified = require('./middleware/verified');
 const authUser = require('./middleware/authUser');
 const authVerifier = require('./middleware/authenticated');
+const subdomainHandler = require('./domains');
 require('dotenv').config();
 var cookieParser = require('cookie-parser')
 
@@ -25,7 +26,7 @@ app.set('view options', {
 app.use(cookieParser());
 app.use(authVerifier);
 app.use(authUser);
-
+app.use(subdomainHandler);
 
 // Routes
 async function authenticated(req) {
