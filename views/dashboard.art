@@ -5,6 +5,11 @@
     <input type="hidden" name="cleanPath" value="{{cleanPath}}">
     <button type="submit">Create</button>
 </form>
+<form action="/dashboard/rename" class="rename-submit" method="POST" style="display: none;">
+    <input type="text" name="dir" placeholder="New filename/foldername" required>
+    <input type="hidden" name="cleanPath" value="{{cleanPath}}">
+    <button type="submit">Rename</button>
+</form>
 <br>
 <div class="grid">
     <% if (!dashboard) { %>
@@ -30,4 +35,10 @@
         </div>
     <% } %>
 </div>
+<script>
+    function showForm() {
+        const renameForm = document.querySelector('.rename-submit');
+        renameForm.style.display = (renameForm.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
 <%- include("./footer") %>

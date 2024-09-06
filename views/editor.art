@@ -1,61 +1,71 @@
 <%- include("./header") %>
-<div class="container">
-  <span style="display: none;" id="fileName">{{ fileName }}</span>
-  <span style="display: none;" id="fileData">{{ fileData }}</span>
-  <div id="editor" height="100%"></div>
-  <button id="saveBtn">Save</button>
-  <script type="importmap">
+  <div class="container">
+    <span style="display: none;" id="fileName">{{ fileName }}</span>
+    <span style="display: none;" id="fileData">{{ fileData }}</span>
+    <div id="editor" height="100%"></div>
+    <button id="saveBtn">Save</button>
+    <script type="importmap">
   {
     "imports": {
       "prism-code-editor/": "https://cdn.jsdelivr.net/npm/prism-code-editor@3.4.0/dist/"
     }
   }
 </script>
-  <script type="module">
-    import { fullEditor } from "prism-code-editor/setups/index.js"
-    import "prism-code-editor/prism/languages/markup.js"
-    // Initialize the editor
-    const fulleditor = fullEditor(
-      "#editor",
-      {
-        language: "html",
-        theme: "github-dark",
-        value: document.getElementById("fileData").innerText,
-        insertSpaces: true,
-        tabSize: 2,
-        lineNumbers: true,
-        readOnly: false,
-        wordWrap: false,
-        rtl: false,
-        autoClosingBrackets: true,
-        onUpdate(code) { },
-        onSelectionChange([start, end, direction], code) { },
-        onTokenize(tokens, language, code) { }
-      },
-      () => console.log("Editor is ready")
-    )
-    // Function to send the content via POST request
-    const saveContent = async () => {
-      const editorContent = fulleditor.value; // Get the content of the editor
-      const fileName = document.getElementById("fileName").innerText; // Get the file name
-      try {
-        const response = await fetch(`save?filename=${fileName}&data=${btoa(fulleditor.value)}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok) {
-          console.log('File saved successfully');
-        } else {
-          console.log('Failed to save the file');
+    <script type="module">
+      import { fullEditor } from "prism-code-editor/setups/index.js"
+      import "prism-code-editor/prism/languages/markup.js"
+      // Initialize the editor
+      const fulleditor = fullEditor(
+        "#editor",
+        {
+          language: "html",
+          theme: "github-dark",
+          value: document.getElementById("fileData").innerText,
+          insertSpaces: true,
+          tabSize: 2,
+          lineNumbers: true,
+          readOnly: false,
+          wordWrap: false,
+          rtl: false,
+          autoClosingBrackets: true,
+          onUpdate(code) { },
+          onSelectionChange([start, end, direction], code) { },
+          onTokenize(tokens, language, code) { }
+        },
+        () => console.log("Editor is ready")
+      )
+
+      import { searchWidget, highlightSelectionMatches } from "prism-code-editor/extensions/search/index.js"
+      import { cursorPosition } from "prism-code-editor/extensions/cursor.js"
+
+      fulleditor.addExtensions(
+        highlightSelectionMatches(),
+        searchWidget(),
+        cursorPosition(),
+      )
+
+      // Function to send the content via POST request
+      const saveContent = async () => {
+        const editorContent = fulleditor.value; // Get the content of the editor
+        const fileName = document.getElementById("fileName").innerText; // Get the file name
+        try {
+          const response = await fetch(`save?filename=${fileName}&data=${btoa(fulleditor.value)}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          if (response.ok) {
+            console.log('File saved successfully');
+          } else {
+            console.log('Failed to save the file');
+          }
+        } catch (error) {
+          console.error('Error:', error);
         }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    // Add event listener to the save button
-    document.getElementById("saveBtn").addEventListener("click", saveContent);
-  </script>
-</div>
-<%- include("./footer") %>
+      };
+      // Add event listener to the save button
+      document.getElementById("saveBtn").addEventListener("click", saveContent);
+    </script>
+  </div>
+  <%- include("./footer") %>
