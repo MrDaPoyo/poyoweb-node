@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const { on } = require('events');
 const fs = require('fs');
 
 // Create a new database file if it doesn't exist
@@ -24,6 +25,7 @@ function setupDB() {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userID INTEGER NOT NULL,
     name TEXT UNIQUE NOT NULL,
+    views INTEGER DEFAULT 0,
     FOREIGN KEY (userID) REFERENCES users(id))`);
 }
 
@@ -51,4 +53,16 @@ async function isUserVerifiedById(id) {
     return verified;
 }
 
-module.exports = { setupDB, readUsers, findUserByEmail, isUserVerifiedById, db };
+function addView(name) {
+    db.run('UPDATE websites SET views = views + 1 WHERE name = ?', [name]);
+}
+
+async function retrieveViews(name, onViews) {
+    const promise = new Promise((resolve,reject) => {db.get('SELECT views FROM websites WHERE name = ?', [name], (err, views) => {
+        resolve(views);
+    });}) 
+    promise.then(onViews);
+    return promise;
+}
+
+module.exports = { setupDB, readUsers, findUserByEmail, isUserVerifiedById, addView, retrieveViews, db };

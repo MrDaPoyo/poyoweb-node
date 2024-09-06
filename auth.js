@@ -146,12 +146,12 @@ authRouter.get('/verify/:token', (req, res) => {
                     console.error(err.message);
                     res.send("Email verification failed, possibly the link is invalid or expired");
                 } else {
-                    token = jwt.sign(
+                    var newToken = jwt.sign(
                         { username: decoded.username, email: decoded.email, verified: 1 },
                         process.env.TOKEN_KEY,
                         { expiresIn: "5h" }
                     );
-                    res.cookie('x-access-token', token);
+                    res.cookie('x-access-token', newToken);
                     res.redirect('/verified', 200, { title: 'Email Verified', url: process.env.URL });
                 }
             });
