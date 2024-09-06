@@ -1,10 +1,13 @@
 <%- include("./header") %>
 <h1>Welcome to the PoyoWeb!</h1>
 <p>PoyoWeb! *<i>quality</i>*, over qua<b>n</b>tity!</p>
-{{ if user }}
-<p>Hi, <%= user.username %>.</p>
-<p>Go to the <a href="/dashboard">dashboard</a>.</p>
+    {{ if user }}
+        <p>Hi, <%= user.username %>.</p>
+    {{ if user.verified === 1 }}
+        <p>Go to the <a href="/dashboard">dashboard</a>.</p>
+    {{ else }}
+        <p>Verify your email address to access the <b>dashboard</b>.</p>
+    {{ /if }}
 {{ else }}
-<p>Hi, guest.</p>
+    <p>Hi, guest.</p>
 {{ /if }}
-<%- include("./footer") %>
