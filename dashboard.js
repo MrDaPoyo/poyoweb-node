@@ -62,4 +62,20 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.post('/editName', async (req, res) => {
+    try {
+        var oldPath = "websites/users/" + await req.user.username + "/" + await req.body.oldPath;
+        var newPath = "websites/users/" + await req.user.username + "/" + await req.body.newPath;
+        if (oldPath.includes("..") || newPath.includes("..")) {
+            res.status(404).send("HA! Good try, Hacker :3");
+        } else {
+            fs.renameSync(oldPath, newPath);
+            res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
+        }
+    } catch (err) {
+        console.log(err);
+        res.send("Error renaming file/directory.");
+    }
+});
+
 module.exports = router;

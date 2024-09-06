@@ -26,16 +26,28 @@ body {
 }
 
 #window {
-    width: 70%;
+    width: 80%;
     height: 100%;
-    margin-top: 1%;
+    padding-top: 1%;
     border-radius: 1%;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     position: relative;
     box-sizing: border-box;
+}
+
+.small {
+    font-size: 0.7em;
+    padding: 0;
+    margin: 0;
+} 
+
+.no-margin {
+    margin: 0;
+    padding: 0;
 }
 
 .hidden-link {
@@ -49,12 +61,29 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
     padding: 1px;
     margin: auto;
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.window-links {
+    position: absolute;
+    top: 4vh;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 1px;
+    width: 100%;
     border-bottom: var(--secondary) 1px solid;
+}
+
+#the-web-is-silly {
+    width: 100%;
 }
 
 .logo-img {

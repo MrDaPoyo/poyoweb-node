@@ -1,0 +1,27 @@
+#the-web-is-silly {
+    position: relative;
+}
+
+.floating-text {
+    background-color: #F8F3F6;
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    animation: animate 1s ease-in-out infinite;
+    animation-delay: calc(0.05s * var(--i));
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(0px);
+    }
+
+    20% {
+        transform: translateY(-5px);
+    }
+
+    40%,
+    100% {
+        transform: translateY(0px);
+    }
+}
