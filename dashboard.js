@@ -64,13 +64,20 @@ router.post('/create', async (req, res) => {
 
 router.post('/editName', async (req, res) => {
     try {
-        var oldPath = "websites/users/" + await req.user.username + "/" + await req.body.oldPath;
-        var newPath = "websites/users/" + await req.user.username + "/" + await req.body.newPath;
-        if (oldPath.includes("..") || newPath.includes("..")) {
+        const newName = await req.body.newName;
+        console.log(await newName);
+        var path = await req.body.path;
+        if (!path) {path = "";}
+        const cleanPath = await req.body.cleanPath;
+
+        var newPath = "websites/users/" + await req.user.username + "/" + path + "/" + newName;
+        var oldPath = "websites/users/" + await req.user.username + "/" + cleanPath;
+
+        if (newName.includes("..")) {
             res.status(404).send("HA! Good try, Hacker :3");
-        } else {
+        } else if (!undefined) {
             fs.renameSync(oldPath, newPath);
-            res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
+            res.redirect('/dashboard/?dir=' + await path);
         }
     } catch (err) {
         console.log(err);

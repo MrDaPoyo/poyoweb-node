@@ -13,14 +13,16 @@ function readDir(basedir, dir) {
                     const stats = fs.statSync(filePath);
                     return {
                         name: file,
-                        path: filePath,
+                        filePath: path.relative(basedir, filePath).replace(file, ''),
                         cleanPath: path.relative(basedir, filePath),
                         content: stats.isDirectory() ? null : fs.readFileSync(filePath, "utf8"),
                         isDirectory: stats.isDirectory(),
                         size: stats.size,
                         createdAt: stats.birthtime,
-                        modifiedAt: stats.mtime
+                        modifiedAt: stats.mtime,
+                        id: stats.birthtime.getTime(),
                     };
+                    i++;
                 });
                 resolve(files);
             }
