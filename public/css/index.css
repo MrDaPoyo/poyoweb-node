@@ -59,7 +59,7 @@ body {
     width: 100%;
     height: 5vh;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
     align-items: center;
     flex-direction: row;
     padding: 1px;
@@ -71,7 +71,7 @@ body {
 
 .window-links {
     position: absolute;
-    top: 4vh;
+    top: 4.5vh;
     left: 0;
     display: flex;
     justify-content: space-between;
@@ -82,14 +82,25 @@ body {
     border-bottom: var(--secondary) 1px solid;
 }
 
+.window-content {
+    width: 100%;
+    height: 100%;
+    margin-top: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 #the-web-is-silly {
     width: 100%;
 }
 
 .logo-img {
-    height: 100%;
-    margin: 0 auto 0 0;
-    box-sizing: border-box;
+    height: 4vh;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .grid {
