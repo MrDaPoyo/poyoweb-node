@@ -32,8 +32,8 @@ function setupDB() {
 setupDB();
 
 function readUsers() {
-    db.all('SELECT * FROM users',async (err, rows) => {
-            return rows;
+    db.all('SELECT * FROM users', async (err, rows) => {
+        return rows;
     });
 }
 
@@ -58,9 +58,11 @@ function addView(name) {
 }
 
 async function retrieveViews(name, onViews) {
-    const promise = new Promise((resolve,reject) => {db.get('SELECT views FROM websites WHERE name = ?', [name], (err, views) => {
-        resolve(views);
-    });}) 
+    const promise = new Promise((resolve, reject) => {
+        db.get('SELECT views FROM websites WHERE name = ?', [name], (err, views) => {
+            resolve(views);
+        });
+    })
     promise.then(onViews);
     return promise;
 }

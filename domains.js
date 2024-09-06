@@ -6,10 +6,10 @@ const router = express.Router();
 
 router.use(async (req, res, next) => {
     const subdomain = req.headers.host.split('.')[0];
-    var views = (await startDB.retrieveViews(subdomain)).views;
-    console.log("hit!: "+subdomain + ", views: " + views);
 
     if (!subdomain.includes('localhost') && subdomain !== 'www') {
+        var views = (await startDB.retrieveViews(subdomain)).views;
+        console.log("hit!: "+subdomain + ", views: " + await views);
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain);
         express.static(subdomainPath)(req, res, next);
         startDB.addView(subdomain);
