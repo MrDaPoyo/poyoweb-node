@@ -22,7 +22,6 @@ body {
     font-weight: 300;
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
 }
 
 #window {
@@ -37,6 +36,7 @@ body {
     flex-direction: column;
     position: relative;
     box-sizing: border-box;
+    background-color: var(--primary);
 }
 
 .small {
