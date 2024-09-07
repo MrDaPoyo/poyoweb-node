@@ -151,13 +151,12 @@ body {
 }
 
 .icon {
-    image-rendering:pixelated;
+    image-rendering: pixelated;
     height: 100px;
     width: 100px;
 }
 
 .dashboard-icon {
-    image-rendering:pixelated;
     height: 150px;
     font-size : 20px;
     width: 150px;
@@ -206,6 +205,7 @@ body {
     top: 0;
     left: 0;
     transform: translateX(25%);
+    display: none;
 }
 
 .dashboard-icon:hover .dashboard-close:hover, .dashboard-icon:hover .dashboard-rename:hover {
@@ -216,5 +216,11 @@ body {
 @media screen and (max-width: 600px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .dashboard-rename {
+        display: block;
+    }
+    #window {
+        width: 100%;
     }
 }

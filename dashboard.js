@@ -39,8 +39,13 @@ router.get('/remove', (req, res) => {
 
 router.post('/create', async (req, res) => {
     try {
+        console.log(req.body);
         var dirname = "websites/users/" + await req.user.username + "/" + await req.body.cleanPath + "/" + await req.body.dir;
-        var valid = checkCreatableFile(dirname);
+        if (!req.body.dir.includes(".")) {
+            valid = true;
+        } else {
+            var valid = checkCreatableFile(dirname);
+        }
         if (!valid) {
             res.status(404).send("FileType not allowed.");
         } else if (dirname.includes("..")) {
