@@ -3,7 +3,7 @@
     <span style="display: none;" id="fileName">{{ fileName }}</span>
     <span style="display: none;" id="fileData">{{ fileData }}</span>
     <div id="editor" height="100%"></div>
-    <button id="saveBtn">Save</button>
+    <button id="saveBtn" style="position: absolute; top:0; right: 0;">Save</button>
     <script type="importmap">
   {
     "imports": {

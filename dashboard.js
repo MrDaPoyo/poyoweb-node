@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
             const pastDir = path.relative("websites/users/" + req.user.username, path.dirname(dirPath));
             const cleanPath = path.relative("websites/users/" + req.user.username, dirPath);
 
-            res.render('dashboard', { files: await results, past: pastDir, cleanPath, dashboard: (dirPath == "websites/users/" + await req.user.username || cleanPath == "/") });
+            res.render('dashboard', { files: await results, past: pastDir, cleanPath, dashboard: (dirPath == "websites/users/" + await req.user.username || cleanPath == "/"), title: "Dashboard" });
         }
     } catch (err) {
         res.send("Directory Not Found. Good try, Hacker :3");
