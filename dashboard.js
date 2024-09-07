@@ -71,6 +71,8 @@ router.post('/create', async (req, res) => {
 router.post('/editName', async (req, res) => {
     try {
         var newName = await req.body.newName;
+        newName = newName.replace(/ /g, "_");
+        newName = newName.replace(/[\\/]/g, "");
         if (req.body.isDirectory == "false") {
             if (checkCreatableFile(newName) == true) {
                 console.log(await newName);
