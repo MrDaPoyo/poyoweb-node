@@ -25,3 +25,39 @@
         transform: translateY(0px);
     }
 }
+
+@keyframes animateColor {
+    0% {
+        color: #CC2f00;
+    }
+    10% {
+        color: #DB6600;
+    }
+    20% {
+        color: #E39E00;
+    }
+    30% {
+        color: #76B80D;
+    }
+    40% {
+        color: #007668;
+    }
+    50% {
+        color: #006486;
+    }
+    60% {
+        color: #007CB5;
+    }
+    70% {
+        color: #465AB2;
+    }
+    80% {
+        color: #6D47B1;
+    }
+    90% {
+        color: #874B9C;
+    }
+    100% {
+        color: #ff00ff;
+    }
+}
