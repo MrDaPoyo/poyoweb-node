@@ -5,6 +5,7 @@ const path = require('path');
 const dirWalker = require('./snippets/dirWalker');
 const bodyParser = require('body-parser');
 const checkCreatableFile = require('./snippets/verifyFile');
+const checkCreatableFolder = require('./snippets/verifyFolder');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -39,9 +40,9 @@ router.get('/remove', (req, res) => {
 
 router.post('/create', async (req, res) => {
     try {
-        console.log(req.body);
         var dirname = "websites/users/" + await req.user.username + "/" + await req.body.cleanPath + "/" + await req.body.dir;
         if (!req.body.dir.includes(".")) {
+            var valid = checkCreatableFolder(dirname);
             valid = true;
         } else {
             var valid = checkCreatableFile(dirname);
