@@ -25,7 +25,7 @@ authRouter.post('/register', async (req, res, next) => {
     var password = await bcrypt.hash(req.body.password, 10);
     var email = req.body.email;
     var valid = user.checkUsername(await username, req, res);
-    if (valid == true) {
+    if (valid == true & username.length > 0 & password.length > 0 & email.length > 0 & email.includes('@') & email.includes('.')) {
         if (await email && password && await username) {
             db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
                 const token = jwt.sign(
