@@ -14,6 +14,9 @@
     <script type="module">
       import { fullEditor } from "prism-code-editor/setups/index.js"
       import "prism-code-editor/prism/languages/markup.js"
+      import { searchWidget, highlightSelectionMatches } from "prism-code-editor/extensions/search/index.js"
+      import { cursorPosition } from "prism-code-editor/extensions/cursor.js"
+      
       // Initialize the editor
       const fulleditor = fullEditor(
         "#editor",
@@ -34,9 +37,6 @@
         },
         () => console.log("Editor is ready")
       )
-
-      import { searchWidget, highlightSelectionMatches } from "prism-code-editor/extensions/search/index.js"
-      import { cursorPosition } from "prism-code-editor/extensions/cursor.js"
 
       fulleditor.addExtensions(
         highlightSelectionMatches(),
