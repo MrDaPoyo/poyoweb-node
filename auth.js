@@ -25,7 +25,7 @@ authRouter.post('/register', async (req, res, next) => {
     var password = await bcrypt.hash(req.body.password, 10);
     var email = req.body.email;
     var valid = user.checkUsername(await username, req, res);
-    if (valid == true & username.length > 0 & password.length > 0 & email.length > 0 & email.includes('@') & email.includes('.')) {
+    if (valid == true || username.length > 0 || password.length > 0 || email.length > 0 || email.includes('@') || email.includes('.')) {
         if (await email && password && await username) {
             db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
                 const token = jwt.sign(
@@ -160,5 +160,63 @@ authRouter.get('/verify/:token', (req, res) => {
     });
 });
 
+authRouter.get('/recover/', (req, res) => {
+    res.render('recover', { title: 'Recover Password', url: process.env.URL });
+});
+
+authRouter.post('/recover/', (req, res) => {
+    var email = req.body.email;
+    db.get('SELECT * FROM users WHERE email = ?;', [email], (err, row) => {
+        if (err) {
+            console.error(err.message);
+            res.send('User Not Found');
+        }
+        if (row) {
+            const token = jwt.sign(
+                { email: email },
+                process.env.TOKEN_KEY,
+                { expiresIn: "24h" }
+            );
+            tokenSender.sendRecoveryEmail(token, email);
+            res.send('Password recovery email sent');
+        } else {
+            res.send('Email not found');
+        }
+    });
+});
+
+authRouter.get('/recover/:token', (req, res) => {
+    var token = req.params.token;
+    jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
+        if (err) {
+            console.log(err);
+            res.send("Password recovery failed, possibly the link is invalid or expired");
+        }
+        else {
+            res.render('reset_password_form', { title: 'Reset Password', url: process.env.URL, token: token, email: decoded.email });
+        }
+    });
+});
+
+authRouter.post('/recover/:token', (req, res) => {
+    var token = req.params.token;
+    var password = req.body.password;
+    jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
+        if (err) {
+            console.log(err);
+            res.send("Password recovery failed, possibly the link is invalid or expired");
+        }
+        else {
+            db.run('UPDATE users SET password = ? WHERE email = ?', [password, decoded.email], (err) => {
+                if (err) {
+                    console.error(err.message);
+                    res.send('Password Recovery Failed');
+                } else {
+                    res.send('Password Recovery Successful');
+                }
+            });
+        }
+    });
+});
 
 module.exports = authRouter;

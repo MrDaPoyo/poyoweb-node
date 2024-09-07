@@ -36,6 +36,10 @@ app.get('/tos', async (req, res) => {
     res.render('tos', { title: 'Terms of Service', url: process.env.URL});
 });
 
+app.get('/privacy', async (req, res) => {
+    res.render('privacy', { title: 'Privacy Policy', url: process.env.URL});
+});
+
 app.use('/auth', authRouter);
 
 app.use('/editor', authToken, redirectIfNotVerified, editorRouter);

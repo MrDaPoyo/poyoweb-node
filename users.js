@@ -1,5 +1,5 @@
 const { exec } = require('child_process');
-const userBlacklist = ["poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix"];
+const userBlacklist = ["poyo","mrdapoyo", "reporter", "weblink", "oreneta", "neocities", "dapoyo", "bitch", "newrubix", "api", "blog"];
 
 async function createUser(username, password) {
     const createUserCommand = `useradd --no-create-home ${await username} -p ${await password}`;

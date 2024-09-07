@@ -31,4 +31,23 @@ function sendVerificationEmail(token, email) {
     });
 }
 
-module.exports = sendVerificationEmail;
+function sendRecoveryEmail(token, email) {
+
+    const mailConfigurations = {
+
+        // It should be a string of sender/server email
+        from: 'poyowebbot@gmail.com',
+        to: email,
+        subject: 'PoyoWeb - Password Recovery',
+        text: `Haii! :3\nYou have recently requested a password recovery on the PoyoWeb!\nPlease follow the given link to recover your password. :D \n${process.env.URL}/auth/recover/${token}\n Thanks!\n--The PoyoWeb Team`
+    };
+
+    transporter.sendMail(mailConfigurations, function (error) {
+        if (error) throw Error(error);
+        return console.log('Email Sent Successfully');
+    });
+}
+module.exports = {
+    sendVerificationEmail,
+    sendRecoveryEmail
+};
