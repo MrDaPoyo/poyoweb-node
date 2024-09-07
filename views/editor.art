@@ -49,7 +49,7 @@
         const editorContent = fulleditor.value; // Get the content of the editor
         const fileName = document.getElementById("fileName").innerText; // Get the file name
         try {
-          const response = await fetch(`save?filename=${fileName}&data=${btoa(fulleditor.value)}`, {
+          const response = await fetch(`save?filename=${fileName}&data=${encodeURIComponent(fulleditor.value)}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
