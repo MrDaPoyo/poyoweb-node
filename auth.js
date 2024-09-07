@@ -212,7 +212,7 @@ authRouter.post('/recover/:token', (req, res) => {
                     console.error(err.message);
                     res.send('Password Recovery Failed');
                 } else {
-                    res.send('Password Recovery Successful');
+                    res.send('Password Recovery Successful, you can now login with your new password');
                 }
             });
         }
