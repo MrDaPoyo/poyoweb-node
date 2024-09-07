@@ -16,8 +16,6 @@ function verifyFolderName(folderName) {
     if (fs.existsSync(folderName)) {
         return false;
     }
-
-    // Folder name is valid
     return true;
 }
 
