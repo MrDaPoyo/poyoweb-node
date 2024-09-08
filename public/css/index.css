@@ -150,6 +150,23 @@ body {
     align-items: start;/
 }
 
+.floating-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    z-index: 1000;
+    border: none;
+    color: transparent;
+    outline: none;
+}
+
+.background-none {
+    background-color: transparent !important;
+}
+
 .icon {
     image-rendering: pixelated;
     height: 100px;

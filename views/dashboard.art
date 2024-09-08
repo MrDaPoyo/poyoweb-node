@@ -5,11 +5,11 @@
         <%= user.username %>'s Files: /{{ cleanPath }}
     </h2>
 
-    <form action="/dashboard/file-upload?dir={{ cleanPath }}" class="dropzone" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data"></form>></form>
+    <form action="/dashboard/file-upload?dir={{ cleanPath }}" class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data"></form></form>
 
     <script>
         Dropzone.options.myAwesomeDropzone = {
-            paramName: "file", // The name that will be used to transfer the file
+            paramName: "file",
         };
     </script>
     <form action="/dashboard/create" class="dashboard-submit" method="POST">
