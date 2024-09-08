@@ -39,7 +39,7 @@ function sendRecoveryEmail(token, email) {
         from: 'poyowebbot@gmail.com',
         to: email,
         subject: 'PoyoWeb - Password Recovery',
-        text: `Haii! :3\nYou have recently requested a password recovery on the PoyoWeb!\nPlease follow the given link to recover your password. :D \n${process.env.URL}/auth/recover/${token}\n Thanks!\n--The PoyoWeb Team`
+        text: `Haii! :3\nYou have recently requested a password recovery on the PoyoWeb!\nPlease follow the given link to recover your password. :D \n${process.env.URL}/auth/recover/${token}\n Thanks!\n--The PoyoWeb Team\nPD: The link will expire in 24h hehehe.`
     };
 
     transporter.sendMail(mailConfigurations, function (error) {
