@@ -57,12 +57,13 @@
                                 paramName: "file",
                                 createImageThumbnails: false,
                                 disablePreviews: true,
-                                clickable: false
+                                clickable: false,
+                                init: function() {
+                                    this.on("queuecomplete", function() {
+                                        location.reload();
+                                    });
+                                }
                             };
-                            Dropzone.on("addedfile", file => {
-                                window.location.reload();
-                            });
-
                         </script>
     </div>
     <%- include("./footer") %>
