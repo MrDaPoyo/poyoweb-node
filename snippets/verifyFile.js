@@ -30,4 +30,4 @@ function checkCreatableFile(name) {
     return false;
 }
 
-module.exports = checkCreatableFile;
+module.exports = {checkCreatableFile, checkFileName};

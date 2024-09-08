@@ -4,8 +4,20 @@ const fs = require('fs');
 const path = require('path');
 const dirWalker = require('./snippets/dirWalker');
 const bodyParser = require('body-parser');
-const checkCreatableFile = require('./snippets/verifyFile');
+const checkFiles = require('./snippets/verifyFile');
 const checkCreatableFolder = require('./snippets/verifyFolder');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'websites/users/' + req.user.username + '/' + req.query.dir);
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname)
+    }
+})
+const upload = multer({
+    dest: 'uploads/', storage: storage
+})
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -45,7 +57,7 @@ router.post('/create', async (req, res) => {
             var valid = checkCreatableFolder(dirname);
             valid = true;
         } else {
-            var valid = checkCreatableFile(dirname);
+            var valid = checkFiles.checkCreatableFile(dirname);
         }
         if (!valid) {
             res.status(404).send("FileType not allowed.");
@@ -68,13 +80,44 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.post('/file-upload', upload.array('file'), async (req, res) => {
+    console.log(req.files);
+    try {
+        if (req.files) {
+            req.files.forEach(async (file) => {
+                console.log(req.files);
+                var path = "websites/users/" + await req.user.username + "/" + req.query.dir + "/" + file.originalname;
+                if (file.originalname.includes("..")) {
+                    res.status(404).send("HA! Good try, Hacker :3");
+                } else if (checkFiles.checkFileName(file.originalname)) {
+                    fs.rename(file.path, path, async (err) => {
+                        if (err) {
+                            console.log(err);
+                            res.send("Error uploading file.");
+                        } else {
+                            res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
+                        }
+                    });
+                } else {
+                    res.status(404).send("FileType not allowed.");
+                }
+            });
+        } else {
+            res.status(404).send("No file uploaded.");
+        }
+    } catch (err) {
+        console.log(err);
+        res.send("Error uploading file.");
+    }
+});
+
 router.post('/editName', async (req, res) => {
     try {
         var newName = await req.body.newName;
         newName = newName.replace(/ /g, "_");
         newName = newName.replace(/[\\/]/g, "");
         if (req.body.isDirectory == "false") {
-            if (checkCreatableFile(newName) == true) {
+            if (checkFiles.checkCreatableFile(newName) == true) {
                 console.log(await newName);
                 var path = await req.body.path;
                 if (!path) { path = ""; }

@@ -22,7 +22,7 @@ function sendVerificationEmail(token, email) {
         subject: 'PoyoWeb - Email Verification',
 
         // This would be the text of email body
-        text: `Haii! :3\nYou have recently registered on the PoyoWeb!\nPlease follow the given link to verify your email, and start buildig a better web. :D \n${process.env.URL}/auth/verify/${token}\n Thanks!\n--The PoyoWeb Team`
+        text: `Haii! :3\nYou have recently registered on the PoyoWeb!\nPlease follow the given link to verify your email, and start building a better web. :D \n${process.env.URL}/auth/verify/${token}\n Thanks!\n--The PoyoWeb Team`
     };
 
     transporter.sendMail(mailConfigurations, function (error) {

@@ -20,6 +20,7 @@
     "express-art-template": "^1.0.1",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
     "sphp": "^0.6.3",
     "sqlite": "^5.1.1",
