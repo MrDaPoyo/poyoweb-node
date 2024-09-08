@@ -13,6 +13,7 @@ router.use(async (req, res, next) => {
         res.locals.isPoyoweb = false;
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain);
         express.static(subdomainPath)(req, res, next);
+        router.use(sphp.express('public/'));
         startDB.addView(subdomain);
         try {
             res.sendFile(path.join(subdomainPath, 'index.html'));
