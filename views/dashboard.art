@@ -4,16 +4,6 @@
     <h2 margin="0 auto">
         <%= user.username %>'s Files: /{{ cleanPath }}
     </h2>
-
-    <form action="/dashboard/file-upload?dir={{ cleanPath }}" class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST" enctype="multipart/form-data"></form>
-
-    <script>
-        Dropzone.options.myAwesomeDropzone = {
-            paramName: "file",
-            createImageThumbnails: false,
-            disablePreviews: true,
-        };
-    </script>
     <form action="/dashboard/create" class="dashboard-submit" method="POST">
         <input type="text" name="dir" placeholder="New filename/foldername" required>
         <input type="hidden" name="cleanPath" value="{{cleanPath}}">
@@ -25,10 +15,10 @@
         <button type="submit">Rename</button>
     </form>
     <br>
-    <div class="grid">
+    <div class="dashboard-container">
         <% if (!dashboard) { %>
             <div class="dashboard-icon">
-                <a class="hidden-link" href="?dir={{past}}">
+                <a class="hidden-link dashboard-hidden-link" href="?dir={{past}}">
                     <img class="folder" src="/icons/back-small.webp"></img>
                 </a>
                 ../
@@ -37,7 +27,7 @@
                 <% for (const file of files) { %>
                     <div class="dashboard-icon">
                         <% if (!file.isDirectory) { %>
-                            <a class="hidden-link" href="{{url}}/editor/?file={{file.cleanPath}}">
+                            <a class="hidden-link dashboard-hidden-link" href="{{url}}/editor/?file={{file.cleanPath}}">
                                 <% } else { %>
                                     <a class="hidden-link" href="?dir={{file.cleanPath}}">
                                         <% } %>
@@ -58,5 +48,21 @@
                                     </form>
                     </div>
                     <% } %>
+                        <form action="/dashboard/file-upload?dir={{ cleanPath }}"
+                            class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST"
+                            enctype="multipart/form-data"></form>
+
+                        <script>
+                            Dropzone.options.myAwesomeDropzone = {
+                                paramName: "file",
+                                createImageThumbnails: false,
+                                disablePreviews: true,
+                                clickable: false
+                            };
+                            Dropzone.on("addedfile", file => {
+                                window.location.reload();
+                            });
+
+                        </script>
     </div>
     <%- include("./footer") %>
