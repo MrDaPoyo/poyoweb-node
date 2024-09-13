@@ -9,12 +9,16 @@ const checkCreatableFolder = require('./snippets/verifyFolder');
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'websites/users/' + req.user.username + '/' + req.query.dir);
+        const folderName = req.query.dir || '';
+        const folderPath = path.join('websites/users/', req.user.username, folderName);
+        fs.mkdirSync(folderPath, { recursive: true });
+        cb(null, folderPath);
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname)
+        cb(null, Date.now() + path.extname(file.originalname));
     }
-})
+});
+
 const upload = multer({
     dest: 'uploads/', storage: storage
 })
@@ -85,12 +89,11 @@ router.post('/file-upload', upload.array('file'), async (req, res) => {
     try {
         if (req.files) {
             req.files.forEach(async (file) => {
-                console.log(req.files);
-                var path = "websites/users/" + await req.user.username + "/" + req.query.dir + "/" + file.originalname;
+                const filePath = path.join('websites/users/', req.user.username, req.query.dir, file.originalname);
                 if (file.originalname.includes("..")) {
                     res.status(404).send("HA! Good try, Hacker :3");
                 } else if (checkFiles.checkFileName(file.originalname)) {
-                    fs.rename(file.path, path, async (err) => {
+                    fs.rename(file.path, filePath, async (err) => {
                         if (err) {
                             console.log(err);
                             res.send("Error uploading file.");
@@ -110,6 +113,7 @@ router.post('/file-upload', upload.array('file'), async (req, res) => {
         res.send("Error uploading file.");
     }
 });
+
 
 router.post('/editName', async (req, res) => {
     try {

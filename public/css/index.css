@@ -215,8 +215,16 @@ body {
 .dashboard-rename-form input {
     width: 100%;
     height: 30px;
-    text-overflow: ellipsis;
+    border: none;
+    border-bottom: 1px solid var(--secondary);
+    background-color: var(--primary);
+    color: var(--secondary);
+    font-size: 1em;
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
 }
+
 .dashboard-icon .dashboard-close, .dashboard-icon .dashboard-rename, .dashboard-submit * {
     color: var(--secondary);
     cursor: pointer;
