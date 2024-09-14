@@ -55,12 +55,18 @@
                         <script>
                             Dropzone.options.myAwesomeDropzone = {
                                 paramName: "file",
+                                webkitRelativePath: true,
                                 createImageThumbnails: false,
                                 disablePreviews: true,
                                 clickable: false,
-                                init: function() {
-                                    this.on("queuecomplete", function() {
+                                init: function () {
+                                    this.on("queuecomplete", function () {
                                         location.reload();
+                                    });
+                                    this.on("sending", function(file, xhr, formData) {
+                                        if (file.fullPath) {
+                                            formData.append("fullPath", file.fullPath);
+                                        }
                                     });
                                 }
                             };

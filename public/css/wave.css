@@ -9,6 +9,12 @@
     text-transform: uppercase;
     animation: animate 1s ease-in-out infinite;
     animation-delay: calc(0.05s * var(--i));
+    transition: 0.2s;
+}
+
+.floating-text:hover {
+    animation: none;
+    transform: translateY(-5px);
 }
 
 @keyframes animate {
