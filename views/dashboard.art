@@ -5,10 +5,36 @@
         <%= user.username %>'s Files: /{{ cleanPath }}
     </h2>
     <span class="z-index-1000">
-        <form action="/dashboard/file-upload?dir={{ cleanPath }}" multiple method="POST" enctype="multipart/form-data">
-            <input type="file" name="file" multiple required>
+        <form id="uploadForm" action="/dashboard/file-upload?dir={{ cleanPath }}" method="post" enctype="multipart/form-data">
+            <input type="file" id="fileInput" name="files" multiple webkitdirectory />
             <button type="submit">Upload</button>
         </form>
+
+        <script>
+            document.getElementById('uploadForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const formData = new FormData();
+                const files = document.getElementById('fileInput').files;
+
+                for (let i = 0; i < files.length; i++) {
+                    // Append file with its relative path (directory structure)
+                    formData.append('files', files[i], files[i].webkitRelativePath);
+                }
+
+                fetch('/dashboard/file-upload?dir={{ cleanPath }}', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
         <form action="/dashboard/create" class="dashboard-submit" method="POST" style="z-index: 1000000;">
             <input type="text" name="dir" placeholder="New filename/foldername" required>
             <input type="hidden" name="cleanPath" value="{{cleanPath}}">

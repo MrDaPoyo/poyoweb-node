@@ -6,22 +6,32 @@ const dirWalker = require('./snippets/dirWalker');
 const bodyParser = require('body-parser');
 const checkFiles = require('./snippets/verifyFile');
 const checkCreatableFolder = require('./snippets/verifyFolder');
+
 const multer = require('multer');
+
+// Configure multer to store files, preserving folder structure
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const folderName = req.query.dir || '';
-        const folderPath = path.join('websites/users/', req.user.username, folderName);
-        fs.mkdirSync(folderPath, { recursive: true });
-        cb(null, folderPath);
+    destination: async (req, file, cb) => {
+        try {
+            const relativePath = req.body.uploadPath || '';
+            const basePath = path.join('websites', 'users', req.user.username); 
+            const fullUploadPath = path.join(basePath, relativePath);
+
+            // Ensure the directories exist
+            await fs.promises.mkdir(fullUploadPath, { recursive: true });
+            cb(null, fullUploadPath);
+        } catch (error) {
+            cb(error);
+        }
     },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
+    filename: (req, file, cb) => {
+        // Save the file with its original name
+        cb(null, file.originalname);
     }
 });
 
-const upload = multer({
-    dest: 'uploads/', storage: storage
-})
+// Set up the multer middleware
+const upload = multer({ storage: storage });
 
 router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -84,33 +94,50 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.post('/file-upload', upload.array('file'), async (req, res) => {
+router.post('/file-upload', upload.any(), async (req, res) => {
     console.log(req.files);
+    let responseSent = false;
+
     try {
         if (req.files) {
-            req.files.forEach(async (file) => {
-                const filePath = path.join('websites/users/', req.user.username, req.query.dir, file.originalname);
+            for (const file of req.files) {
+                const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', file.originalname);
                 if (file.originalname.includes("..")) {
-                    res.status(404).send("HA! Good try, Hacker :3");
+                    if (!responseSent) {
+                        res.status(404).send("HA! Good try, Hacker :3");
+                        responseSent = true;
+                    }
+                    break;
                 } else if (checkFiles.checkFileName(file.originalname)) {
-                    fs.rename(file.path, filePath, async (err) => {
-                        if (err) {
-                            console.log(err);
-                            res.send("Error uploading file.");
-                        } else {
-                            res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
+                    try {
+                        await fs.promises.rename(file.path, filePath);
+                        if (!responseSent) {
+                            res.redirect('/dashboard/?dir=' + (req.query.dir || ''));
+                            responseSent = true;
                         }
-                    });
+                    } catch (err) {
+                        console.log(err);
+                        if (!responseSent) {
+                            res.send("Error uploading file.");
+                            responseSent = true;
+                        }
+                    }
                 } else {
-                    res.status(404).send("FileType not allowed.");
+                    if (!responseSent) {
+                        res.status(404).send("FileType not allowed.");
+                        responseSent = true;
+                    }
+                    break;
                 }
-            });
+            }
         } else {
             res.status(404).send("No file uploaded.");
         }
     } catch (err) {
         console.log(err);
-        res.send("Error uploading file.");
+        if (!responseSent) {
+            res.send("Error uploading file.");
+        }
     }
 });
 
