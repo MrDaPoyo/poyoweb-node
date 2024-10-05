@@ -7,12 +7,13 @@ const router = express.Router();
 router.use(async (req, res, next) => {
     const host = req.headers.host;
 
-    // Check if the host matches the expected domain structure
+    // Define the expected domain structure
     const expectedDomain = 'poyoweb.poyo.study';
-    const subdomain = host.split('.')[0];
-
-    if (host.endsWith(expectedDomain) && subdomain !== 'www') {
+    
+    // Check if the host contains a subdomain (i.e., is longer than the expected domain)
+    if (host.endsWith(expectedDomain) && host.length > expectedDomain.length) {
         res.locals.isPoyoweb = false;
+        const subdomain = host.split('.')[0]; // Extract the subdomain from the host
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain);
 
         // Increment view count for the subdomain
@@ -31,7 +32,7 @@ router.use(async (req, res, next) => {
             }
         }
     } else {
-        // For other requests, continue to the next middleware
+        // For requests to the main domain or www, continue to the next middleware
         res.locals.isPoyoweb = true;
         next();
     }
