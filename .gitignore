@@ -2,3 +2,4 @@
 poyoweb.db
 node_modules/*
 websites/users/*
+nohup.out
