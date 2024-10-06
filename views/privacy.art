@@ -8,8 +8,7 @@
     <ul>
         <li><strong>Usernames</strong></li>
         <li><strong>Email addresses</strong></li>
-        <li><strong>Patreon accounts</strong> (for payment management)</li>
-        <li><strong>Passwords</strong> (securely encrypted)</li>
+        <li><strong>Passwords</strong> (securely hashed)</li>
     </ul>
 
     <h2>2. How We Collect Your Data</h2>
@@ -40,7 +39,7 @@
     <p>You can manage or disable cookies via your browser settings, but doing so may affect your ability to use our services.</p>
 
     <h2>6. Data Security and Retention</h2>
-    <p>Your data is stored on secure servers, and we use encryption to protect it. We retain your data indefinitely unless you request its deletion.</p>
+    <p>Your data is stored on our servers, and we use use hashing to protect the passwords. Emails and Usernames remain unhashed. We retain your data indefinitely unless you request its deletion.</p>
 
     <h2>7. Your Rights Under GDPR</h2>
     <p>As a user, you have the following rights regarding your personal data:</p>
