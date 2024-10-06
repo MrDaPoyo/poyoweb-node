@@ -11,7 +11,11 @@ router.use(async (req, res, next) => {
     const expectedDomain = 'poyoweb.poyo.study';
     
     // Check if the host contains a subdomain (i.e., is longer than the expected domain)
-    if (host.endsWith(expectedDomain) && host.length > expectedDomain.length) {
+    if (expectedDomain == host)  {
+        // For requests to the main domain or www, continue to the next middleware
+        res.locals.isPoyoweb = true;
+        next();
+    } else {
         res.locals.isPoyoweb = false;
         const subdomain = host.split('.')[0]; // Extract the subdomain from the host
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain);
@@ -31,10 +35,6 @@ router.use(async (req, res, next) => {
                 res.status(404).send('Website not found');
             }
         }
-    } else {
-        // For requests to the main domain or www, continue to the next middleware
-        res.locals.isPoyoweb = true;
-        next();
     }
 });
 
