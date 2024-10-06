@@ -11,3 +11,4 @@
 {{ else }}
     <p>Hi, guest.</p>
 {{ /if }}
+<%- include("./footer") %>
