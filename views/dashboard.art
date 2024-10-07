@@ -20,6 +20,7 @@
                 for (let i = 0; i < files.length; i++) {
                     // Append file with its relative path (directory structure)
                     formData.append('files', files[i], files[i].webkitRelativePath);
+                    console.log('File Uploaded:' + files[i])
                 }
 
                 fetch('/dashboard/file-upload?dir={{ cleanPath }}', {

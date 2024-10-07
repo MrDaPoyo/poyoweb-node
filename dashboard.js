@@ -94,49 +94,75 @@ router.post('/create', async (req, res) => {
     }
 });
 
+const MAX_SIZE_MB = 500 * 1024 * 1024; // 500 MB in bytes
+const { getTotalSizeByUserID, addSizeByUserID } = require('./startdb');
+
+// Updated POST route for file upload
 router.post('/file-upload', upload.any(), async (req, res) => {
-    console.log(req.files);
     let responseSent = false;
 
     try {
-        if (req.files) {
-            for (const file of req.files) {
-                const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', file.originalname);
-                if (file.originalname.includes("..")) {
-                    if (!responseSent) {
-                        res.status(404).send("HA! Good try, Hacker :3");
-                        responseSent = true;
-                    }
-                    break;
-                } else if (checkFiles.checkFileName(file.originalname)) {
-                    try {
-                        await fs.promises.rename(file.path, filePath);
-                        if (!responseSent) {
-                            res.redirect('/dashboard/?dir=' + (req.query.dir || ''));
-                            responseSent = true;
-                        }
-                    } catch (err) {
-                        console.log(err);
-                        if (!responseSent) {
-                            res.send("Error uploading file.");
-                            responseSent = true;
-                        }
-                    }
-                } else {
-                    if (!responseSent) {
-                        res.status(404).send("FileType not allowed.");
-                        responseSent = true;
-                    }
-                    break;
+        if (!req.files || req.files.length === 0) {
+            return res.status(404).send("No file uploaded.");
+        }
+
+        // Get the current total size of the user's folder
+        const currentTotalSize = await getTotalSizeByUserID(req.user.id);
+
+        // Calculate total size of uploaded files
+        let totalUploadedSize = req.files.reduce((sum, file) => sum + file.size, 0);
+
+        // Check if adding the new files exceeds the 500 MB limit
+        if ((currentTotalSize + totalUploadedSize) > MAX_SIZE_MB) {
+            return res.status(400).send("File upload exceeds the total folder size limit of 500 MB.");
+        }
+
+        // Process each uploaded file
+        for (const file of req.files) {
+            const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', file.originalname);
+
+            // Check for path traversal attempt
+            if (file.originalname.includes("..")) {
+                if (!responseSent) {
+                    res.status(404).send("HA! Good try, Hacker :3");
+                    responseSent = true;
                 }
+                break;
             }
-        } else {
-            res.status(404).send("No file uploaded.");
+
+            // Verify file type
+            if (checkFiles.checkFileName(file.originalname)) {
+                try {
+                    // Move the file to its destination
+                    await fs.promises.rename(file.path, filePath);
+
+                    // Update the total size in the database
+                    await addSizeByUserID(req.user.id, file.size);
+
+                    if (!responseSent) {
+                        res.redirect('/dashboard/?dir=' + (req.query.dir || ''));
+                        responseSent = true;
+                        console.log("Uploaded: "+totalUploadedSize)
+                    }
+                } catch (err) {
+                    console.log(err);
+                    if (!responseSent) {
+                        res.status(500).send("Error uploading file.");
+                        responseSent = true;
+                    }
+                }
+            } else {
+                if (!responseSent) {
+                    res.status(404).send("FileType not allowed.");
+                    responseSent = true;
+                }
+                break;
+            }
         }
     } catch (err) {
         console.log(err);
         if (!responseSent) {
-            res.send("Error uploading file.");
+            res.status(500).send("Error uploading file.");
         }
     }
 });
