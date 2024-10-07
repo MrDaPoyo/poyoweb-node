@@ -27,21 +27,29 @@ router.use(async (req, res, next) => {
         startDB.addView(subdomain);
 
         // Normalize the requested URL path
-        const normalizedRequestedPath = path.join(subdomainPath, requestedPath);
-        const requestedFile = path.normalize(normalizedRequestedPath);
+        let requestedFilePath = path.join(subdomainPath, requestedPath);
+        requestedFilePath = path.normalize(requestedFilePath); // Prevent directory traversal attacks
 
-        // Try serving the requested file directly
-        if (fs.existsSync(requestedFile) && fs.lstatSync(requestedFile).isFile()) {
-            return res.sendFile(requestedFile);
+        // If the requested path is a folder, look for an index.html
+        if (fs.existsSync(requestedFilePath) && fs.lstatSync(requestedFilePath).isDirectory()) {
+            const folderIndexFile = path.join(requestedFilePath, 'index.html');
+            if (fs.existsSync(folderIndexFile) && fs.lstatSync(folderIndexFile).isFile()) {
+                return res.sendFile(folderIndexFile);
+            }
+        }
+
+        // Try serving the requested file directly if it exists
+        if (fs.existsSync(requestedFilePath) && fs.lstatSync(requestedFilePath).isFile()) {
+            return res.sendFile(requestedFilePath);
         }
 
         // Try serving the requested file with .html appended
-        const requestedFileWithHtml = requestedFile + '.html';
+        const requestedFileWithHtml = requestedFilePath + '.html';
         if (fs.existsSync(requestedFileWithHtml) && fs.lstatSync(requestedFileWithHtml).isFile()) {
             return res.sendFile(requestedFileWithHtml);
         }
 
-        // Serve index.html for the subdomain root
+        // Serve index.html for the subdomain root if no file was requested
         const indexPath = path.join(subdomainPath, 'index.html');
         if (requestedPath === '/' || requestedPath === '') {
             if (fs.existsSync(indexPath) && fs.lstatSync(indexPath).isFile()) {
