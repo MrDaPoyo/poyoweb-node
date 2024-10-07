@@ -80,7 +80,7 @@ body {
 
 .window-links {
     position: absolute;
-    top: 4.5vh;
+    top: 4vh;
     left: 0;
     display: flex;
     justify-content: space-between;
