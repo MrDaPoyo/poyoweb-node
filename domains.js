@@ -35,7 +35,7 @@ router.use(async (req, res, next) => {
             return res.sendFile(errorPagePath); // Serve 404.html if index.html doesn't exist
         } else {
             // If neither file is found, respond with a 404 status
-            return res.status(404).send('Website/Index.html not found');
+            return res.status(404).send('Website/Index.html not found - poyoweb.poyo.study');
         }
     }
 });
