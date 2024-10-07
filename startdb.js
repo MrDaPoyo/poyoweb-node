@@ -68,4 +68,29 @@ async function retrieveViews(name, onViews) {
     return promise;
 }
 
-module.exports = { setupDB, readUsers, findUserByEmail, isUserVerifiedById, addView, retrieveViews, db };
+// Function to add size to the totalSize field for a user's website using userID
+function addSizeByUserID(userID, size) {
+    db.run('UPDATE websites SET totalSize = totalSize + ? WHERE userID = ?', [size, userID], (err) => {
+        if (err) {
+            console.error('Error updating totalSize:', err.message);
+        } else {
+            console.log(`Added ${size} to totalSize for userID: ${userID}`);
+        }
+    });
+}
+
+// Function to get the totalSize of a user's website using userID
+function getTotalSizeByUserID(userID) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT totalSize FROM websites WHERE userID = ?', [userID], (err, row) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(row ? row.totalSize : null);
+            }
+        });
+    });
+}
+
+
+module.exports = { setupDB, readUsers, findUserByEmail, isUserVerifiedById, addView, retrieveViews, getTotalSizeByUserID, addSizeByUserID, db };
