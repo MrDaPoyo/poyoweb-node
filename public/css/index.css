@@ -4,6 +4,10 @@
     --tertiary: #a26666;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 
 @font-face {
     font-family: 'alagard';
@@ -12,7 +16,9 @@
 
 body {
     background-color: var(--primary);
+    background-image: url('../wallpapers/clouds.png');
     color: var(--secondary);
+    padding: 2vh;
     height: 100vh;
     width: 100vw;
     display: flex;
