@@ -27,16 +27,21 @@ router.use(async (req, res, next) => {
 
         const indexPath = path.join(subdomainPath, 'index.html');
         const errorPagePath = path.join(subdomainPath, '404.html');
+        const requestedPath = req.url;const requestedPath = req.url;
 
-        // Check if index.html exists
-        if (fs.existsSync(indexPath)) {
-            return res.sendFile(indexPath); // Serve index.html if it exists
-        } else if (fs.existsSync(errorPagePath)) {
-            return res.sendFile(errorPagePath); // Serve 404.html if index.html doesn't exist
-        } else {
-            // If neither file is found, respond with a 404 status
-            return res.status(404).send('Website/Index.html not found - poyoweb.poyo.study');
-        }
+// Check if the requested path exists
+if (fs.existsSync(requestedPath)) {
+    return res.sendFile(requestedPath); // Serve the requested file if it exists
+} else if (requestedPath === '/' || requestedPath === '') {
+    return res.sendFile(indexPath); // Serve index.html only if the requested path is / or blank
+} else if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath); // Serve index.html if it exists, even if the requested path is not / or blank
+} else if (fs.existsSync(errorPagePath)) {
+    return res.sendFile(errorPagePath); // Serve 404.html if index.html doesn't exist
+} else {
+    // If none of the files are found, respond with a 404 status
+    return res.status(404).send('Website/Index.html not found - poyoweb.poyo.study');
+}
     }
 });
 
