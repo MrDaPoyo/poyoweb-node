@@ -11,15 +11,15 @@ const redirectIfNotVerified = async (req, res, next) => {
             if (user["verified"] == 1) {
                 return next();
             } else {
-                res.clearCookie('token');  // Remove the token
+                res.clearCookie('x-session-token');  // Remove the token
                 return res.redirect('/');
             }
         } else {
-            res.clearCookie('token');  // Remove the token
+            res.clearCookie('x-session-token');  // Remove the token
             return res.redirect('/');
         }
     } catch (error) {
-        res.clearCookie('token');  // Remove the token
+        res.clearCookie('x-session-token');  // Remove the token
         return res.redirect('/');
     }
 }
