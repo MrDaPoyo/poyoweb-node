@@ -95,7 +95,7 @@ router.post('/create', async (req, res) => {
 });
 
 const MAX_SIZE_MB = 500 * 1024 * 1024; // 500 MB in bytes
-const { getTotalSizeByUserID, addSizeByUserID } = require('./startdb');
+const { getTotalSizeByWebsiteName, addSizeByWebsiteName } = require('./startdb');
 
 // Updated POST route for file upload
 router.post('/file-upload', upload.any(), async (req, res) => {
@@ -106,8 +106,10 @@ router.post('/file-upload', upload.any(), async (req, res) => {
             return res.status(404).send("No file uploaded.");
         }
 
-        // Get the current total size of the user's folder
-        const currentTotalSize = await getTotalSizeByUserID(req.user.id);
+        const websiteName = req.query.website;  // Get the website name from the request (e.g., via query param)
+
+        // Get the current total size of the website's folder
+        const currentTotalSize = await getTotalSizeByWebsiteName(websiteName);
 
         // Calculate total size of uploaded files
         let totalUploadedSize = req.files.reduce((sum, file) => sum + file.size, 0);
@@ -136,13 +138,13 @@ router.post('/file-upload', upload.any(), async (req, res) => {
                     // Move the file to its destination
                     await fs.promises.rename(file.path, filePath);
 
-                    // Update the total size in the database
-                    await addSizeByUserID(req.user.id, file.size);
+                    // Update the total size in the database using the website name
+                    await addSizeByWebsiteName(websiteName, file.size);
 
                     if (!responseSent) {
                         res.redirect('/dashboard/?dir=' + (req.query.dir || ''));
                         responseSent = true;
-                        console.log("Uploaded: "+totalUploadedSize)
+                        console.log("Uploaded: " + totalUploadedSize);
                     }
                 } catch (err) {
                     console.log(err);
@@ -166,6 +168,7 @@ router.post('/file-upload', upload.any(), async (req, res) => {
         }
     }
 });
+
 
 
 router.post('/editName', async (req, res) => {
