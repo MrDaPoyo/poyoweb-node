@@ -106,7 +106,7 @@ router.post('/file-upload', upload.any(), async (req, res) => {
             return res.status(404).send("No file uploaded.");
         }
 
-        const websiteName = req.query.website;  // Get the website name from the request (e.g., via query param)
+        const websiteName = await req.user.username;  // Get the website name from the request (e.g., via query param)
 
         // Get the current total size of the website's folder
         const currentTotalSize = await getTotalSizeByWebsiteName(websiteName);
