@@ -26,23 +26,36 @@ router.use(async (req, res, next) => {
         // Increment view count for the subdomain
         startDB.addView(subdomain);
 
-        const indexPath = path.join(subdomainPath, 'index.html');
-        const errorPagePath = path.join(subdomainPath, '404.html');
-        const requestedPath = req.url;
-        const requestedFile = path.join(subdomainPath, requestedPath);
+        // Normalize the requested URL path
+        const normalizedRequestedPath = path.join(subdomainPath, requestedPath);
+        const requestedFile = path.normalize(normalizedRequestedPath);
 
-        // Check if the requested path exists
-        if (fs.existsSync(requestedFile)) {
-            return res.sendFile(requestedFile); // Serve the requested file if it exists
-        } else if (requestedFile === '/' || requestedFile === '') {
-            return res.sendFile(indexPath); // Serve index.html only if the requested path is / or blank
-        } else if (fs.existsSync(indexPath)) {
-            return res.sendFile(indexPath); // Serve index.html if it exists, even if the requested path is not / or blank
-        } else if (fs.existsSync(errorPagePath)) {
-            return res.sendFile(errorPagePath); // Serve 404.html if index.html doesn't exist
+        // Try serving the requested file directly
+        if (fs.existsSync(requestedFile) && fs.lstatSync(requestedFile).isFile()) {
+            return res.sendFile(requestedFile);
+        }
+
+        // Try serving the requested file with .html appended
+        const requestedFileWithHtml = requestedFile + '.html';
+        if (fs.existsSync(requestedFileWithHtml) && fs.lstatSync(requestedFileWithHtml).isFile()) {
+            return res.sendFile(requestedFileWithHtml);
+        }
+
+        // Serve index.html for the subdomain root
+        const indexPath = path.join(subdomainPath, 'index.html');
+        if (requestedPath === '/' || requestedPath === '') {
+            if (fs.existsSync(indexPath) && fs.lstatSync(indexPath).isFile()) {
+                return res.sendFile(indexPath);
+            }
+        }
+
+        // Serve 404.html or fallback 404 message
+        const errorPagePath = path.join(subdomainPath, '404.html');
+        if (fs.existsSync(errorPagePath) && fs.lstatSync(errorPagePath).isFile()) {
+            return res.sendFile(errorPagePath);
         } else {
-            // If none of the files are found, respond with a 404 status
-            return res.status(404).send('Website/Index.html not found - poyoweb.poyo.study');
+            // If no 404 page exists, send a basic 404 response
+            return res.status(404).send('File Not Found - poyoweb.poyo.study');
         }
     }
 });
