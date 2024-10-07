@@ -27,7 +27,7 @@ router.use(async (req, res, next) => {
 
         const indexPath = path.join(subdomainPath, 'index.html');
         const errorPagePath = path.join(subdomainPath, '404.html');
-        const requestedPath = req.url;const requestedPath = req.url;
+        const requestedPath = req.url;
 
 // Check if the requested path exists
 if (fs.existsSync(requestedPath)) {
