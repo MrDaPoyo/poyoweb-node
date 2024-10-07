@@ -68,29 +68,39 @@ async function retrieveViews(name, onViews) {
     return promise;
 }
 
-// Function to add size to the totalSize field for a user's website using userID
-function addSizeByUserID(userID, size) {
-    db.run('UPDATE websites SET totalSize = totalSize + ? WHERE userID = ?', [size, userID], (err) => {
+// Function to add size to the totalSize field for a user's website using the website name
+function addSizeByWebsiteName(name, size) {
+    db.run('UPDATE websites SET totalSize = totalSize + ? WHERE name = ?', [size, name], (err) => {
         if (err) {
             console.error('Error updating totalSize:', err.message);
         } else {
-            console.log(`Added ${size} to totalSize for userID: ${userID}`);
+            console.log(`Added ${size} to totalSize for website: ${name}`);
         }
     });
 }
 
-// Function to get the totalSize of a user's website using userID
-function getTotalSizeByUserID(userID) {
+// Function to get the totalSize of a website using the website name
+function getTotalSizeByWebsiteName(name) {
     return new Promise((resolve, reject) => {
-        db.get('SELECT totalSize FROM websites WHERE userID = ?', [userID], (err, row) => {
+        db.get('SELECT totalSize FROM websites WHERE name = ?', [name], (err, row) => {
             if (err) {
                 reject(err);
             } else {
-                resolve(row ? row.totalSize : null);
+                resolve(row ? row.totalSize : 0);  // Default to 0 if no record is found
             }
         });
     });
 }
 
+module.exports = {
+    setupDB,
+    readUsers,
+    findUserByEmail,
+    isUserVerifiedById,
+    addView,
+    retrieveViews,
+    getTotalSizeByWebsiteName, // Updated function export
+    addSizeByWebsiteName, // Updated function export
+    db
+};
 
-module.exports = { setupDB, readUsers, findUserByEmail, isUserVerifiedById, addView, retrieveViews, getTotalSizeByUserID, addSizeByUserID, db };
