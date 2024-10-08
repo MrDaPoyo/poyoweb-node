@@ -58,7 +58,7 @@
         <div class="settingsLinks">
             <% if (user) { %>
                 <b>Your Corner</b>
-                <p>ellos, <%= user.name %> :3</p>
+                <p>ellos, <%= user.username %> :3</p>
             <% } %>
         </div>
     </header>

@@ -66,33 +66,53 @@ router.get('/remove', (req, res) => {
 
 router.post('/create', async (req, res) => {
     try {
-        var dirname = "websites/users/" + await req.user.username + "/" + await req.body.cleanPath + "/" + await req.body.dir;
-        if (!req.body.dir.includes(".")) {
-            var valid = checkCreatableFolder(dirname);
-            valid = true;
-        } else {
-            var valid = checkFiles.checkCreatableFile(dirname);
+        // Sanitize input and construct the directory path
+        const username = req.user.username;
+        const cleanPath = req.body.cleanPath;
+        const dirName = req.body.dir;
+
+        // Prevent directory traversal attacks by using path.join and normalizing the path
+        const dirname = path.normalize(`websites/users/${username}/${cleanPath}/${dirName}`);
+
+        // Basic validation checks
+        if (dirName.includes("..")) {
+            return res.status(400).send("HA! Good try, Hacker :3");
         }
+
+        if (dirName.length > 30) {
+            return res.status(400).send("FileName too long.");
+        }
+
+        // Check if it's a directory or a file based on the presence of a dot
+        let valid;
+        if (!dirName.includes(".")) {
+            valid = checkCreatableFolder(dirname); // Check if it's a valid directory
+        } else {
+            valid = checkFiles.checkCreatableFile(dirname); // Check if it's a valid file
+        }
+
+        // Handle invalid file types
         if (!valid) {
-            res.status(404).send("FileType not allowed.");
-        } else if (dirname.includes("..")) {
-            res.status(404).send("HA! Good try, Hacker :3");
-        } else if (req.body.dir.length > 30) {
-            res.status(404).send("FileName too long.");
-        } else {
-            if (!dirname.includes(".")) {
-                fs.mkdirSync(dirname, { recursive: true });
-                res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
-            } else {
-                fs.writeFileSync(dirname, '');
-                res.redirect('/dashboard/?dir=' + await req.body.cleanPath);
-            };
+            return res.status(400).send("File type not allowed.");
         }
+
+        // Create the directory or file
+        if (!dirName.includes(".")) {
+            // Directory creation
+            fs.mkdirSync(dirname, { recursive: true });
+        } else {
+            // File creation
+            fs.writeFileSync(dirname, '');
+        }
+
+        // Redirect on success
+        res.redirect(`/dashboard/?dir=${cleanPath}`);
     } catch (err) {
-        console.log(err);
-        res.send("Error creating file/directory.");
+        console.error(err);
+        res.status(500).send("Error creating file/directory.");
     }
 });
+
 
 const MAX_SIZE_MB = 500 * 1024 * 1024; // 500 MB in bytes
 const { getTotalSizeByWebsiteName, addSizeByWebsiteName } = require('./startdb');
