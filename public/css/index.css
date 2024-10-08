@@ -263,9 +263,13 @@ body {
 }
 
 .dashboard-container {
+position: relative;
     width: 100%;
     height: 100%;
     z-index: 1;
+}
+.dashboard-container * {
+	z-index: 10;
 }
 
 .floating-center {
@@ -284,11 +288,10 @@ body {
     color: var(--tertiary);
     width: 100%;
     height: 100%;
-    z-index: -1 !important;
+    z-index: 1 !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none !important;
 }
 
 .dz-drag-hover {
