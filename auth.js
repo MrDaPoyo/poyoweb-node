@@ -20,7 +20,7 @@ authRouter.use(bodyParser.urlencoded({ extended: true }));
 authRouter.use(verifySessionToken);
 
 authRouter.post('/register', async (req, res, next) => {
-    console.log(req.body);
+    console.log("New user");
     var username = (req.body.username).toLowerCase();
     var password = await bcrypt.hash(req.body.password, 10);
     var email = req.body.email;
