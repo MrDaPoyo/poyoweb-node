@@ -31,6 +31,9 @@ body {
     box-sizing: border-box;
     margin: 0;
 }
+.dotted {
+	border: 2px dotted var(--secondary);
+}
 .top {
   margin-bottom: auto;
   display: flex;

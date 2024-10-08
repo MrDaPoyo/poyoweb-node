@@ -22,7 +22,7 @@
 
 <body>
     <header class="top">
-        <div class="topBackground"></div>
+        <div class="topBackground dotted"></div>
         <div class="loginLinks">
             <b>Auth</b>
             <% if (loggedIn) { %>
@@ -62,4 +62,4 @@
             <% } %>
         </div>
     </header>
-    <main class="main">
+    <main class="main dotted">
