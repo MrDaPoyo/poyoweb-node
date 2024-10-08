@@ -9,42 +9,57 @@
 	<title>{{ title }}</title>
 </head>
 
+<body><!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/wave.css">
+        <title><%= title %></title>
+</head>
+
 <body>
-	<div id="window">
-		<a href="{{url}}" class="logo-img">
-			<img src="/logos/poyo_globe.png" alt="PoyoWeb" class="logo-img">
-		</a>
-		<div class="window-top">
-			<div style="display: flex; align-items: center; justify-content: end; flex-direction: column;">
-				<h1 class="no-margin">{{ title }} - <a href="{{url}}" class="hidden-link no-margin">PoyoWeb!</a></h1>
-			</div>
-		</div>
-		<div class="window-links">
-			<% if (loggedIn) { %>
-				<a href="{{url}}/auth/logout" class="logout">Logout</a>
-				<% } else { %>
-					<a href="{{url}}/auth" class="login">Login</a>
-			<% } endif %>
-			<small style="text-align: right" id="the-web-is-silly">
-				<span class="floating-text" style="--i:1; color:#A30000">T</span><span class="floating-text"
-					style="--i:2; color:#A32B00">h</span><span class="floating-text" style="--i:3; color:#A35500">e
-				</span> <span class="floating-text" style="--i:4; color:#A38000">s</span><span class="floating-text"
-					style="--i:5; color:#9CA300">i</span><span class="floating-text"
-					style="--i:6; color:#72A300">l</span><span class="floating-text"
-					style="--i:7; color:#47A300">l</span><span class="floating-text" style="--i:8; color:#1CA300">y 
-				</span> <span class="floating-text" style="--i:9; color:#00A30E">c</span><span class="floating-text"
-					style="--i:10; color:#00A339">o</span><span class="floating-text"
-					style="--i:11; color:#00A363">r</span><span class="floating-text"
-					style="--i:12; color:#00A38E">n</span><span class="floating-text"
-					style="--i:13; color:#008EA3">e</span><span class="floating-text" style="--i:14; color:#0063A3">r 
-				</span> <span class="floating-text" style="--i:15; color:#0039A3">o</span><span class="floating-text"
-					style="--i:16; color:#000EA3">f</span> <span class="floating-text"
-					style="--i:17; color:#1C00A3">t</span><span class="floating-text"
-					style="--i:18; color:#4700A3">h</span><span class="floating-text" style="--i:19; color:#7200A3">e 
-				</span> <span class="floating-text" style="--i:20; color:#9C00A3">w</span><span class="floating-text"
-					style="--i:21; color:#A30080">e</span><span class="floating-text"
-					style="--i:22; color:#A30055">b</span><span class="floating-text"
-					style="--i:23; color:#A3002B">!</span>
-			</small>
-		</div>
-		<div class="window-content">
+    <header class="top">
+        <div class="topBackground"></div>
+        <div class="loginLinks">
+            <b>Auth</b>
+            <% if (loggedIn) { %>
+                <a href="<%= url %>/auth/logout" class="logout">Logout</a>
+            <% } else { %>
+                <a href="<%= url %>/auth" class="login">Login</a>
+            <% } %>
+        </div>
+        <div class="center">
+            <h1>POYOWEB!</h1>
+            <small style="text-align: right" id="the-web-is-silly">
+                                            <span class="floating-text" style="--i:1; color:#A30000">T</span><span class="floating-text"
+                                                    style="--i:2; color:#A32B00">h</span><span class="floating-text" style="--i:3; color:#A35500">e
+                                            </span> <span class="floating-text" style="--i:4; color:#A38000">s</span><span class="floating-text"
+                                                    style="--i:5; color:#9CA300">i</span><span class="floating-text"
+                                                    style="--i:6; color:#72A300">l</span><span class="floating-text"
+                                                    style="--i:7; color:#47A300">l</span><span class="floating-text" style="--i:8; color:#1CA300">y
+                                            </span> <span class="floating-text" style="--i:9; color:#00A30E">c</span><span class="floating-text"
+                                                    style="--i:10; color:#00A339">o</span><span class="floating-text"
+                                                    style="--i:11; color:#00A363">r</span><span class="floating-text"
+                                                    style="--i:12; color:#00A38E">n</span><span class="floating-text"
+                                                    style="--i:13; color:#008EA3">e</span><span class="floating-text" style="--i:14; color:#0063A3">r
+                                            </span> <span class="floating-text" style="--i:15; color:#0039A3">o</span><span class="floating-text"
+                                                    style="--i:16; color:#000EA3">f</span> <span class="floating-text"
+                                                    style="--i:17; color:#1C00A3">t</span><span class="floating-text"
+                                                    style="--i:18; color:#4700A3">h</span><span class="floating-text" style="--i:19; color:#7200A3">e
+                                            </span> <span class="floating-text" style="--i:20; color:#9C00A3">w</span><span class="floating-text"
+                                                    style="--i:21; color:#A30080">e</span><span class="floating-text"
+                                                    style="--i:22; color:#A30055">b</span><span class="floating-text"
+                                                    style="--i:23; color:#A3002B">!</span>
+                                    </small>
+        </div>
+        <div class="settingsLinks">
+            <% if (user) { %>
+                <b>Your Corner</b>
+                <p>ellos, <%= user.name %> :3</p>
+            <% } %>
+        </div>
+    </header>
+    <main class="main">

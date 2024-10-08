@@ -1,5 +1,9 @@
-</div>
-<div width="100%" style="display: flex; align-items:center; justify-content:center;"><a href="/tos">Terms Of Service</a>|<a href="/privacy">Privacy Policy</a>|<a href="https://discord.gg/p5Vc9kz4ph">Our Discord</a><div>
-</div>
-</body>
+</main>
+    <footer class="bottom">
+      <div class="bottomBackground"></div>
+      <div class="container">
+		<div width="100%" style="display: flex; align-items:center; justify-content:center;"><a href="/tos">Terms Of Service</a>|<a href="/privacy">Privacy Policy</a> 
+      </div>
+    </footer>
+  </body>
 </html>

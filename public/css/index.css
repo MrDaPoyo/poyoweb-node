@@ -30,7 +30,97 @@ body {
     box-sizing: border-box;
     margin: 0;
 }
-
+.top {
+  margin-bottom: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  padding:  0 10vh;
+  top: 0;
+  left: 5%;
+  width: 90%;
+  height: 15vh;
+  z-index: 1000;
+  color: black;
+}
+.topBackground {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  width: 90%;
+  height: 100%;
+  z-index: -10;
+  padding: auto;
+  background: #f8f3f7;
+  transform: perspective(25vh) rotateX(-10deg);
+}
+.top * {
+  will-change: transform;
+}
+.bottom {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute; /* Change to absolute */
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  height: 15vh;
+  z-index: 1000;
+  color: black;
+}
+.bottomBackground {
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  height: 100%;
+  z-index: -10;
+  background: #f8f3f7;
+  transform: perspective(25vh) rotateX(10deg);
+}
+.bottom * {
+  will-change: transform;
+}
+.loginLinks {
+  position: absolute;
+  left: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
+  height: 100%;
+}
+.loginLinks * {
+  margin: 0;
+}
+.settingsLinks {
+  position: absolute;
+  right: 15vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
+  height: 100%;
+}
+.settingsLinks * {
+  margin: 0;
+}
+.center * {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main {
+  background-color: #f8f3f7;
+  width: 75vw;
+  height: 63vh;
+  padding: 2vh;
+  margin: auto 12.5vw;
+  overflow-y: scroll;
+}
 #window {
     width: 80%;
     height: 100%;
