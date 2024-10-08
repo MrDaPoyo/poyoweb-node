@@ -2,6 +2,7 @@
     --primary: #F8F3F6;
     --secondary: #2a1501;
     --tertiary: #a26666;
+    --cloudblue: #87b5dd;
 }
 
 * {
@@ -56,7 +57,7 @@ body {
   height: 100%;
   z-index: -10;
   padding: auto;
-  background-image: linear-gradient(#d19c70,#f8f3f7);
+  background-image: linear-gradient(var(--cloudblue),var(--primary));
   transform: perspective(25vh) rotateX(-10deg);
 }
 .top * {
@@ -82,7 +83,7 @@ body {
   width: 90%;
   height: 100%;
   z-index: -10;
-  background-image: linear-gradient(#f8f3f7,#d19c70);
+  background-image: linear-gradient(var(--primary),var(--cloudblue));
   transform: perspective(25vh) rotateX(10deg);
 }
 .bottom * {
