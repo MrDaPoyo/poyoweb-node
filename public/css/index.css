@@ -18,7 +18,8 @@ body {
     background-color: var(--primary);
     background-image: url('../wallpapers/clouds.png');
     color: var(--secondary);
-    padding: 2vh;
+    padding: 0;
+    overflow: hidden;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -52,7 +53,7 @@ body {
   height: 100%;
   z-index: -10;
   padding: auto;
-  background: #f8f3f7;
+  background-image: linear-gradient(#d19c70,#f8f3f7);
   transform: perspective(25vh) rotateX(-10deg);
 }
 .top * {
@@ -78,7 +79,7 @@ body {
   width: 90%;
   height: 100%;
   z-index: -10;
-  background: #f8f3f7;
+  background-image: linear-gradient(#f8f3f7,#d19c70);
   transform: perspective(25vh) rotateX(10deg);
 }
 .bottom * {
@@ -119,7 +120,8 @@ body {
   height: 63vh;
   padding: 2vh;
   margin: auto 12.5vw;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 #window {
     width: 80%;

@@ -193,7 +193,7 @@ authRouter.get('/recover/:token', (req, res) => {
             res.send("Password recovery failed, possibly the link is invalid or expired");
         }
         else {
-            res.render('reset_password_form', { title: 'Reset Password', url: process.env.URL, token: token, email: decoded.email });
+            res.render('reset_password_form', { title: 'Reset Password', url: process.env.URL, token: token, email: decoded.email, name: decoded.username });
         }
     });
 });
