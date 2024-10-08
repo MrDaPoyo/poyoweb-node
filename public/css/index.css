@@ -65,7 +65,7 @@ body {
 .bottom {
   margin-top: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   position: absolute; /* Change to absolute */
   bottom: 0;
