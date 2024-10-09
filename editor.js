@@ -25,21 +25,16 @@ router.get('/', async function (req, res) {
 });
 
 router.post('/save', async function (req, res, next) {
-    const filename = req.query.filename;
+    const filename = req.query.q;
     const filePath = `websites/users/${await req.user.username}/${filename}`;
-	if (req.body.code) {
-		const fileContent = req.body.code;	
-	} else {
-      const fileContent = decodeURIComponent(req.query.data);
-    }
-    console.log(fileContent);
+    const fileContent = await req.body.code;
 
     fs.writeFile(filePath, fileContent, 'utf8', function (err) {
         if (err) {
             console.log(err);
             res.status(500).send('An error occurred while saving the file');
         } else {
-            res.redirect(`/?file=${filename}`);
+            res.redirect(`/editor/?file=${filename}`);
         }
     });
 });

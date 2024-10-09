@@ -1,3 +1,4 @@
+<%- include('./header') %>
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.4/codemirror.css'>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jshint/2.9.3/jshint.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.19.0/codemirror.js"></script>
@@ -52,7 +53,7 @@
   <div class="container">
     <div class="code-container">
       <form action="save/?filename={{filename}}" method="POST">
-        <textarea id="code" name="code" >{{ file }}</textarea>
+        <textarea id="code" name="code" >{{ fileData }}</textarea>
         <button type="submit" class="btn-left">Save</button>
       </form>
     </div>
@@ -87,3 +88,4 @@
 </body>
 
 </html>
+<%- include('./footer') %>
