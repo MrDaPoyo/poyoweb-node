@@ -8,23 +8,24 @@ const checkFiles = require('./snippets/verifyFile');
 const checkCreatableFolder = require('./snippets/verifyFolder');
 const multer = require('multer');
 
-// Configure multer to store files, preserving folder structure
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         try {
-            const relativePath = req.body.uploadPath || '';
+            // Extract the full file path from the original file field
+            const fullFilePath = file.originalname; // Multer provides the full file path with folder structure
             const basePath = path.join('websites', 'users', req.user.username);
-            const fullUploadPath = path.join(basePath, relativePath);
 
             // Ensure the directories exist using fs.promises.mkdir
+            const fullUploadPath = path.join(basePath, path.dirname(fullFilePath));
             await fs.mkdir(fullUploadPath, { recursive: true });
-            cb(null, fullUploadPath);
+
+            cb(null, fullUploadPath); // Store the file in the correct directory
         } catch (error) {
             cb(error);
         }
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname); // Save file with its original name
+        cb(null, path.basename(file.originalname)); // Save file with its original name
     }
 });
 

@@ -6,7 +6,7 @@
     </h2>
     <span class="z-index-1000">
         <form id="uploadForm" action="/dashboard/file-upload?dir={{ cleanPath }}" method="post" enctype="multipart/form-data">
-            <input type="file" id="fileInput" name="files" multiple webkitdirectory />
+            <input type="file" id="fileInput" name="files" multiple webkitdirectory directory />
             <button type="submit">Upload</button>
         </form>
 
