@@ -7,7 +7,7 @@ function verifyFolderName(folderName) {
     }
 
     // Allow only alphanumeric characters
-    const alphanumeric = /^[a-zA-Z0-9]+$/;
+    const alphanumeric = /^[A-Za-z0-9\._-]+$/
 
     // Check if the folder name contains only alphanumeric characters
     if (!alphanumeric.test(folderName)) {
