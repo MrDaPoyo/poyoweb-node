@@ -20,7 +20,7 @@ router.get('/', async function (req, res) {
         const data = await fs.readFile(`websites/users/${req.user.username}/${dirPath}`, 'utf8');
         
         console.log(data);
-        res.render("editor", { fileName: req.query.file, fileData: data, url: process.env.URL });
+        res.render("editor", { fileName: req.query.file, fileData: data, url: process.env.URL, username: req.user.username, suffix: process.env.SUFFIX });
     } catch (err) {
         console.log(err);
         res.status(500).send("File not found :P");
