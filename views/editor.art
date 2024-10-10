@@ -52,7 +52,7 @@
 <body>
   <div class="container">
     <div class="code-container">
-      <form action="save/?filename={{filename}}" method="POST">
+      <form action="save/?q={{fileName}}" method="POST">
         <textarea id="code" name="code" >{{ fileData }}</textarea>
         <button type="submit" class="btn-left">Save</button>
       </form>
