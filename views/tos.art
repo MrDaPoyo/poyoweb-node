@@ -41,10 +41,7 @@
     <p>We make no guarantees that our hosting service will be available indefinitely. We reserve the right to
         discontinue our services at any time, always with prior notice.</p>
     <h2 id="7-payments-and-billing">7. Payments and Billing</h2>
-    <p>Payments for The Poyoweb services are securely managed through Patreon. By subscribing to or supporting our
-        services via Patreon, you agree to their <a href="https://www.patreon.com/legal">Terms of Service</a> and
-        understand that all payments are handled through their platform. We do not store or process payment
-        information directly on our servers.</p>
+    <p>Currently we don't accept payments of any kind. However, you can contribute to the project by joining the Discord or contributing to the <a href="https://github.com/mrdapoyo/poyoweb-node">GitHub</a></p>
     <h2 id="8-limitation-of-liability">8. Limitation of Liability</h2>
     <p>The Poyoweb shall not be held liable for any damages or losses arising from the use or inability to use our
         services, including but not limited to service outages, loss of data, or unauthorized access.</p>
