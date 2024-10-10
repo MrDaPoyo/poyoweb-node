@@ -15,8 +15,6 @@ router.get('/', async function (req, res) {
         return res.status(404).send("HA! Good try, Hacker :3");
     }
 
-    console.log("poyo was here");
-
     try {
         await fs.access(`websites/users/${req.user.username}/${dirPath}`);
         const data = await fs.readFile(`websites/users/${req.user.username}/${dirPath}`, 'utf8');
