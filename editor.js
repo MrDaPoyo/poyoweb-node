@@ -9,29 +9,23 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 
 router.get('/', async function (req, res) {
-	if (req.query.file) {
-    	const dirPath = req.query.file ? "/" + req.query.file : "";
-   	 	if (dirPath.includes("..") || !dirPath.includes(".")) {
-        	res.send("HA! Good try, Hacker :3", 404);
-    	}	else {
-    		try {
-    		await fs.access(`websites/users/${req.user.username}/${dirPath}`);
-       		 fs.readFile(`websites/users/${req.user.username}/${dirPath}`, 'utf8', function (err, data) {
-            	if (err) {
-        	        console.log(err);
-    	            res.send('An error occurred');
-	            } else {
-                	console.log(data);
-                	res.render("editor", { fileName: req.query.file, fileData: data, url: process.env.URL });
-            	}
-       		 });
-       		 } catch (err) {
-       		 	res.send("File not found :P");
-       		 }
-   		 }
+    const dirPath = req.query.file ? "/" + req.query.file : "";
+    
+    if (dirPath.includes("..") || !dirPath.includes(".")) {
+        return res.status(404).send("HA! Good try, Hacker :3");
     }
-    else {
-    	res.send("No file selected :P")
+
+    console.log("poyo was here");
+
+    try {
+        await fs.access(`websites/users/${req.user.username}/${dirPath}`);
+        const data = await fs.readFile(`websites/users/${req.user.username}/${dirPath}`, 'utf8');
+        
+        console.log(data);
+        res.render("editor", { fileName: req.query.file, fileData: data, url: process.env.URL });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("File not found :P");
     }
 });
 
