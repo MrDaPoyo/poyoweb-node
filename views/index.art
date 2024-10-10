@@ -1,6 +1,14 @@
 <%- include("./header") %>
 <h1>Welcome to the PoyoWeb!</h1>
 <p>PoyoWeb! *<i>silliness</i>*, all the way!</p>
+{{ if user }}
+<p>Hi, <%= user.username %>.</p>
+{{ if user.verified === 1 }}
+<p>Go to the <a href="/dashboard">dashboard</a>.</p>
+{{ else }}
+<p>Verify your email address to access the <b>dashboard</b>.<br><p>Check your inbox and/or Spam folders. In case it is in your Spam folder, please flag it as Not Spam. Thanks! :D</p></p>
+{{ /if }}
+{{ /if }}
 <b>What's the PoyoWeb?</b>
 <p>The PoyoWeb is a web host made by <a href="https://poyo.study">Poyo</a> and <a href="https://sundown.poyo.study">Team Sundown</a> with many MANY perks. Some of will be:<br></p>
 <ul>
@@ -11,13 +19,5 @@
 	<li>A fully integrated web editor for your files</li>
 	<li>SSH access to your files</li>
 	<li>A super duper cool API for you to use GitHub Actions with</li>
-<ul>
-    {{ if user }}
-        <p>Hi, <%= user.username %>.</p>
-    {{ if user.verified === 1 }}
-        <p>Go to the <a href="/dashboard">dashboard</a>.</p>
-    {{ else }}
-        <p>Verify your email address to access the <b>dashboard</b>.<br><p>Check your inbox and/or Spam folders. In case it is in your Spam folder, please flag it as Not Spam. Thanks! :D</p></p>
-    {{ /if }}
-{{ /if }}
+</ul>
 <%- include("./footer") %>
