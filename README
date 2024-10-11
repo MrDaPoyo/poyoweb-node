@@ -2,6 +2,7 @@
 
 PORT=5000
 URL=url
+SUFFIZ=url suffix
 TOKEN_KEY=token
 EMAIL_USERNAME=poyowebbot@gmail.com
 EMAIL_PASSWORD=secret
