@@ -1,9 +1,10 @@
 <%- include("./header") %>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <h2 margin="0 auto">
+    <h2 style="margin:0;">
         <%= user.username %>'s Files: /{{ cleanPath }}
     </h2>
+    <small><a href="https://{{user.username}}.{{suffix}}/{{cleanPath}}">{{user.username}}.{{suffix}}/{{cleanPath}}</a></small>
     <span class="z-index-1000">
         <form id="uploadForm" action="/dashboard/file-upload?dir={{ cleanPath }}" method="post" enctype="multipart/form-data">
             <input type="file" id="fileInput" name="files" multiple webkitdirectory directory />

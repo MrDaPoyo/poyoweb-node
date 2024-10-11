@@ -49,7 +49,8 @@ router.get('/', async (req, res) => {
                 past: pastDir,
                 cleanPath,
                 dashboard: (dirPath === "websites/users/" + req.user.username || cleanPath === "/"),
-                title: "Dashboard"
+                title: "Dashboard",
+                suffix: process.env.SUFFIX,
             });
         }
     } catch (err) {
