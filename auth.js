@@ -44,7 +44,7 @@ authRouter.post('/register', async (req, res, next) => {
                         if (err) {
                             console.error(err.message);
                         } else {
-                            db.run('INSERT INTO websites (userID, name) VALUES (?, ?)', [row.id, username], (err) => {
+                            db.run('INSERT INTO websites (userID, name, domain) VALUES (?, ?, ?)', [row.id, username, (username+"."+process.env.SUFFIX)], (err) => {
                                 if (err) {
                                     console.error(err.message);
                                     res.send('User Already Exists');
@@ -57,9 +57,13 @@ authRouter.post('/register', async (req, res, next) => {
                                                 if (err) {
                                                     console.error(err.message);
                                                 }
-                                                fs.copyFile('./websites/src/poyoweb-button.png', './websites/users/' + username + '/poyoweb-button.png')
-                                                tokenSender.sendVerificationEmail(token, email);
-                                                console.log('User Created');
+                                                fs.copyFile('./websites/src/poyoweb-button.png', './websites/users/' + username + '/poyoweb-button.png', (err) => {
+                                                	tokenSender.sendVerificationEmail(token, email);
+                                                	console.log('User Created');
+                                                	if (err) {
+                                                		console.log(err.message);
+                                                	}	
+                                                })
                                             });
                                         }
                                     });
