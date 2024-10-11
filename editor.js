@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+const verifyFile = require('./snippets/verifyFile')
 const bodyParser = require('body-parser');
 var router = express.Router();
 require('dotenv').config();
@@ -14,13 +15,18 @@ router.get('/', async function (req, res) {
     if (dirPath.includes("..") || !dirPath.includes(".")) {
         return res.status(404).send("HA! Good try, Hacker :3");
     }
-
     try {
         await fs.access(`websites/users/${req.user.username}/${dirPath}`);
+		var openable = verifyFile.checkEditableFile(dirPath);
+		if (openable) {
         const data = await fs.readFile(`websites/users/${req.user.username}/${dirPath}`, 'utf8');
         
         console.log(data);
         res.render("editor", { fileName: req.query.file, fileData: data, url: process.env.URL, username: req.user.username, suffix: process.env.SUFFIX });
+		}
+	    else {
+	    	res.status(500).send("File not openable :P");
+		}
     } catch (err) {
         console.log(err);
         res.status(500).send("File not found :P");
