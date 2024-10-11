@@ -55,17 +55,19 @@
                 <% for (const file of files) { %>
                     <div class="dashboard-icon">
                         <% if (!file.isDirectory) { %>
-                            <a class="hidden-link dashboard-hidden-link" href="{{url}}/editor/?file={{file.cleanPath}}">
-                                <img class="document" src="/icons/document-small.webp" alt="Document"></img>
-                            </a>
-                        <% } else { %>
-                            <% if (openable) { %>
-                                <a class="hidden-link" href="?dir={{file.cleanPath}}">
-                                    <img class="folder" src="/icons/folder-small.webp" alt="Folder"></img>
-                                </a>
+							<% if (file.openable) { %>
+                                <a class="hidden-link dashboard-hidden-link" href="{{url}}/editor/?file={{file.cleanPath}}">
+  	                                <img class="document" src="/icons/document-small.webp" alt="Document">
+                               	</a>
                             <% } else { %>
-                                <img class="folder" src="/icons/folder-small.webp" alt="Folder"></img>
+                            <span class="dashboard-hidden-link">
+                                <img class="document" src="/icons/noneditable-small.webp" alt="Document">
+							</span>
                             <% } %>
+                        <% } else { %>
+                         	<a class="hidden-link dashboard-hidden-link" href="?dir={{file.cleanPath}}">
+                               <img class="folder" src="/icons/folder-small.webp" alt="Folder"></img>
+                            </a>
                         <% } %>
                     
                         <a class="hidden-link" href="{{url}}/dashboard/remove/?dir={{file.cleanPath}}">
