@@ -57,6 +57,7 @@ authRouter.post('/register', async (req, res, next) => {
                                                 if (err) {
                                                     console.error(err.message);
                                                 }
+                                                fs.copyFile('./websites/src/poyoweb-button.png', './websites/users/' + username + '/poyoweb-button.png')
                                                 tokenSender.sendVerificationEmail(token, email);
                                                 console.log('User Created');
                                             });
