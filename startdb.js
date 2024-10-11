@@ -25,6 +25,7 @@ function setupDB() {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userID INTEGER NOT NULL,
     name TEXT UNIQUE NOT NULL,
+    domain TEXT UNIQUE NOT NULL,
     views INTEGER DEFAULT 0,
     totalSize INTEGER DEFAULT 0,
     FOREIGN KEY (userID) REFERENCES users(id))`);
