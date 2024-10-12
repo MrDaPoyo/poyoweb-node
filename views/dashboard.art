@@ -7,7 +7,7 @@
     <small><a href="https://{{user.username}}.{{suffix}}/{{cleanPath}}">{{user.username}}.{{suffix}}/{{cleanPath}}</a></small>
     <span class="z-index-1000">
         <form id="uploadForm" action="/dashboard/file-upload?dir={{ cleanPath }}" method="post" enctype="multipart/form-data">
-            <input type="file" id="fileInput" name="files" multiple webkitdirectory directory />
+            <input type="file" id="fileInput" name="files" multiple webkitdirectory multiple />
             <button type="submit">Upload</button>
         </form>
 
