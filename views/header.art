@@ -53,3 +53,7 @@
         </div>
     </header>
     <main class="main dotted">
+    <div class="carl-container">
+		<img class="carl-image" src="/logos/carl1.png">
+		<p class="carl-caption">Im Carl! You moron.<br><b>Click Carl to hear some wisdom!</b></p>
+	</div>

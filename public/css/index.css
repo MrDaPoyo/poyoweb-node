@@ -126,6 +126,7 @@ body {
   margin: auto 12.5vw;
   overflow-y: auto;
   overflow-x: hidden;
+  position: relative;
 }
 #window {
     width: 80%;
@@ -370,6 +371,22 @@ position: relative;
 .dashboard-icon:hover .dashboard-close:hover, .dashboard-icon:hover .dashboard-rename:hover {
     background-color: var(--secondary);
     color: var(--primary);
+}
+
+.carl-container {
+	width: 10%;
+	position: absolute;
+	padding: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	bottom: 0;
+	right: 0;
+	border: 1px var(--primary) solid;
+}
+.carl-image {
+	width: 120%;
 }
 
 @media screen and (max-width: 600px) {
