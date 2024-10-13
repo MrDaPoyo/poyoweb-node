@@ -53,7 +53,7 @@
         </div>
     </header>
     <main class="main dotted">
-    <div class="carl-container">
+    <div class="carl-container z-index-1000">
 		<img id="carl-image" class="carl-image" src="/logos/carl1.png">
 		<p class="carl-caption" id="carl-caption">Im Carl! You moron.<br><b>Click Carl to hear some wisdom!</b></p>
 		<script>
