@@ -138,6 +138,9 @@
 			      "Say goodbye to peace. Chaos is the new status quo.",
 			      "Did you really think you could stay in control? Cute.",
 			      "Breathe it in—your world spiraling out of control.",
+			      "A damn raccoon just turned off our servers. Cute.",
+			      "HA GET BSOD'ed!",
+			      "Why is there a cockroach breakdancing inside that one raccoon's house?",
 			];
 			
 			let currentImageIndex = 0;
