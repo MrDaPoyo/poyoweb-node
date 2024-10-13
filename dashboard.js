@@ -157,12 +157,12 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 
             if (checkFiles.checkFileName(file.originalname)) {
                 try {
-                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir || '', path.dirname(remaining));
+                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir, path.dirname(remaining));
                 	console.log("Directory Path: ", dirPath);        	
                     // Create directories if they do not exist
                 	await fs.mkdir(dirPath, { recursive: true });
                     await addSizeByWebsiteName(websiteName, file.size);
-
+					await fs.rename(path.join('websites/users/', req.user.username, req.query.dir, file.originalname), path.join(dirPath, file.originalname))
                     if (!responseSent) {
                         res.redirect('/dashboard/?dir=' + (req.query.dir || ''));
                         responseSent = true;
