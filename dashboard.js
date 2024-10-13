@@ -157,7 +157,7 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 
             if (checkFiles.checkFileName(file.originalname)) {
                 try {
-                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir || '', path.dirname(fullPath));
+                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir || '', path.dirname(remaining));
                 	console.log("Directory Path: ", dirPath);        	
                     // Create directories if they do not exist
                 	await fs.mkdir(dirPath, { recursive: true });
