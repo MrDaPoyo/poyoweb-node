@@ -139,8 +139,13 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 			var bodyFiles = req.body.files;
 			bodyFiles = JSON.parse(bodyFiles);
 			console.log(bodyFiles);
-            const fullPath = bodyFiles.fullPath; // Get corresponding full path
-            const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', fullPath);
+            var fullPath = bodyFiles.fullPath; // Get corresponding full path
+            const [firstDir, ...fullFilePath] = fullPath.split('/');
+            
+            // Join the remaining parts back together
+            const remaining = fullFilePath.join('/');
+            
+            const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', remaining);
             
             if (file.originalname.includes("..")) {
                 if (!responseSent) {
@@ -152,7 +157,10 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 
             if (checkFiles.checkFileName(file.originalname)) {
                 try {
-                    await fs.rename(file.path, filePath);  // Use fs.promises.rename
+                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir || '', path.dirname(fullPath));
+                	console.log("Directory Path: ", dirPath);        	
+                    // Create directories if they do not exist
+                	await fs.mkdir(dirPath, { recursive: true });
                     await addSizeByWebsiteName(websiteName, file.size);
 
                     if (!responseSent) {
