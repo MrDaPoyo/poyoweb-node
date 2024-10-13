@@ -11,6 +11,8 @@ const multer = require('multer');
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         try {
+            console.log("Received file:", file); // Log the file object
+
             // Extract the full file path from the original file field
             const fullFilePath = file.originalname; // Multer provides the full file path with folder structure
             const basePath = path.join('websites', 'users', req.user.username);
@@ -25,11 +27,11 @@ const storage = multer.diskStorage({
         }
     },
     filename: (req, file, cb) => {
+        console.log("Saving file as:", path.basename(file.originalname)); // Log the filename being saved
         cb(null, path.basename(file.originalname)); // Save file with its original name
     }
 });
 
-// Set up the multer middleware
 const upload = multer({ storage: storage });
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -119,7 +121,7 @@ const { getTotalSizeByWebsiteName, addSizeByWebsiteName } = require('./startdb')
 // Updated POST route for file upload
 router.post('/file-upload', upload.any(), async (req, res) => {
     let responseSent = false;
-
+	console.log(req);
     try {
         if (!req.files || req.files.length === 0) {
             return res.status(404).send("No file uploaded.");
@@ -132,10 +134,9 @@ router.post('/file-upload', upload.any(), async (req, res) => {
         if ((currentTotalSize + totalUploadedSize) > MAX_SIZE_MB) {
             return res.status(400).send("File upload exceeds the total folder size limit of 500 MB.");
         }
-
         for (const file of req.files) {
             const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', file.originalname);
-
+			file = JSON.parse(req.body['files'][file]);
             if (file.originalname.includes("..")) {
                 if (!responseSent) {
                     res.status(404).send("HA! Good try, Hacker :3");

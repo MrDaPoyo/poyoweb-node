@@ -90,19 +90,27 @@
 
                         <script>
                             Dropzone.options.myAwesomeDropzone = {
-                                paramName: "file",
+                                paramName: "files", // Use an array notation for multiple files
                                 webkitRelativePath: true,
                                 createImageThumbnails: false,
                                 disablePreviews: true,
                                 clickable: false,
                                 init: function () {
-                                    this.on("queuecomplete", function () {
-                                        location.reload();
-                                    });
                                     this.on("sending", function (file, xhr, formData) {
-                                        if (file.fullPath) {
-                                            formData.append("fullPath", file.fullPath);
-                                        }
+                                        // Create a custom file object with additional properties
+                                        const customFileObject = {
+                                            file: file,
+                                            fullPath: file.webkitRelativePath || file.name // Use webkitRelativePath if available
+                                        };
+                            
+                                        // Append the custom file object to FormData
+                                        formData.append("files", JSON.stringify(customFileObject)); // Sending as JSON string
+                                        console.log("Sending:", customFileObject);
+                                    });
+                            
+                                    this.on("queuecomplete", function () {
+                                        // Reload the page after all files have been uploaded
+                                        location.reload();
                                     });
                                 }
                             };
