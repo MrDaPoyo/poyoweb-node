@@ -119,9 +119,8 @@ const MAX_SIZE_MB = 500 * 1024 * 1024; // 500 MB in bytes
 const { getTotalSizeByWebsiteName, addSizeByWebsiteName } = require('./startdb');
 
 // Updated POST route for file upload
-router.post('/file-upload', upload.any(), async (req, res) => {
+router.post('/file-upload', upload.array('files'), async (req, res) => {
     let responseSent = false;
-	console.log(req);
     try {
         if (!req.files || req.files.length === 0) {
             return res.status(404).send("No file uploaded.");
@@ -134,9 +133,15 @@ router.post('/file-upload', upload.any(), async (req, res) => {
         if ((currentTotalSize + totalUploadedSize) > MAX_SIZE_MB) {
             return res.status(400).send("File upload exceeds the total folder size limit of 500 MB.");
         }
-        for (const file of req.files) {
-            const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', file.originalname);
-			file = JSON.parse(req.body['files'][file]);
+
+        for (let i = 0; i < req.files.length; i++) {
+            const file = req.files[i];
+			var bodyFiles = req.body.files;
+			bodyFiles = JSON.parse(bodyFiles);
+			console.log(bodyFiles);
+            const fullPath = bodyFiles.fullPath; // Get corresponding full path
+            const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', fullPath);
+            
             if (file.originalname.includes("..")) {
                 if (!responseSent) {
                     res.status(404).send("HA! Good try, Hacker :3");
@@ -177,6 +182,7 @@ router.post('/file-upload', upload.any(), async (req, res) => {
         }
     }
 });
+
 
 router.post('/editName', async (req, res) => {
     try {
