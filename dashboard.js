@@ -11,8 +11,6 @@ const multer = require('multer');
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         try {
-            console.log("Received file:", file); // Log the file object
-
             // Extract the full file path from the original file field
             const fullFilePath = file.originalname; // Multer provides the full file path with folder structure
             const basePath = path.join('websites', 'users', req.user.username);
@@ -122,7 +120,7 @@ const { getTotalSizeByWebsiteName, addSizeByWebsiteName } = require('./startdb')
 router.post('/file-upload', upload.array('files'), async (req, res) => {
     let responseSent = false;
     try {
-        if (!req.files || req.files.length === 0) {
+        if (!req.files || req.files.length == 0) {
             return res.status(404).send("No file uploaded.");
         }
 
@@ -157,16 +155,14 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 
             if (checkFiles.checkFileName(file.originalname)) {
                 try {
-                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir, path.dirname(remaining));
-                	console.log("Directory Path: ", dirPath);        	
+                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir, path.dirname(remaining));        	
                     // Create directories if they do not exist
                 	await fs.mkdir(dirPath, { recursive: true });
                     await addSizeByWebsiteName(websiteName, file.size);
 					await fs.rename(path.join('websites/users/', req.user.username, req.query.dir, file.originalname), path.join(dirPath, file.originalname))
                     if (!responseSent) {
-                        res.redirect('/dashboard/?dir=' + (req.query.dir || ''));
                         responseSent = true;
-                        console.log("Uploaded: " + totalUploadedSize);
+                        res.status(200).send("File uploaded!");
                     }
                 } catch (err) {
                     console.log(err);

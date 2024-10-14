@@ -64,6 +64,7 @@
                                 createImageThumbnails: false,
                                 disablePreviews: true,
                                 clickable: false,
+                                method: "post",
                                 init: function () {
                                     this.on("sending", function (file, xhr, formData) {
                                         // Create a custom file object with additional properties
@@ -79,6 +80,7 @@
                             
                                     this.on("queuecomplete", function () {
                                         // Reload the page after all files have been uploaded
+                                        console.log("Done!");
                                         location.reload();
                                     });
                                 }
