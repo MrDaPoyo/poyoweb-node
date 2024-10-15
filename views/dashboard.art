@@ -1,6 +1,6 @@
 <%- include("./header") %>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <script src="https://unpkg.com/browse/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <h2 style="margin:0;">
         <%= user.username %>'s Files: /{{ cleanPath }}
@@ -104,9 +104,10 @@
                                         });
                             
                                         // Handle form submission
-                                        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+                                        document.getElementById('my-awesome-dropzone').addEventListener('submit', function(event) {
                                             dz.emit("submit", event); // Trigger the custom "submit" event
                                         });
+                                    }
                                     }
                         </script>
     </div>
