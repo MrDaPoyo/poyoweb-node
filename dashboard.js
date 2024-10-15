@@ -192,7 +192,7 @@ const MAX_FILES = 1000;
 
 router.post('/zip-upload', upload.single('zipFile'), (req, res) => {
     const filePath = req.file.path;
-    const extractPath = path.join(__dirname, 'extracted');
+    const extractPath = path.join('websites/users/', req.user.username, req.query.dir, file.originalname, path.join(dirPath, file.originalname));
     let totalSize = 0;
     let fileCount = 0;
 
@@ -232,7 +232,7 @@ router.post('/zip-upload', upload.single('zipFile'), (req, res) => {
 
         zipfile.on('end', () => {
             fs.unlinkSync(filePath);
-            res.redirect('/');
+            res.status(200).send("file successfully uploaded!");
         });
 
         zipfile.readEntry();
