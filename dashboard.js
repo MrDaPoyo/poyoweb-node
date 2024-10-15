@@ -187,6 +187,57 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
     }
 });
 
+const MAX_TOTAL_SIZE = 100 * 1024 * 1024; // 100 MB
+const MAX_FILES = 1000;
+
+router.post('/zip-upload', upload.single('zipFile'), (req, res) => {
+    const filePath = req.file.path;
+    const extractPath = path.join(__dirname, 'extracted');
+    let totalSize = 0;
+    let fileCount = 0;
+
+    yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
+        if (err) throw err;
+
+        zipfile.on('entry', (entry) => {
+            const fileName = path.join(extractPath, entry.fileName);
+
+            if (/\/$/.test(entry.fileName)) {
+                fs.ensureDirSync(fileName);
+                zipfile.readEntry();
+            } else {
+                zipfile.openReadStream(entry, (err, readStream) => {
+                    if (err) throw err;
+
+                    let fileSize = 0;
+                    readStream.on('data', (chunk) => {
+                        fileSize += chunk.length;
+                        totalSize += chunk.length;
+                        if (totalSize > MAX_TOTAL_SIZE || fileCount > MAX_FILES) {
+                            zipfile.close();
+                            fs.unlinkSync(filePath);
+                            res.status(413).send('Zip file exceeds size or file count limits.');
+                            return;
+                        }
+                    });
+
+                    readStream.pipe(fs.createWriteStream(fileName));
+                    readStream.on('end', () => {
+                        fileCount++;
+                        zipfile.readEntry();
+                    });
+                });
+            }
+        });
+
+        zipfile.on('end', () => {
+            fs.unlinkSync(filePath);
+            res.redirect('/');
+        });
+
+        zipfile.readEntry();
+    });
+});
 
 router.post('/editName', async (req, res) => {
     try {

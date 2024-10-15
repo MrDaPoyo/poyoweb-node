@@ -1,5 +1,6 @@
 <%- include("./header") %>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://unpkg.com/browse/jszip@3.10.1/dist/jszip.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <h2 style="margin:0;">
         <%= user.username %>'s Files: /{{ cleanPath }}
@@ -53,7 +54,7 @@
                         </form>
                     </div>
                     <% } %>
-                        <form action="/dashboard/file-upload?dir={{ cleanPath }}"
+                        <form action="/dashboard/zip-upload?dir={{ cleanPath }}"
                             class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST"
                             enctype="multipart/form-data"></form>
 
@@ -66,25 +67,47 @@
                                 clickable: false,
                                 method: "post",
                                 init: function () {
-                                    this.on("sending", function (file, xhr, formData) {
-                                        // Create a custom file object with additional properties
-                                        const customFileObject = {
-                                            file: file,
-                                            fullPath: file.webkitRelativePath || file.name // Use webkitRelativePath if available
-                                        };
+                                        const dz = this;
                             
-                                        // Append the custom file object to FormData
-                                        formData.append("files", JSON.stringify(customFileObject)); // Sending as JSON string
-                                        console.log("Sending:", customFileObject);
-                                    });
+                                        dz.on("addedfile", function (file) {
+                                            // Optional: Handle the file added event if you want any custom behavior
+                                            console.log('File added:', file);
+                                        });
                             
-                                    this.on("queuecomplete", function () {
-                                        // Reload the page after all files have been uploaded
-                                        console.log("Done!");
-                                        location.reload();
-                                    });
-                                }
-                            };
+                                        dz.on("submit", async function (event) {
+                                            event.preventDefault();
+                            
+                                            const files = dz.getAcceptedFiles(); // Get files from Dropzone
+                                            const zip = new JSZip();
+                            
+                                            // Add files to zip using their relative path if available
+                                            for (const file of files) {
+                                                zip.file(file.webkitRelativePath || file.name, file);
+                                            }
+                            
+                                            // Generate zip blob
+                                            const zipBlob = await zip.generateAsync({ type: "blob" });
+                            
+                                            // Prepare FormData
+                                            const formData = new FormData();
+                                            formData.append('zipFile', new File([zipBlob], 'folder.zip'));
+                            
+                                            // Send the zip file to the server
+                                            fetch('/upload', {
+                                                method: 'POST',
+                                                body: formData
+                                            }).then(response => response.text())
+                                              .then(result => {
+                                                  console.log(result);
+                                                  window.location.reload(); // Reload to update file list
+                                              });
+                                        });
+                            
+                                        // Handle form submission
+                                        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+                                            dz.emit("submit", event); // Trigger the custom "submit" event
+                                        });
+                                    }
                         </script>
     </div>
     <%- include("./footer") %>
