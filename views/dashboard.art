@@ -58,57 +58,57 @@
                             class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST"
                             enctype="multipart/form-data"></form>
 
-                        <script>
-                            Dropzone.options.myAwesomeDropzone = {
-                                paramName: "files", // Use an array notation for multiple files
-                                webkitRelativePath: true,
-                                createImageThumbnails: false,
-                                disablePreviews: true,
-                                clickable: false,
-                                method: "post",
-                                init: function () {
-                                        const dz = this;
-                            
-                                        dz.on("addedfile", function (file) {
-                                            // Optional: Handle the file added event if you want any custom behavior
-                                            console.log('File added:', file);
-                                        });
-                            
-                                        dz.on("submit", async function (event) {
-                                            event.preventDefault();
-                            
-                                            const files = dz.getAcceptedFiles(); // Get files from Dropzone
-                                            const zip = new JSZip();
-                            
-                                            // Add files to zip using their relative path if available
-                                            for (const file of files) {
-                                                zip.file(file.webkitRelativePath || file.name, file);
-                                            }
-                            
-                                            // Generate zip blob
-                                            const zipBlob = await zip.generateAsync({ type: "blob" });
-                            
-                                            // Prepare FormData
-                                            const formData = new FormData();
-                                            formData.append('zipFile', new File([zipBlob], 'folder.zip'));
-                            
-                                            // Send the zip file to the server
-                                            fetch('/upload', {
-                                                method: 'POST',
-                                                body: formData
-                                            }).then(response => response.text())
-                                              .then(result => {
-                                                  console.log(result);
-                                                  window.location.reload(); // Reload to update file list
-                                              });
-                                        });
-                            
-                                        // Handle form submission
-                                        document.getElementById('my-awesome-dropzone').addEventListener('submit', function(event) {
-                                            dz.emit("submit", event); // Trigger the custom "submit" event
-                                        });
-                                    }
-                                    }
-                        </script>
+<script>
+    Dropzone.options.myAwesomeDropzone = {
+        paramName: "zipFile", // Match the field name multer is expecting
+        webkitRelativePath: true,
+        createImageThumbnails: false,
+        disablePreviews: true,
+        clickable: false,
+        method: "post",
+        init: function () {
+            const dz = this;
+
+            dz.on("addedfile", function (file) {
+                // Optional: Handle the file added event if you want any custom behavior
+                console.log('File added:', file);
+            });
+
+            dz.on("submit", async function (event) {
+                event.preventDefault();
+
+                const files = dz.getAcceptedFiles(); // Get files from Dropzone
+                const zip = new JSZip();
+
+                // Add files to zip using their relative path if available
+                for (const file of files) {
+                    zip.file(file.webkitRelativePath || file.name, file);
+                }
+
+                // Generate zip blob
+                const zipBlob = await zip.generateAsync({ type: "blob" });
+
+                // Prepare FormData
+                const formData = new FormData();
+                formData.append('zipFile', new File([zipBlob], 'folder.zip')); // Ensure it matches multer's field name
+
+                // Send the zip file to the server
+                fetch('/zip-upload?dir={{ cleanPath }}', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.text())
+                  .then(result => {
+                      console.log(result);
+                      window.location.reload(); // Reload to update file list
+                  });
+            });
+
+            // Handle form submission
+            document.getElementById('my-awesome-dropzone').addEventListener('submit', function(event) {
+                dz.emit("submit", event); // Trigger the custom "submit" event
+            });
+        }
+    }
+</script>
     </div>
     <%- include("./footer") %>

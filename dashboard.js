@@ -190,9 +190,9 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 const MAX_TOTAL_SIZE = 100 * 1024 * 1024; // 100 MB
 const MAX_FILES = 1000;
 
-router.post('/zip-upload', upload.any(), (req, res) => {
+router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     const filePath = req.file.path;
-    const extractPath = path.join('websites/users/', req.user.username, req.query.dir, file.originalname, path.join(dirPath, file.originalname));
+    const extractPath = path.join('websites/users/', req.user.username, req.query.dir, req.file.originalname);
     let totalSize = 0;
     let fileCount = 0;
 
