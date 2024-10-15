@@ -66,54 +66,59 @@
         disablePreviews: true,
         clickable: false,
         method: "post",
-        autoProcessQueue: false, // Prevent automatic file upload
-            init: function () {
-                const dz = this;
-        
-                dz.on("addedfile",async function (file) {
-                    console.log('File added:', file);
-                                        const files = dz.getAcceptedFiles();
-                            
-                                        if (files.length === 0) {
-                                            console.error('No files selected for upload.');
-                                            return;
-                                        }
-                            
-                                        const zip = new JSZip();
-                            
-                                        // Add files to zip using relative path if available
-                                        for (const file of files) {
-                                            const relativePath = file.webkitRelativePath || file.name;
-                                            zip.file(relativePath, file); // Add file to ZIP
-                                        }
-                            
-                                        try {
-                                            // Generate zip blob
-                                            const zipBlob = await zip.generateAsync({ type: "blob" });
-                            
-                                            // Log for debugging purposes
-                                            console.log('Generated zipBlob:', zipBlob);
-                            
-                                            // Prepare FormData
-                                            const formData = new FormData();
-                                            formData.append('zipFile', new File([zipBlob], 'folder.zip'));
-                            
-                                            // Send the zip file to the server
-                                            const response = await fetch('/dashboard/zip-upload?dir={{ cleanPath }}', {
-                                                method: 'POST',
-                                                body: formData
-                                            });
-                            
-                                            const result = await response.text();
-                                            console.log(result);
-                                            window.location.reload(); // Reload to update the file list
-                            
-                                        } catch (error) {
-                                            console.error('Error generating or uploading zip:', error);
-                                        }
-                                    });
-				}                
-        }
+        autoProcessQueue: true,        
+        init: function () {
+            const dz = this;
+
+            // Listen for the addedfile event
+            dz.on("addedfile", function (file) {
+                console.log('File added:', file);
+            });
+
+            // Listen for the complete event
+            dz.on("complete", async function () {
+                // Create a new zip instance
+                const zip = new JSZip();
+                const files = dz.getAcceptedFiles();
+
+                // Add files to zip using relative path if available
+                for (const file of files) {
+                    const relativePath = file.webkitRelativePath || file.name;
+                    zip.file(relativePath, file); // Add file to ZIP
+                }
+
+                try {
+                    // Generate zip blob
+                    const zipBlob = await zip.generateAsync({ type: "blob" });
+
+                    // Log for debugging purposes
+                    console.log('Generated zipBlob:', zipBlob);
+
+                    // Prepare FormData
+                    const formData = new FormData();
+                    formData.append('zipFile', new File([zipBlob], 'folder.zip'));
+
+                    // Send the zip file to the server
+                    const response = await fetch('/dashboard/zip-upload?dir={{ cleanPath }}', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.text();
+                    console.log(result);
+                    window.location.reload(); // Reload to update the file list
+
+                } catch (error) {
+                    console.error('Error generating or uploading zip:', error);
+                }
+            });
+
+            // Start processing the queue when user selects files
+            dz.on("queuecomplete", function() {
+                dz.processQueue(); // Automatically start the queue
+            });
+		}
+    };
 </script>
     </div>
     <%- include("./footer") %>
