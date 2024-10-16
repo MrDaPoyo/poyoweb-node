@@ -6,9 +6,9 @@ async function loggedIn(req, res, next) {
     cookieParser(req, res);
     const token = req.cookies["x-access-token"];
     try {
-        const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+        const decoded = await jwt.verify(token, process.env.TOKEN_KEY);
         if (decoded) {
-            return decoded;
+            return await decoded;
         } else {
             return false;
         }

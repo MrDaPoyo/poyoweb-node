@@ -7,8 +7,9 @@ const verifySessionToken = async (req, res, next) => {
     var cookie = req.cookies; // Access the parsed cookies
     if (cookie) {
         if (cookie["x-access-token"]) {
-            jwt.verify(cookie["x-access-token"], process.env.TOKEN_KEY, (err, decoded) => {
+            await jwt.verify(cookie["x-access-token"], process.env.TOKEN_KEY, (err, decoded) => {
                 res.locals.loggedIn = true;
+                req.user = decoded;
                 next();
             });
         } else {
