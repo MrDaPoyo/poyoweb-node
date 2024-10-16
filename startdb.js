@@ -29,6 +29,17 @@ function setupDB() {
     views INTEGER DEFAULT 0,
     totalSize INTEGER DEFAULT 0,
     FOREIGN KEY (userID) REFERENCES users(id))`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS files (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique ID for each file
+            fileName TEXT NOT NULL,                -- Name of the file
+            fileLocation TEXT NOT NULL,            -- Location (path) where the file is stored
+            userID INTEGER NOT NULL,               -- ID of the user who uploaded the file
+            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,  -- Date and time when the file was created
+            lastModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP, -- Last modified date of the file
+            fileSize INTEGER DEFAULT 0 NOT NULL,              -- Weight (size) of the file in bytes
+            status TEXT DEFAULT 'active',			-- Status of the file (e.g., active, archived, deleted)
+            FOREIGN KEY (userID) REFERENCES users(id))`);
 }
 
 setupDB();
