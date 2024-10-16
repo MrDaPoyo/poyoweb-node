@@ -33,7 +33,7 @@
                                	</a>
                             <% } else { %>
                             <span class="dashboard-hidden-link">
-                                <img class="document" src="/icons/noneditable-small.webp" alt="Document">
+                                <img class="document" src="/icons/unknown-small.webp" alt="Document">
 							</span>
                             <% } %>
                         <% } else { %>
