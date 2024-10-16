@@ -82,8 +82,8 @@ authRouter.post('/register', async (req, res, next) => {
 
 authRouter.post("/login", async (req, res) => {
     try {
-        const { username, password } = req.body;
-
+        var { username, password } = req.body;
+		username = username.toLowerCase();
         if (!(username && password)) {
             return res.status(400).send("All input is required");
         }
