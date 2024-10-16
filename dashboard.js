@@ -191,7 +191,6 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
 const MAX_TOTAL_SIZE = 100 * 1024 * 1024; // 100 MB
 const MAX_FILES = 1000;
 
-
 router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     const filePath = req.file.path;
     const extractPath = path.join('websites/users/', req.user.username, req.query.dir || '');
@@ -200,64 +199,74 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     let fileCount = 0;
 
     // Open the uploaded zip file
-    yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
+    yauzl.open(filePath, { lazyEntries: true }, async (err, zipfile) => {
         if (err) {
-            fs.unlink(filePath); // Clean up the uploaded zip file
-            return res.status(500).send('Error reading zip file. '+err);
-			console.log(err);
+            await fs.remove(filePath); // Clean up the uploaded zip file using fs-extra
+            return res.status(500).send('Error reading zip file. ' + err);
         }
 
         zipfile.on('entry', async (entry) => {
-    const fileName = path.join(extractPath, entry.fileName);
+            const fileName = path.join(extractPath, entry.fileName);
 
-    if (/\/$/.test(entry.fileName)) {
-        // It's a directory, create it
-        try {
-            await fs.mkdir(fileName, { recursive: true });
-            zipfile.readEntry();
-        } catch (err) {
-            if (err.code !== 'EEXIST') {
-                console.error(`Failed to create directory: ${fileName}`, err);
-                zipfile.close();
-                res.status(500).send('Error creating directory.');
-                return;
-            }
-            zipfile.readEntry(); // Directory already exists, move to the next entry
-        }
-    } else {
-        // Handle the file extraction
-        zipfile.openReadStream(entry, (err, readStream) => {
-            if (err) {console.log(err);}
-
-            let fileSize = 0;
-            readStream.on('data', (chunk) => {
-                fileSize += chunk.length;
-                totalSize += chunk.length;
-                if (totalSize > MAX_TOTAL_SIZE || fileCount > MAX_FILES) {
-                    zipfile.close();
-                    fs.unlink(filePath); // Use fs.promises.unlink for async unlink
-                    res.status(413).send('Zip file exceeds size or file count limits.');
-                    return;
+            if (/\/$/.test(entry.fileName)) {
+                // It's a directory, create it
+                try {
+                    await fs.mkdirp(fileName); // Use fs-extra's mkdirp
+                    zipfile.readEntry();
+                } catch (err) {
+                    if (err.code !== 'EEXIST') {
+                        console.error(`Failed to create directory: ${fileName}`, err);
+                        zipfile.close();
+                        res.status(500).send('Error creating directory.');
+                        return;
+                    }
+                    zipfile.readEntry(); // Directory already exists, move to the next entry
                 }
-            });
+            } else {
+                // Handle the file extraction
+                zipfile.openReadStream(entry, (err, readStream) => {
+                    if (err) {
+                        console.log(err);
+                        zipfile.readEntry();
+                        return;
+                    }
 
-            readStream.pipe(fs.createWriteStream(fileName));
-            readStream.on('end', () => {
-                fileCount++;
-                zipfile.readEntry();
-            });
+                    let fileSize = 0;
+                    readStream.on('data', (chunk) => {
+                        fileSize += chunk.length;
+                        totalSize += chunk.length;
+                        if (totalSize > MAX_TOTAL_SIZE || fileCount > MAX_FILES) {
+                            zipfile.close();
+                            fs.remove(filePath); // Use fs-extra's remove method
+                            res.status(413).send('Zip file exceeds size or file count limits.');
+                            return;
+                        }
+                    });
+
+                    readStream.pipe(fs.createWriteStream(fileName));
+                    readStream.on('end', () => {
+                        fileCount++;
+                        zipfile.readEntry();
+                    });
+                });
+            }
         });
-    }
-});
+
         // When done processing all entries
-        zipfile.on('end', () => {
-			fs.unlink(filePath);            
-            res.status(200).send("Zip file successfully uploaded and extracted!");
+        zipfile.on('end', async () => {
+            try {
+                await fs.remove(filePath); // Ensure the zip file is deleted
+                res.status(200).send("Zip file successfully uploaded and extracted!");
+            } catch (unlinkErr) {
+                console.error(`Failed to delete the zip file: ${filePath}`, unlinkErr);
+                res.status(500).send('Error during cleanup.');
+            }
         });
 
         zipfile.readEntry(); // Start reading entries
     });
 });
+
 
 router.post('/editName', async (req, res) => {
     try {

@@ -1,3 +1,4 @@
+
 <%- include("./header") %>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
@@ -67,7 +68,8 @@
         clickable: false,
         method: "post",
         uploadMultiple: true,
-        autoProcessQueue: true,        
+        autoProcessQueue: true,
+        forceFallback: false,        
         init: function () {
             const dz = this;
 
@@ -109,6 +111,9 @@
                     console.log(result);
                 } catch (error) {
                     console.error('Error generating or uploading zip:', error);
+                }
+                if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
+                   		window.location.reload();
                 }
             });
 
