@@ -250,7 +250,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
 });
         // When done processing all entries
         zipfile.on('end', () => {
-            fs.unlink(filePath); // Clean up the uploaded zip file
+			fs.unlink(filePath);            
             res.status(200).send("Zip file successfully uploaded and extracted!");
         });
 

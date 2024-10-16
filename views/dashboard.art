@@ -9,7 +9,7 @@
     <span class="z-index-1000">
         <form action="/dashboard/create" class="dashboard-submit" method="POST" style="z-index: 1000000;">
             <input type="text" name="dir" placeholder="New filename/foldername" required>
-            <input type="hidden" name="cleanPath" value="{{cleanPath}}">
+            <input type="hidden" id="cleanPath" name="cleanPath" value="{{cleanPath}}">
             <button type="submit">Create</button>
         </form>
     </span>
@@ -99,15 +99,13 @@
                     formData.append('zipFile', new File([zipBlob], 'folder.zip'));
 
                     // Send the zip file to the server
-                    const response = await fetch('/dashboard/zip-upload?dir={{ cleanPath }}', {
+                    const response = await fetch('/dashboard/zip-upload?dir='+document.getElementById('cleanPath').value, {
                         method: 'POST',
                         body: formData
                     });
 
                     const result = await response.text();
                     console.log(result);
-                    window.location.reload(); // Reload to update the file list
-
                 } catch (error) {
                     console.error('Error generating or uploading zip:', error);
                 }
