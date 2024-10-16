@@ -66,6 +66,7 @@
         disablePreviews: true,
         clickable: false,
         method: "post",
+        uploadMultiple: true,
         autoProcessQueue: true,        
         init: function () {
             const dz = this;

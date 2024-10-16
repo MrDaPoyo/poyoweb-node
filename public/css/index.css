@@ -94,8 +94,7 @@ body {
   left: 15vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between
-  height: 100%;
+  justify-content: space-between;
 }
 .loginLinks * {
   margin: 0;
@@ -105,8 +104,7 @@ body {
   right: 15vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between
-  height: 100%;
+  justify-content: space-between;
 }
 .settingsLinks * {
   margin: 0;
@@ -376,17 +374,20 @@ position: relative;
 .carl-container {
 	width: 10%;
 	position: absolute;
-	padding: auto;
+	padding: 0.5%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	bottom: 0;
 	right: 0;
-	border: 1px var(--primary) solid;
+    z-index: 10000;
 }
 .carl-image {
 	width: 120%;
+}
+.carl-caption {
+    background-color:var(--primary);
 }
 
 @media screen and (max-width: 600px) {

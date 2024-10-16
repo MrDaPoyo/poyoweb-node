@@ -204,6 +204,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
         if (err) {
             fs.unlink(filePath); // Clean up the uploaded zip file
             return res.status(500).send('Error reading zip file. '+err);
+			console.log(err);
         }
 
         zipfile.on('entry', async (entry) => {
@@ -226,7 +227,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     } else {
         // Handle the file extraction
         zipfile.openReadStream(entry, (err, readStream) => {
-            if (err) throw err;
+            if (err) {console.log(err);}
 
             let fileSize = 0;
             readStream.on('data', (chunk) => {
