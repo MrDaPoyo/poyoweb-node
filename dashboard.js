@@ -197,68 +197,103 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
 
     let totalSize = 0;
     let fileCount = 0;
+    let zipProcessingError = null;
+
+    // Helper to clean up the zip file
+    async function cleanUp() {
+        try {
+            await fs.remove(filePath);
+        } catch (cleanupError) {
+            console.error(`Failed to clean up zip file: ${filePath}`, cleanupError);
+        }
+    }
 
     // Open the uploaded zip file
     yauzl.open(filePath, { lazyEntries: true }, async (err, zipfile) => {
         if (err) {
-            await fs.remove(filePath); // Clean up the uploaded zip file using fs-extra
-            return res.status(500).send('Error reading zip file. ' + err);
+            await cleanUp(); // Clean up the uploaded zip file
+            return res.status(500).send('Error reading zip file: ' + err);
         }
 
+        // Close the zipfile if any error occurs
+        zipfile.on('error', async (zipErr) => {
+            zipProcessingError = zipErr;
+            zipfile.close();
+        });
+
         zipfile.on('entry', async (entry) => {
+            if (zipProcessingError) return;
+
             const fileName = path.join(extractPath, entry.fileName);
 
+            // Check if it's a directory
             if (/\/$/.test(entry.fileName)) {
                 // It's a directory, create it
                 try {
                     await fs.mkdirp(fileName); // Use fs-extra's mkdirp
                     zipfile.readEntry();
                 } catch (err) {
-                    if (err.code !== 'EEXIST') {
-                        console.error(`Failed to create directory: ${fileName}`, err);
-                        zipfile.close();
-                        res.status(500).send('Error creating directory.');
-                        return;
-                    }
-                    zipfile.readEntry(); // Directory already exists, move to the next entry
+                    console.error(`Failed to create directory: ${fileName}`, err);
+                    zipProcessingError = err;
+                    zipfile.close();
+                    res.status(500).send('Error creating directory.');
+                    return;
                 }
             } else {
                 // Handle the file extraction
                 zipfile.openReadStream(entry, (err, readStream) => {
                     if (err) {
-                        console.log(err);
+                        console.error(`Error opening read stream for: ${fileName}`, err);
+                        zipProcessingError = err;
                         zipfile.readEntry();
                         return;
                     }
 
                     let fileSize = 0;
+                    const writeStream = fs.createWriteStream(fileName);
+
                     readStream.on('data', (chunk) => {
                         fileSize += chunk.length;
                         totalSize += chunk.length;
-                        if (totalSize > MAX_TOTAL_SIZE || fileCount > MAX_FILES) {
+                        if (totalSize > MAX_TOTAL_SIZE || fileCount >= MAX_FILES) {
+                            zipProcessingError = new Error('Exceeded size or file count limit.');
                             zipfile.close();
-                            fs.remove(filePath); // Use fs-extra's remove method
-                            res.status(413).send('Zip file exceeds size or file count limits.');
+                            writeStream.destroy(); // Stop writing the current file
+                            readStream.destroy(); // Stop reading further data
                             return;
                         }
                     });
 
-                    readStream.pipe(fs.createWriteStream(fileName));
+                    // Pipe the file data
+                    readStream.pipe(writeStream);
+
                     readStream.on('end', () => {
                         fileCount++;
-                        zipfile.readEntry();
+                        zipfile.readEntry(); // Continue with the next entry
+                    });
+
+                    // Handle write stream errors
+                    writeStream.on('error', (writeErr) => {
+                        console.error(`Error writing file: ${fileName}`, writeErr);
+                        zipProcessingError = writeErr;
+                        zipfile.close();
                     });
                 });
             }
         });
 
-        // When done processing all entries
+        // Handle the end of zip processing
         zipfile.on('end', async () => {
+            if (zipProcessingError) {
+                await cleanUp(); // Clean up zip and partially extracted files
+                return res.status(500).send('Error processing zip file: ' + zipProcessingError.message);
+            }
+
             try {
-                await fs.remove(filePath); // Ensure the zip file is deleted
+                await cleanUp(); // Ensure the zip file is deleted
                 res.status(200).send("Zip file successfully uploaded and extracted!");
-            } catch (unlinkErr) {
-                console.error(`Failed to delete the zip file: ${filePath}`, unlinkErr);
+            } catch (cleanupErr) {
+                console.error(`Failed to delete the zip file: ${filePath}`, cleanupErr);
                 res.status(500).send('Error during cleanup.');
             }
         });
