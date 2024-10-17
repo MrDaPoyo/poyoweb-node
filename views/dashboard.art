@@ -57,8 +57,10 @@
                     <% } %>
                         <form action="/dashboard/zip-upload?dir={{ cleanPath }}"
                             class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST"
-                            enctype="multipart/form-data"></form>
-
+                            enctype="multipart/form-data">
+								<div class="dz-message" data-dz-message><span>Drop your silly files in here!</span></div>
+                            </form>
+								
 <script>
     Dropzone.options.myAwesomeDropzone = {
         paramName: "zipFile", // Match the field name multer is expecting
