@@ -44,6 +44,23 @@ function setupDB() {
 
 setupDB();
 
+function addFile(fileName, fileLocation, userID, fileSize = 0, status = 'active') {
+    return new Promise((resolve, reject) => {
+        const query = `INSERT INTO files (fileName, fileLocation, userID, fileSize, status)
+                       VALUES (?, ?, ?, ?, ?)`;
+
+        db.run(query, [fileName, fileLocation, userID, fileSize, status], function (err) {
+            if (err) {
+                console.error('Error inserting file:', err.message);
+                reject(err);
+            } else {
+                console.log(`File added with ID: ${this.lastID}`);
+                resolve(this.lastID);  // Return the ID of the inserted file
+            }
+        });
+    });
+}
+
 function readUsers() {
     db.all('SELECT * FROM users', async (err, rows) => {
         return rows;
@@ -106,6 +123,7 @@ function getTotalSizeByWebsiteName(name) {
 
 module.exports = {
     setupDB,
+    addFile,
     readUsers,
     findUserByEmail,
     isUserVerifiedById,
