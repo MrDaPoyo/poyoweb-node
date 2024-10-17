@@ -18,7 +18,7 @@ router.use(async (req, res, next) => {
         res.locals.isPoyoweb = true;
         return next();
     } else {
-        // Subdomain logic
+try {        // Subdomain logic
         res.locals.isPoyoweb = false;
         const subdomain = host.split('.')[0]; // Extract the subdomain from the host
         const subdomainPath = path.join(__dirname, 'websites/users/', subdomain); // Directory path for subdomain
@@ -63,9 +63,11 @@ router.use(async (req, res, next) => {
             return res.sendFile(errorPagePath);
         } else {
             // If no 404 page exists, send a basic 404 response
-            return res.status(404).send('File Not Found - poyoweb.poyo.study');
+          return res.status(404).send('File Not Found - poyoweb.poyo.study');
         }
-    }
+    } catch (err) {
+    	return res.status(404).send("404");
+    }}
 });
 
 module.exports = router;

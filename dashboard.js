@@ -188,7 +188,7 @@ router.post('/file-upload', upload.array('files'), async (req, res) => {
     }
 });
 
-const MAX_TOTAL_SIZE = 100 * 1024 * 1024; // 100 MB
+const MAX_TOTAL_SIZE = 450 * 1024 * 1024; // 100 MB
 const MAX_FILES = 1000;
 
 router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
@@ -301,6 +301,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
         zipfile.readEntry(); // Start reading entries
     });
 });
+
 
 
 router.post('/editName', async (req, res) => {
