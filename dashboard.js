@@ -6,19 +6,25 @@ const dirWalker = require('./snippets/dirWalker');
 const bodyParser = require('body-parser');
 const checkFiles = require('./snippets/verifyFile');
 const checkCreatableFolder = require('./snippets/verifyFolder');
+const { isFileInsideDir } = require('./snippets/checkPath');
 const multer = require('multer');
 const yauzl = require('yauzl');
 
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
         try {
-            // Extract the full file path from the original file field
             const fullFilePath = file.originalname; // Multer provides the full file path with folder structure
             const basePath = path.join('websites', 'users', req.user.username);
 
-            // Ensure the directories exist using fs.promises.mkdir
+            // Ensure the directories exist using fs-extra's mkdirp
             const fullUploadPath = path.join(basePath, path.dirname(fullFilePath));
-            await fs.mkdir(fullUploadPath, { recursive: true });
+
+            // Ensure the upload path is inside the user's base directory
+            if (!isFileInsideDir(fullUploadPath, basePath)) {
+                return cb(new Error("HA! Good try, Hacker :3"));
+            }
+
+            await fs.mkdirp(fullUploadPath); // Use fs-extra's mkdirp for recursive directory creation
 
             cb(null, fullUploadPath); // Store the file in the correct directory
         } catch (error) {
@@ -111,80 +117,6 @@ router.post('/create', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Error creating file/directory.");
-    }
-});
-
-const MAX_SIZE_MB = 500 * 1024 * 1024; // 500 MB in bytes
-const { getTotalSizeByWebsiteName, addSizeByWebsiteName } = require('./startdb');
-
-// Updated POST route for file upload
-router.post('/file-upload', upload.array('files'), async (req, res) => {
-    let responseSent = false;
-    try {
-        if (!req.files || req.files.length == 0) {
-            return res.status(404).send("No file uploaded.");
-        }
-
-        const websiteName = req.user.username;
-        const currentTotalSize = await getTotalSizeByWebsiteName(websiteName);
-        let totalUploadedSize = req.files.reduce((sum, file) => sum + file.size, 0);
-
-        if ((currentTotalSize + totalUploadedSize) > MAX_SIZE_MB) {
-            return res.status(400).send("File upload exceeds the total folder size limit of 500 MB.");
-        }
-
-        for (let i = 0; i < req.files.length; i++) {
-            const file = req.files[i];
-			var bodyFiles = req.body.files;
-			bodyFiles = JSON.parse(bodyFiles);
-			console.log(bodyFiles);
-            var fullPath = bodyFiles.fullPath; // Get corresponding full path
-            const [firstDir, ...fullFilePath] = fullPath.split('/');
-            
-            // Join the remaining parts back together
-            const remaining = fullFilePath.join('/');
-            
-            const filePath = path.join('websites/users/', req.user.username, req.query.dir || '', remaining);
-            
-            if (file.originalname.includes("..")) {
-                if (!responseSent) {
-                    res.status(404).send("HA! Good try, Hacker :3");
-                    responseSent = true;
-                }
-                break;
-            }
-
-            if (checkFiles.checkFileName(file.originalname)) {
-                try {
-                	const dirPath = path.join('websites/users/', req.user.username, req.query.dir, path.dirname(remaining));        	
-                    // Create directories if they do not exist
-                	await fs.mkdir(dirPath, { recursive: true });
-                    await addSizeByWebsiteName(websiteName, file.size);
-					await fs.rename(path.join('websites/users/', req.user.username, req.query.dir, file.originalname), path.join(dirPath, file.originalname))
-                    if (!responseSent) {
-                        responseSent = true;
-                        res.status(200).send("File uploaded!");
-                    }
-                } catch (err) {
-                    console.log(err);
-                    if (!responseSent) {
-                        res.status(500).send("Error uploading file.");
-                        responseSent = true;
-                    }
-                }
-            } else {
-                if (!responseSent) {
-                    res.status(404).send("FileType not allowed.");
-                    responseSent = true;
-                }
-                break;
-            }
-        }
-    } catch (err) {
-        console.log(err);
-        if (!responseSent) {
-            res.status(500).send("Error uploading file.");
-        }
     }
 });
 
@@ -307,10 +239,10 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
 router.post('/editName', async (req, res) => {
     try {
         var newName = req.body.newName.replace(/ /g, "_").replace(/[\\/]/g, "");
-        var path = req.body.path || "";
+        var dirPath = req.body.path || "";
         const cleanPath = req.body.cleanPath;
 
-        var newPath = path.join("websites/users/", req.user.username, path, newName);
+        var newPath = path.join("websites/users/", req.user.username, dirPath, newName);
         var oldPath = path.join("websites/users/", req.user.username, cleanPath);
 
         if (newName.includes("..")) {
@@ -318,7 +250,7 @@ router.post('/editName', async (req, res) => {
         }
 
         await fs.rename(oldPath, newPath);  // Use fs.promises.rename
-        res.redirect('/dashboard/?dir=' + path);
+        res.redirect('/dashboard/?dir=' + dirPath);
     } catch (err) {
         console.log(err);
         res.status(500).send("Error renaming file/directory.");
