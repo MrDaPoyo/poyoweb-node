@@ -203,16 +203,17 @@ authRouter.get('/recover/:token', (req, res) => {
     });
 });
 
-authRouter.post('/recover/:token', (req, res) => {
+authRouter.post('/recover/:token', async (req, res) => {
     var token = req.params.token;
     var password = req.body.password;
+    await bcrypt.hash(req.body.password, 10); 
     jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
         if (err) {
             console.log(err);
             res.send("Password recovery failed, possibly the link is invalid or expired");
         }
         else {
-            db.run('UPDATE users SET password = ? WHERE email = ?', [password, decoded.email], (err) => {
+            db.run('UPDATE users SET password = ? WHERE email = ?', [await password, decoded.email], (err) => {
                 if (err) {
                     console.error(err.message);
                     res.send('Password Recovery Failed');
