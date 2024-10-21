@@ -33,7 +33,7 @@
                                	</a>
                             <% } else { %>
                             <span class="dashboard-hidden-link">
-                                <img class="document" src="/icons/unknown-small.webp" alt="Document">
+                                <img class="document" src="/icons/{{ file.kind }}-small.webp" alt="Document">
 							</span>
                             <% } %>
                         <% } else { %>
@@ -111,6 +111,7 @@
 
                     const result = await response.text();
                     console.log(result);
+                    
                 } catch (error) {
                     console.error('Error generating or uploading zip:', error);
                 }
