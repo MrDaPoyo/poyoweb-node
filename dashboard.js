@@ -234,23 +234,28 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     });
 });
 
-
-
 router.post('/editName', async (req, res) => {
     try {
         var newName = req.body.newName.replace(/ /g, "_").replace(/[\\/]/g, "");
-        var dirPath = req.body.path || "";
+        var currentPath = req.body.path || "";
         const cleanPath = req.body.cleanPath;
 
-        var newPath = path.join("websites/users/", req.user.username, dirPath, newName);
-        var oldPath = path.join("websites/users/", req.user.username, cleanPath);
+        const oldPath = path.join("websites/users/", req.user.username, cleanPath);
+        const newPath = path.join("websites/users/", req.user.username, currentPath, newName);
+
+        // Check if the old and new paths are within the allowed user directory
+        const baseDir = path.join("websites/users/", req.user.username);
+
+        if (!isFileInsideDir(oldPath, baseDir) || !isFileInsideDir(newPath, baseDir)) {
+            return res.status(404).send("HA! Good try, Hacker :3");
+        }
 
         if (newName.includes("..")) {
             return res.status(404).send("HA! Good try, Hacker :3");
         }
 
         await fs.rename(oldPath, newPath);  // Use fs.promises.rename
-        res.redirect('/dashboard/?dir=' + dirPath);
+        res.redirect('/dashboard/?dir=' + currentPath);
     } catch (err) {
         console.log(err);
         res.status(500).send("Error renaming file/directory.");

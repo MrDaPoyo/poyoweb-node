@@ -33,12 +33,14 @@ function setupDB() {
     db.run(`CREATE TABLE IF NOT EXISTS files (
             id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique ID for each file
             fileName TEXT NOT NULL,                -- Name of the file
-            fileLocation TEXT NOT NULL,            -- Location (path) where the file is stored
+            filePath TEXT NOT NULL,            -- Location (path) where the file is stored
+            fileFullPath TEXT NOT NULL,
             userID INTEGER NOT NULL,               -- ID of the user who uploaded the file
             createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,  -- Date and time when the file was created
             lastModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP, -- Last modified date of the file
             fileSize INTEGER DEFAULT 0 NOT NULL,              -- Weight (size) of the file in bytes
             status TEXT DEFAULT 'active',			-- Status of the file (e.g., active, archived, deleted)
+            statusLastModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (userID) REFERENCES users(id))`);
 }
 
@@ -121,6 +123,67 @@ function getTotalSizeByWebsiteName(name) {
     });
 }
 
+function insertFileInfo(fileID, updatedData) {
+  const selectQuery = `SELECT id FROM files WHERE id = ?`;
+
+  db.get(selectQuery, [fileID], (err, row) => {
+    if (err) {
+      return console.error(err.message);
+    }
+
+    if (row) {
+      // File exists, perform update
+      const updateQuery = `
+        UPDATE files
+        SET
+          fileName = COALESCE(?, fileName),
+          fileLocation = COALESCE(?, fileLocation),
+          fileSize = COALESCE(?, fileSize),
+          status = COALESCE(?, status),
+          lastModifiedAt = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `;
+
+      const updateValues = [
+        updatedData.fileName || null,
+        updatedData.fileLocation || null,
+        updatedData.fileSize || null,
+        updatedData.status || null,
+        fileID
+      ];
+
+      db.run(updateQuery, updateValues, function (err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        console.log(`Row(s) updated: ${this.changes}`);
+      });
+
+    } else {
+      // File doesn't exist, perform insert
+      const insertQuery = `
+        INSERT INTO files (fileName, fileLocation, fileSize, status, createdAt, lastModifiedAt, userID)
+        VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)
+      `;
+
+      const insertValues = [
+        updatedData.fileName,
+        updatedData.fileLocation,
+        updatedData.fileSize || 0,
+        updatedData.status || 'active',
+        updatedData.userID  // Assuming you have userID in the updatedData
+      ];
+
+      db.run(insertQuery, insertValues, function (err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        console.log(`Row inserted with ID: ${this.lastID}`);
+      });
+    }
+  });
+}
+
 module.exports = {
     setupDB,
     addFile,
@@ -131,6 +194,7 @@ module.exports = {
     retrieveViews,
     getTotalSizeByWebsiteName, // Updated function export
     addSizeByWebsiteName, // Updated function export
-    db
+    db,
+	insertFileInfo,    
 };
 
