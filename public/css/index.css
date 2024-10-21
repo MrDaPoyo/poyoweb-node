@@ -382,16 +382,19 @@ position: relative;
 	right: 0;
 	transform: translateY(50%);
     z-index: 10000;
+    background-image: linear-gradient(var(--cloudblue),var(--primary));
+    border: 2px dotted var(--secondary);
 }
 .carl-image {
-	width: 170%;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 }
 .carl-caption {
+	color: var(--secondary);
 	margin: 0;
 	padding: 2%;
-	background-color: var(--primary);
+	/* background-color: var(--primary); */
 }
 
 @media screen and (max-width: 600px) {
