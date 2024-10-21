@@ -204,25 +204,36 @@ authRouter.get('/recover/:token', (req, res) => {
 });
 
 authRouter.post('/recover/:token', async (req, res) => {
-    var token = req.params.token;
-    var password = req.body.password;
-    await bcrypt.hash(req.body.password, 10); 
-    jwt.verify(token, process.env.TOKEN_KEY, function (err, decoded) {
-        if (err) {
-            console.log(err);
-            res.send("Password recovery failed, possibly the link is invalid or expired");
-        }
-        else {
-            db.run('UPDATE users SET password = ? WHERE email = ?', [await password, decoded.email], (err) => {
-                if (err) {
-                    console.error(err.message);
-                    res.send('Password Recovery Failed');
-                } else {
-                    res.send('Password Recovery Successful, you can now login with your new password');
-                }
-            });
-        }
-    });
+    try {
+        const token = req.params.token;
+        const password = await bcrypt.hash(req.body.password, 10);
+
+        // Verify the token
+        jwt.verify(token, process.env.TOKEN_KEY, async function (err, decoded) {
+            if (err) {
+                console.log(err);
+                return res.send("Password recovery failed, possibly the link is invalid or expired");
+            }
+
+            // Perform the DB update as a promise
+            try {
+                await new Promise((resolve, reject) => {
+                    db.run('UPDATE users SET password = ? WHERE email = ?', [password, decoded.email], function (err) {
+                        if (err) return reject(err);
+                        resolve();
+                    });
+                });
+
+                res.send('Password Recovery Successful, you can now login with your new password');
+            } catch (dbErr) {
+                console.error(dbErr.message);
+                res.send('Password Recovery Failed');
+            }
+        });
+    } catch (err) {
+        console.error("Error in processing the request:", err);
+        res.send('An error occurred while processing your request.');
+    }
 });
 
 module.exports = authRouter;
