@@ -33,7 +33,7 @@ function setupDB() {
     db.run(`CREATE TABLE IF NOT EXISTS files (
             id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique ID for each file
             fileName TEXT NOT NULL,                -- Name of the file
-            filePath TEXT NOT NULL,            -- Location (path) where the file is stored
+            fileLocation TEXT NOT NULL,            -- Location (path) where the file is stored
             fileFullPath TEXT NOT NULL,
             userID INTEGER NOT NULL,               -- ID of the user who uploaded the file
             createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,  -- Date and time when the file was created
