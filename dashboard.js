@@ -198,22 +198,20 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
                     });
 
                     // Pipe the file data
-                    readStream.pipe(writeStream);
-
+                    readStream.pipe(writeStream);			
                     readStream.on('end', async () => {
                         fileCount++;
-                        console.log(req.user);
                         // Add/Update the file record in the database
                         const updatedData = {
                             fileName: entry.fileName,
                             filePath: fileName,
                             fileLocation: fileName,
-                            fileSize: fileSize,
+                            fileSize: entry.uncompressedSize,
                             status: 'active',
                             userID: await startdb.getUserIDByName(req.user.username)
                         };
                         
-                        startdb.insertFileInfo(null, updatedData); // Insert or update the file in the DB
+                        startdb.insertFileInfo(await startdb.getFileIDByPath(fileName) || null, updatedData); // Insert or update the file in the DB
 
                         zipfile.readEntry(); // Continue with the next entry
                     });

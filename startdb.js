@@ -158,7 +158,6 @@ function insertFileInfo(fileID, updatedData) {
     if (err) {
       return console.error(err.message);
     }
-
     if (await row) {
       // File exists, perform update
       const updateQuery = `
@@ -212,6 +211,26 @@ function insertFileInfo(fileID, updatedData) {
   });
 }
 
+function getFileIDByPath(filePath) {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT id FROM files WHERE fileLocation = ? LIMIT 1`;
+
+        db.get(query, [filePath], (err, row) => {
+            if (err) {
+                console.error('Error retrieving file ID:', err.message);
+                reject(err);
+            }
+
+            if (row) {
+                resolve(row.id);  // Return the file ID if found
+            } else {
+                console.log(`No file found with path: ${filePath}`);
+                resolve(null);  // Return null if no file was found
+            }
+        });
+    });
+}
+
 function closeDB() {
     db.close((err) => {
         if (err) {
@@ -234,6 +253,7 @@ module.exports = {
     addSizeByWebsiteName, // Updated function export
     db,
 	insertFileInfo,
-	getUserIDByName,    
+	getUserIDByName,
+	getFileIDByPath,    
 };
 
