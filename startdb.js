@@ -154,12 +154,12 @@ function getTotalSizeByWebsiteName(name) {
 function insertFileInfo(fileID, updatedData) {
   const selectQuery = `SELECT id FROM files WHERE id = ?`;
 
-  db.get(selectQuery, [fileID], (err, row) => {
+  db.get(selectQuery, [fileID], async (err, row) => {
     if (err) {
       return console.error(err.message);
     }
 
-    if (row) {
+    if (await row) {
       // File exists, perform update
       const updateQuery = `
         UPDATE files

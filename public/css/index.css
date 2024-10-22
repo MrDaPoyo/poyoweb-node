@@ -373,11 +373,12 @@ position: relative;
 
 .carl-container {
 	width: 10%;
+	height: 35%;
 	position: absolute;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	bottom: 50%;
 	right: 0;
 	transform: translateY(50%);
@@ -388,6 +389,7 @@ position: relative;
 .carl-image {
 	width: 100%;
 	margin: 0;
+	margin-top: -20%;
 	padding: 0;
 }
 .carl-caption {
