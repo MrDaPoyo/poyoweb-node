@@ -35,6 +35,42 @@ function getTotalFileSizePerUser() {
     });
 }
 
+function updateTotalFileSizePerWebsite() {
+    const query = `
+        SELECT websites.id AS websiteID, SUM(files.fileSize) AS totalFileSize
+        FROM files
+        INNER JOIN websites ON files.userID = websites.userID
+        GROUP BY websites.id
+    `;
+
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            console.error('Error retrieving file sizes for websites:', err.message);
+            return;
+        }
+
+        if (rows.length === 0) {
+            console.log('No file data found for websites.');
+        } else {
+            rows.forEach(row => {
+                const updateQuery = `
+                    UPDATE websites
+                    SET totalSize = ?
+                    WHERE id = ?
+                `;
+
+                db.run(updateQuery, [row.totalFileSize || 0, row.websiteID], (err) => {
+                    if (err) {
+                        console.error(`Error updating total size for website with ID ${row.websiteID}:`, err.message);
+                    } else {
+                        console.log(`Updated total size for website with ID ${row.websiteID}: ${row.totalFileSize} bytes`);
+                    }
+                });
+            });
+        }
+    });
+}
+
 // Function to close the database connection
 function closeDB() {
     db.close((err) => {
@@ -49,8 +85,9 @@ function closeDB() {
 // Export functions to be used in other parts of the application
 module.exports = {
     getTotalFileSizePerUser,
+    updateTotalFileSizePerWebsite,
     closeDB
 };
 
 // Example usage:
-getTotalFileSizePerUser();  // Call to print file sizes per user
+updateTotalFileSizePerWebsite();
