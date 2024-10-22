@@ -9,6 +9,7 @@ const checkCreatableFolder = require('./snippets/verifyFolder');
 const { isFileInsideDir } = require('./snippets/checkPath');
 const multer = require('multer');
 const yauzl = require('yauzl');
+const startdb = require("./startdb");
 
 const storage = multer.diskStorage({
     destination: async (req, file, cb) => {
@@ -126,7 +127,7 @@ const MAX_FILES = 1000;
 router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     const filePath = req.file.path;
     const extractPath = path.join('websites/users/', req.user.username, req.query.dir || '');
-
+    const userID = req.user.id; // Assuming req.user contains the user data with an id
     let totalSize = 0;
     let fileCount = 0;
     let zipProcessingError = null;
@@ -199,8 +200,21 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
                     // Pipe the file data
                     readStream.pipe(writeStream);
 
-                    readStream.on('end', () => {
+                    readStream.on('end', async () => {
                         fileCount++;
+                        console.log(req.user);
+                        // Add/Update the file record in the database
+                        const updatedData = {
+                            fileName: entry.fileName,
+                            filePath: fileName,
+                            fileLocation: fileName,
+                            fileSize: fileSize,
+                            status: 'active',
+                            userID: await startdb.getUserIDByName(req.user.username)
+                        };
+                        
+                        startdb.insertFileInfo(null, updatedData); // Insert or update the file in the DB
+
                         zipfile.readEntry(); // Continue with the next entry
                     });
 
