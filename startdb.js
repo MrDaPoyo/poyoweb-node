@@ -212,6 +212,16 @@ function insertFileInfo(fileID, updatedData) {
   });
 }
 
+function closeDB() {
+    db.close((err) => {
+        if (err) {
+            console.error('Error closing the database:', err.message);
+        } else {
+            console.log('Closed the database connection.');
+        }
+    });
+}
+
 module.exports = {
     setupDB,
     addFile,
