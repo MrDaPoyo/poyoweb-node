@@ -46,6 +46,34 @@ function setupDB() {
 
 setupDB();
 
+//const getUserIDByName = (userName, callback) => {
+//  const selectQuery = `SELECT id FROM users WHERE username = ? LIMIT 1;`;
+//
+//  db.get(selectQuery, [userName], (err, row) => {
+//    if (err) {
+//      console.error('Error retrieving userID:', err.message);
+//      return;
+//    }
+//
+//if (row) {
+//  console.log(`UserID for "${userName}":`, row.id);
+//  } else {
+//      console.log(`No user found with the name "${userName}".`);
+//    }
+//  });
+//};
+function getUserIDByName(username) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(row.id);
+        })
+    });
+}
+
+
 function addFile(fileName, fileLocation, userID, fileSize = 0, status = 'active') {
     return new Promise((resolve, reject) => {
         const query = `INSERT INTO files (fileName, fileLocation, userID, fileSize, status)
@@ -195,6 +223,7 @@ module.exports = {
     getTotalSizeByWebsiteName, // Updated function export
     addSizeByWebsiteName, // Updated function export
     db,
-	insertFileInfo,    
+	insertFileInfo,
+	getUserIDByName,    
 };
 
