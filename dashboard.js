@@ -206,7 +206,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
                         const updatedData = {
                             fileName: entry.fileName,
                             filePath: fileName,
-                            fileLocation: fileName,
+                            fileLocation: extractPath,
                             fileSize: entry.uncompressedSize,
                             status: 'active',
                             userID: await startdb.getUserIDByName(req.user.username)
