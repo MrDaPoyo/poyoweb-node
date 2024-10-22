@@ -70,6 +70,7 @@ router.get('/remove', async (req, res) => {
     try {
         const filePath = `websites/users/${req.user.username}/${req.query.dir}`;
         await fs.unlink(filePath);  // Use fs.promises.unlink
+        await startdb.removeFileByPath(filePath);
 
         if (req.query.dir.includes(".")) {
             res.redirect('/dashboard');

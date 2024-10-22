@@ -231,6 +231,48 @@ function getFileIDByPath(filePath) {
     });
 }
 
+function removeFileByPath(filePath) {
+    return new Promise((resolve, reject) => {
+        const query = `DELETE FROM files WHERE fileLocation = ?`;
+
+        db.run(query, [filePath], function (err) {
+            if (err) {
+                console.error('Error deleting file:', err.message);
+                reject(err);
+            }
+
+            if (this.changes > 0) {
+                console.log(`File with path ${filePath} removed from database.`);
+                resolve(true); // File successfully deleted
+            } else {
+                console.log(`No file found with path ${filePath}.`);
+                resolve(false); // No file found to delete
+            }
+        });
+    });
+}
+
+function removeFileByID(fileID) {
+    return new Promise((resolve, reject) => {
+        const query = `DELETE FROM files WHERE id = ?`;
+
+        db.run(query, [fileID], function (err) {
+            if (err) {
+                console.error('Error deleting file:', err.message);
+                reject(err);
+            }
+
+            if (this.changes > 0) {
+                console.log(`File with ID ${fileID} removed from database.`);
+                resolve(true); // File successfully deleted
+            } else {
+                console.log(`No file found with ID ${fileID}.`);
+                resolve(false); // No file found to delete
+            }
+        });
+    });
+}
+
 function closeDB() {
     db.close((err) => {
         if (err) {
@@ -254,6 +296,8 @@ module.exports = {
     db,
 	insertFileInfo,
 	getUserIDByName,
-	getFileIDByPath,    
+	getFileIDByPath,
+	removeFileByPath,
+	removeFileByID,    
 };
 
