@@ -7,3 +7,6 @@ TOKEN_KEY=token
 EMAIL_USERNAME=poyowebbot@gmail.com
 EMAIL_PASSWORD=secret
 EMAIL_ACTUAL_PASSWORD=secret
+
+# nginx
+For nginx you gotta copy the files from /nginx to wherever your nginx stuff is
