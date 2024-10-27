@@ -27,7 +27,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'alagard';
+    font-family: 'Alagard';
     font-weight: 300;
     box-sizing: border-box;
     margin: 0;
@@ -200,6 +200,7 @@ body {
 
 #the-web-is-silly {
     width: 100%;
+    font-family: "Alagard";
 }
 
 .logo-img {
@@ -219,7 +220,7 @@ body {
 }
 
 .tos {
-    font-size: arial;
+    font-family: "Noto Serif";
 }
 
 .row, .column {
@@ -396,7 +397,12 @@ position: relative;
 	color: var(--secondary);
 	margin: 0;
 	padding: 2%;
+	font-family: "Alagard";
 	/* background-color: var(--primary); */
+}
+
+.alagard {
+	font-family: alagard;
 }
 
 @media screen and (max-width: 600px) {
