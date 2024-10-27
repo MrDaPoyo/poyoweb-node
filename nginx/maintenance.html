@@ -8,6 +8,7 @@
     <title>OH NO!</title>
     <style>
         body {
+        	box-sizing: border-box;
         	font-family: 'Noto Serif';
             height: 100vh;
             overflow-x: hidden;
@@ -26,13 +27,18 @@
         	height: 40vh;
         	margin-top: -5vh;
         }
+        .marquee {
+        	width: 50%;
+        	display: flex;
+        	text-align:center;
+        }
 	</style>
 </head>
 <body>
 	<img src="/images/carl-helmet.png" alt="Carl Helmet" draggable="false">
     <h1>Whoopsies! We're down.</h1>
     <article>
-        <h3>Sorry for the inconvenience. Our best Poyos are working very hard to get it back up! Please check back later.</h3>
+        <h3>Sorry for the inconvenience. Our best <i>Poyos</i> are working very hard to get it back up and running!</h3><p class="marquee">Please check back later.</p>
         <small>-- PoyoWeb Team.</small>
     </article>
 </body>
