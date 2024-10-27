@@ -4,20 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintenance</title>
+    <title>OH NO!</title>
     <style>
-        body { text-align: center; padding: auto; }
-        h1 { font-size: 50px; }
-        body { font: 20px Helvetica, sans-serif; color: #333; }
-        article { display: block; text-align: left; margin: 0 auto; }
-        a { color: #06f; text-decoration: none; }
-        a:hover { color: #04c; }
-    </style>
+        body {
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            margin: 0;
+            padding: 0; /* Changed from auto to 0 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Changed ':' to ';' */
+        }
+	</style>
 </head>
 <body>
     <h1>Whoopsies! We're down.</h1>
     <article>
-        <p>Sorry for the inconvenience. Our best Poyos are working very hard to get it back up! Please check back later.</p>
+        <h3>Sorry for the inconvenience. Our best Poyos are working very hard to get it back up! Please check back later.</h3>
     </article>
+    <small>-- PoyoWeb Team.</small>
 </body>
 </html>
