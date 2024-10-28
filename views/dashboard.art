@@ -84,6 +84,7 @@
             // Listen for the addedfile event
             dz.on("addedfile", function (file) {
                 console.log('File added:', file);
+                uploadFileName.innerText = `Uploading ${file.name}.`
             });
 
             // Listen for the complete event
