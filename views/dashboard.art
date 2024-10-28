@@ -3,10 +3,15 @@
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <h2 style="margin:0;">
+    <div class="z-index-1000 dashboard-top">
+    <div>
+	<h2 style="margin:0;">
         <%= user.username %>'s Files: /{{ cleanPath }}
     </h2>
     <small><a href="https://{{user.username}}.{{suffix}}/{{cleanPath}}" target="_blank">{{user.username}}.{{suffix}}/{{cleanPath}}</a></small>
+    </div>
+    <p id="upload-file-name">Not Uploading Anything</p>
+	</div>
     <span class="z-index-1000">
         <form action="/dashboard/create" class="dashboard-submit" method="POST" style="z-index: 1000000;">
             <input type="text" name="dir" placeholder="New filename/foldername" required>
@@ -62,6 +67,7 @@
                             </form>
 								
 <script>
+	var uploadFileName = document.getElementById("upload-file-name");
     Dropzone.options.myAwesomeDropzone = {
         paramName: "zipFile", // Match the field name multer is expecting
         webkitRelativePath: true,
@@ -111,8 +117,9 @@
 
                     const result = await response.text();
                     console.log(result);
-                    
+                    uploadFileName.innerText = `File Uploaded Successfully, ${this.getQueuedFiles().length} to go.`
                 } catch (error) {
+                	uploadFileName.innerText = "Error uploading files :P"
                     console.error('Error generating or uploading zip:', error);
                 }
                 if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {

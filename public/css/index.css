@@ -371,7 +371,13 @@ position: relative;
     background-color: var(--secondary);
     color: var(--primary);
 }
-
+.dashboard-top {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: start;
+}
 .carl-container {
 	width: 10%;
 	height: 35%;
