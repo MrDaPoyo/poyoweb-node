@@ -9,7 +9,7 @@ router.use(async (req, res, next) => {
     const host = req.headers.host;
 
     // Define the expected domain structure
-    const expectedDomain = 'poyoweb.poyo.study';
+    const expectedDomain = 'poyoweb.me';
     const requestedPath = req.url;
 
     // Check if the request is for the main domain
