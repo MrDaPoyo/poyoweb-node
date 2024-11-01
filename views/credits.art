@@ -1,0 +1,18 @@
+<%- include("./header") %>
+<h1>The PoyoWeb's Credits!</h1>
+<ul>
+  	<li>
+    	<p><strong>Poyo</strong> – Founder of the PoyoWeb – <a href="https://poyo.study" target="_blank">poyo.study</a></p>
+  	</li>
+  	<li>
+    	<p><strong>Mechagic</strong> – Main artist of the PoyoWeb – <a href="https://mechagic.lexiqqq.com" target="_blank">mechagic.lexiqqq.com</a></p>
+  	</li>
+  	<li>
+    	<p><strong>April</strong> – PHP developer, helped create the first iteration of the PoyoWeb. – <a href="https://april.lexiqqq.com" target="_blank">april.lexiqqq.com</a></p>
+  	</li>
+	<li>
+    	<p><strong>Semputernal</strong> – Hoster of the poyoweb. Also maintains a cool FOSS org called Limbank. – <a href="https://limbank.org" target="_blank">limbank.org</a></p>
+  	</li>
+</ul>
+
+<%- include("./footer") %>

@@ -40,6 +40,11 @@ app.get('/privacy', async (req, res) => {
     res.render('privacy', { title: 'Privacy Policy', url: process.env.URL});
 });
 
+app.get('/credits', async (req, res) => {
+    res.render('credits', { title: 'Credits', url: process.env.URL});
+});
+
+
 app.use('/auth', authRouter);
 
 app.use('/editor', authToken, redirectIfNotVerified, editorRouter);
