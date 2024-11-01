@@ -13,6 +13,12 @@
 	<li>
     	<p><strong>Semputernal</strong> – Hosts the PoyoWeb itself. Also maintains a cool FOSS org called Limbank. – <a href="https://limbank.org" target="_blank">limbank.org</a></p>
   	</li>
+  	<li>
+    	<p><strong>Blue Screen Of Death</strong> – Great tester who helped fix a lot of bugs. – <a href="https://hyperlinkadventure.neocities.org" target="_blank">hyperlinkadventure.neocities.org</a></p>
+  	</li>
+	<li>
+    	<p><strong>Jonathan</strong> – HELL YEAH – <a href="https://jonat.hn" target="_blank">jonat.hn</a></p>
+  	</li>  	
 </ul>
 
 <%- include("./footer") %>
