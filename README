@@ -8,12 +8,21 @@ EMAIL_USERNAME=bot gmail address used for sending emails to users. ex: poyowebbo
 EMAIL_PASSWORD=app password from your bot gmail
 EMAIL_ACTUAL_PASSWORD=not needed for the PoyoWeb, just here so I dont forget my email's password :P
 
-```NPM Setup```
+# NPM Setup
+
 First, install NPM. Then run `NPM i` and finally install Nodemon `npm i -g nodemon`. When running the PoyoWeb, do `node .` in the PoyoWeb's `index.js` directory. For development purposes, run `nodemon .` in the same directory as the PoyoWeb's `index.js`.
 
 # Nginx Setup
+
 For nginx you gotta copy the files from /nginx to wherever your nginx stuff is
 ```sudo cp nginx/maintenance.html /usr/share/nginx/html/```
 
 # How it works
+
 The PoyoWeb is a node.js app.
+It is divided in many files:
+
+- `index.js`: Groups all the files and provides routing for them. Also used to display the TOS, Privacy Policy and credits. It also loads the middleware.
+- `auth.js`: Handles all of the PoyoWeb's auth, including registration and user sessions. 
+- `domains.js`: Handles the domain routing. If the host header doesnt match the PoyoWeb's header, it reroutes to X user's website. If X user's website doesn't exist, it returns an error.
+- `verifyJwt.js`: Verifies any JWT. Used in the middleware.
