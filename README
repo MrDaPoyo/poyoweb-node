@@ -8,6 +8,12 @@ EMAIL_USERNAME=poyowebbot@gmail.com
 EMAIL_PASSWORD=secret
 EMAIL_ACTUAL_PASSWORD=secret
 
-# nginx
+```NPM Setup```
+First, install NPM. Then run `NPM i` and finally install Nodemon `npm i -g nodemon`. When running the PoyoWeb, do `node .` in the PoyoWeb's `index.js` directory. For development purposes, run `nodemon .` in the same directory as the PoyoWeb's `index.js`.
+
+# Nginx Setup
 For nginx you gotta copy the files from /nginx to wherever your nginx stuff is
-```cp nginx/maintenance.html /usr/share/nginx/html/```
+```sudo cp nginx/maintenance.html /usr/share/nginx/html/```
+
+# How it works
+The PoyoWeb is a node.js app.
