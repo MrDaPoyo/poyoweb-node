@@ -1,12 +1,12 @@
 # .env
 
 PORT=5000
-URL=url
-SUFFIX=url suffix
-TOKEN_KEY=token
-EMAIL_USERNAME=poyowebbot@gmail.com
-EMAIL_PASSWORD=secret
-EMAIL_ACTUAL_PASSWORD=secret
+URL=the full url of the poyoweb, including `https://`. ex: https://poyoweb.me
+SUFFIX=url suffix, the host header of the poyoweb. ex: poyoweb.me
+TOKEN_KEY=token used for JWT signing. Make it a super long string with lotsa characters. ex: PoyoWebRocks2024abcdefg%psiql@Wko482
+EMAIL_USERNAME=bot gmail address used for sending emails to users. ex: poyowebbot@gmail.com
+EMAIL_PASSWORD=app password from your bot gmail
+EMAIL_ACTUAL_PASSWORD=not needed for the PoyoWeb, just here so I dont forget my email's password :P
 
 ```NPM Setup```
 First, install NPM. Then run `NPM i` and finally install Nodemon `npm i -g nodemon`. When running the PoyoWeb, do `node .` in the PoyoWeb's `index.js` directory. For development purposes, run `nodemon .` in the same directory as the PoyoWeb's `index.js`.
