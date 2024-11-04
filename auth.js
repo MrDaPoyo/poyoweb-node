@@ -10,6 +10,7 @@ const fs = require('fs');
 const verifySessionToken = require('./middleware/authenticated');
 const tokenSender = require('./tokenSender');
 const user = require('./users');
+const { turnstile } = require("express-turnstile");
 
 const authRouter = express.Router();
 authRouter.use(express.static('public'));
@@ -235,5 +236,13 @@ authRouter.post('/recover/:token', async (req, res) => {
         res.send('An error occurred while processing your request.');
     }
 });
+
+authRouter.post(
+  "/verify",
+  turnstile.validate(process.env.CLOUDFLARE_SECRET_KEY),
+  (req, res) => {
+    res.json({ message: "verified!" });
+  }
+);
 
 module.exports = authRouter;

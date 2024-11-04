@@ -23,6 +23,7 @@
                 <input type="email" id="email" name="email" width="100%" required placeholder="We wont disclose your email with anyone. We`ll use it exclusively to contact you if needed.">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
+				{{ if (site_key) }}
                 <div
                   class="cf-turnstile"
                   data-sitekey="{{site_key}}"
@@ -39,6 +40,7 @@
                   });
                 };
                 </script>
+                {{ /if }}
             <button type="submit">Register</button>
         </form>
         <p>Forgot your pasword? <a href="/auth/recover">Click here</a></p>
