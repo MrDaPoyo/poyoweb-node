@@ -19,5 +19,6 @@
 	<li>A fully integrated web editor for your files</li>
 	<li>SSH access to your files</li>
 	<li>A super duper cool API for you to use GitHub Actions with</li>
+	<li>AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and round!</li>
 </ul>
 <%- include("./footer") %>
