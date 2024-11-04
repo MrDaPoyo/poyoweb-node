@@ -128,7 +128,7 @@ authRouter.post("/login", async (req, res) => {
 
 
 authRouter.get('/', reverseVerify, (req, res) => {
-    res.render('login', data = { title: 'Authentication Check', url: process.env.URL });
+    res.render('login', data = { title: 'Authentication Check', url: process.env.URL, site_key: process.env.CLOUDFLARE_SITE_KEY });
 });
 
 authRouter.get('/logout', (req, res) => {

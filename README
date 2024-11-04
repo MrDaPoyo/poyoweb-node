@@ -7,6 +7,8 @@ TOKEN_KEY=token used for JWT signing. Make it a super long string with lotsa cha
 EMAIL_USERNAME=bot gmail address used for sending emails to users. ex: poyowebbot@gmail.com
 EMAIL_PASSWORD=app password from your bot gmail
 EMAIL_ACTUAL_PASSWORD=not needed for the PoyoWeb, just here so I dont forget my email's password :P
+CLOUDFLARE_SITE_KEY=cloudflare site key for turnstile
+CLOUDFLARE_SECRET_KEY=cloudflare sectret key for turnstile
 
 # NPM Setup
 

@@ -1,4 +1,5 @@
 <%- include("./header") %>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <div class="login-container">
     <h2>Login</h2>
     {{ token }}
@@ -22,6 +23,22 @@
                 <input type="email" id="email" name="email" width="100%" required placeholder="We wont disclose your email with anyone. We`ll use it exclusively to contact you if needed.">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
+                <div
+                  class="cf-turnstile"
+                  data-sitekey="{{site_key}}"
+                  data-callback="javascriptCallback"
+                  id="cloudflare-container"
+                ></div>
+                <script>
+                window.onloadTurnstileCallback = function () {
+                  turnstile.render("#cloudflare-container", {
+                    sitekey: "{{site_key}}",
+                    callback: function (token) {
+                      console.log(`Challenge Success ${token}`);
+                    },
+                  });
+                };
+                </script>
             <button type="submit">Register</button>
         </form>
         <p>Forgot your pasword? <a href="/auth/recover">Click here</a></p>
