@@ -284,7 +284,9 @@ function getAllUserNames() {
         console.error('Error executing query:', err.message);
         reject(err);
       } else {
-        const names = rows.map(row => ({ id: row.id, username: row.username }));
+        const names = rows.map(row => (//{  id: row.id, 
+ row.username //}
+ ));
         resolve(names);
       }
     });
