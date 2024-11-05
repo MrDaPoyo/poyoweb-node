@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const { on } = require('events');
 const fs = require('fs');
+const path = require('path');
 
 // Create a new database file if it doesn't exist
 const db = new sqlite3.Database('./poyoweb.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
@@ -273,6 +274,29 @@ function removeFileByID(fileID) {
     });
 }
 
+
+function getAllUserNames() {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT username FROM users';
+
+    db.all(query, [], (err, rows) => {
+      if (err) {
+        console.error('Error executing query:', err.message);
+        reject(err);
+      } else {
+        const names = rows.map(row => row.username);
+        resolve(names);
+      }
+    });
+
+    db.close((err) => {
+      if (err) {
+        console.error('Error closing database:', err.message);
+      }
+    });
+  });
+}
+
 function closeDB() {
     db.close((err) => {
         if (err) {
@@ -298,6 +322,7 @@ module.exports = {
 	getUserIDByName,
 	getFileIDByPath,
 	removeFileByPath,
-	removeFileByID,    
+	removeFileByID,
+	getAllUserNames,    
 };
 

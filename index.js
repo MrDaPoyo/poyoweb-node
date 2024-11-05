@@ -44,6 +44,9 @@ app.get('/credits', async (req, res) => {
     res.render('credits', { title: 'Credits', url: process.env.URL});
 });
 
+app.get('/user_array', async (req, res) => {
+	res.send(await startDB.getAllUserNames());
+});
 
 app.use('/auth', authRouter);
 
