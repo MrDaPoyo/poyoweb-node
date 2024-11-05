@@ -28,3 +28,4 @@ It is divided in many files:
 - `auth.js`: Handles all of the PoyoWeb's auth, including registration and user sessions. 
 - `domains.js`: Handles the domain routing. If the host header doesnt match the PoyoWeb's header, it reroutes to X user's website. If X user's website doesn't exist, it returns an error.
 - `verifyJwt.js`: Verifies any JWT. Used in the middleware.
+- `fixdomains.js`: Updates the websites table with updated domains from the .env, intended for when domains get switched.
