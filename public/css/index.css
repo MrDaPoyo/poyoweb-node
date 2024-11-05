@@ -407,6 +407,42 @@ position: relative;
 	/* background-color: var(--primary); */
 }
 
+.left-link-container {
+	width: 10%;
+		height: 63vh;
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-around;
+		bottom: 50%;
+		left: 0;
+		transform: translateY(50%);
+	    z-index: 10000;
+	    background-image: linear-gradient(var(--cloudblue),var(--primary));
+	    border: 2px dotted var(--secondary);
+}
+
+.side-button {
+display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 16px;
+            color: var(--secondary) !important;
+            background: linear-gradient(45deg, var(--cloudblue), var(--primary)); /* Blue to white gradient */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+            background: linear-gradient(45deg, #0056b3, #a8c8ff); /* Darker blue to lighter blue on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+}
+
 .alagard {
 	font-family: alagard;
 }

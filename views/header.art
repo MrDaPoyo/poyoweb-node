@@ -60,6 +60,13 @@
             <% } %>
         </div>
     </header>
+    <div class="left-link-container z-index-1000">
+		<a href="/" class="side-button">Home</a>
+		<a href="/tos" class="side-button">Terms of Service</a>
+		<a href="/privacy" class="side-button">Privacy Policy</a>    	   
+		<a href="/credits" class="side-button">Credits</a>
+		<a href="/manifesto" class="side-button">Manifesto</a>    	
+    </div>
 	<div class="carl-container z-index-1000">
 		<p class="carl-caption" id="carl-caption">Im Carl! You silly.<br><b>Click Carl to hear some wisdom!</b></p>
 		<img id="carl-image" class="carl-image" src="/logos/carl1.png">
