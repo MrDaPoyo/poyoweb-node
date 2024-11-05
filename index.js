@@ -2,6 +2,7 @@ const express = require('express');
 const startDB = require('./startdb');
 const authRouter = require('./auth');
 const editorRouter = require('./editor');
+const apiRouter = require('./api');
 const authToken = require('./middleware/auth');
 const redirectIfNotVerified = require('./middleware/verified');
 const authUser = require('./middleware/authUser');
@@ -44,12 +45,8 @@ app.get('/credits', async (req, res) => {
     res.render('credits', { title: 'Credits', url: process.env.URL});
 });
 
-app.get('/user_array', async (req, res) => {
-	res.send(await startDB.getAllUserNames());
-});
-
 app.use('/auth', authRouter);
-
+app.use('/api', apiRouter);
 app.use('/editor', authToken, redirectIfNotVerified, editorRouter);
 
 app.get('/verified', (req, res) => {
