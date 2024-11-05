@@ -45,6 +45,10 @@ app.get('/credits', async (req, res) => {
     res.render('credits', { title: 'Credits', url: process.env.URL});
 });
 
+app.get('/manifesto', async (req, res) => {
+    res.render('manifesto', { title: 'Manifesto', url: process.env.URL});
+});
+
 app.use('/auth', authRouter);
 app.use('/api', apiRouter);
 app.use('/editor', authToken, redirectIfNotVerified, editorRouter);
