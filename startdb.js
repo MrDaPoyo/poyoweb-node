@@ -277,14 +277,14 @@ function removeFileByID(fileID) {
 
 function getAllUserNames() {
   return new Promise((resolve, reject) => {
-    const query = 'SELECT username FROM users';
+    const query = 'SELECT id, username FROM users WHERE username IS NOT NULL';
 
     db.all(query, [], (err, rows) => {
       if (err) {
         console.error('Error executing query:', err.message);
         reject(err);
       } else {
-        const names = rows.map(row => row.username);
+        const names = rows.map(row => ({ id: row.id, username: row.username }));
         resolve(names);
       }
     });
