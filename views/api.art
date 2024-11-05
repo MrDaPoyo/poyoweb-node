@@ -2,7 +2,7 @@
 <h1>The PoyoWeb's API!</h1>
 <p>Currently it's just a few URLs you can request to get user data. Here they are:</p>
 <ul>
-	<li><a href="userlist">api/userlist</a> - Renders a list of all PoyoWeb's users.</li>
+	<li><a href="userlist">/api/userlist</a> - Renders a list of all PoyoWeb's usernames.</li>
 </ul>
 
 
