@@ -1,15 +1,15 @@
 <%- include("./header") %>
-<h1>Welcome to the PoyoWeb!</h1>
-<p>PoyoWeb! *<i>silliness</i>*, all the way!</p>
+<h1 style="margin-top: 0; margin-bottom: 0;">Welcome to the PoyoWeb!</h1>
+<p style="margin-top: 0; margin-bottom: 0;">PoyoWeb! *<i>silliness</i>*, all the way!</p>
 {{ if user }}
-<p>Hi, <%= user.username %>.</p>
+<p style="margin-bottom: 0;">Hi, <%= user.username %>.</p>
 {{ if user.verified === 1 }}
-<p>Go to the <a href="/dashboard">dashboard</a>.</p>
+<p style="margin-top: 0; margin-bottom: 0;">Go to the <a href="/dashboard">dashboard</a>.</p>
 {{ else }}
 <p>Verify your email address to access the <b>dashboard</b>.<br><p>Check your inbox and/or Spam folders. In case it is in your Spam folder, please flag it as Not Spam. Thanks! :D</p></p>
 {{ /if }}
 {{ /if }}
-<b>What's the PoyoWeb?</b>
+<p><b>What's the PoyoWeb?</b></p>
 <p>The PoyoWeb is a web host made by <a href="https://poyo.study">Poyo</a> and <a href="https://sundown.poyo.study">Team Sundown</a> with many, MANY perks. Some of them will be:<br></p>
 <ul>
 	<li>Free Custom Domains</li>
@@ -23,6 +23,6 @@
 </ul>
 <p>Want to know what are our intentions? Read the <a href="/manifesto">PoyoWeb's Manifesto</a>.</p>
 <div class ="button-div">
-	<img src="buttons/carl-is-a-moron.png">
+	<img src="buttons/carl-is-a-moron.png"><img src="buttons/poyoweb-clouds.png">
 </div>
 <%- include("./footer") %>
