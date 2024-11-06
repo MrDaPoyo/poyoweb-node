@@ -290,12 +290,6 @@ function getAllUserNames() {
         resolve(names);
       }
     });
-
-    db.close((err) => {
-      if (err) {
-        console.error('Error closing database:', err.message);
-      }
-    });
   });
 }
 
