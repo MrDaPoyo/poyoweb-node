@@ -22,4 +22,7 @@
 	<li>AI Scrapers and Crawlers are blocked from the entire PoyoWeb, including YOUR site! That means your assets will be safe and round!</li>
 </ul>
 <p>Want to know what are our intentions? Read the <a href="/manifesto">PoyoWeb's Manifesto</a>.</p>
+<div class ="button-div">
+	<img src="buttons/carl-is-a-moron.png">
+</div>
 <%- include("./footer") %>
