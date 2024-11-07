@@ -30,14 +30,18 @@
     	            </div>
     	            <% } %>
     	<script>
-			var jsonFiles = <%- JSON.stringify(jsonFiles) %>;
+			var jsonFiles = JSON.parse(<%- JSON.stringify(jsonFiles) %>);
 			var url = <%- url %>;
+			var dir = document.getElementById("cleanPath");
 			console.log(jsonFiles);
 			
 			function renderDashboard(files) {
 				var url = <%- url %>;
-			    const dashboardContainer = document.getElementById("dashboard-container"); // Assuming an element with this ID exists for the dashboard
-				files = JSON.parse(files);
+				var dir = document.getElementById("cleanPath");
+			    const dashboardContainer = document.getElementById("dashboard-container"); // Assuming an element with this ID exists for the dashboard 
+				while (dashboardContainer.firstChild) {
+				    dashboardContainer.removeChild(dashboardContainer.firstChild);
+				  }
 			    files.forEach(file => {
 			        const fileIcon = document.createElement("div");
 			        fileIcon.classList.add("dashboard-icon");
@@ -164,11 +168,29 @@
                 // Create a new zip instance
                 const zip = new JSZip();
                 const files = dz.getAcceptedFiles();
-
-                // Add files to zip using relative path if available
+                // files to zip using relative path if available
                 for (const file of files) {
                     const relativePath = file.webkitRelativePath || file.name;
                     zip.file(relativePath, file); // Add file to ZIP
+					file.cleanPath = `<%- cleanPath %>/${file.name}`
+					var extension = (file.name).split('.').pop();
+					console.log(extension);
+					const audioExtensions = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma'];
+					const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'tiff'];
+					const documentExtensions = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'txt', 'xls', 'xlsx'];
+					const codeExtensions = ['js', 'html', 'css', 'py', 'java', 'c', 'cpp', 'rb', 'go', 'php'];
+					                     if (audioExtensions.includes(extension)) {
+					                         file.kind = 'audio';
+					                     } else if (imageExtensions.includes(extension)) {
+					                         file.kind = 'image';
+					                     } else if (documentExtensions.includes(extension)) {
+					                         file.kind = 'document';
+					                     } else if (codeExtensions.includes(extension)) {
+					                         file.kind = 'code';
+					                     } else {
+					                         file.kind = 'unknown';
+					}                 
+                    jsonFiles = jsonFiles.concat(file); // Assuming `result.newFiles` is an array of new files
                 }
 
                 try {
@@ -196,7 +218,8 @@
                     console.error('Error generating or uploading zip:', error);
                 }
                 if (this.getQueuedFiles().length === 0 && this.getUploadingFiles().length === 0) {
-                   		window.location.reload();
+                   	console.log("done");
+                   	renderDashboard(jsonFiles);
                 }
             });
 

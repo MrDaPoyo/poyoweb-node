@@ -244,7 +244,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
 
             try {
                 await cleanUp(); // Ensure the zip file is deleted
-                res.status(200).send("Zip file successfully uploaded and extracted!");
+                res.status(200).send(file);
             } catch (cleanupErr) {
                 console.error(`Failed to delete the zip file: ${filePath}`, cleanupErr);
                 res.status(500).send('Error during cleanup.');
