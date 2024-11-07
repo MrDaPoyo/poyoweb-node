@@ -21,6 +21,12 @@
 	</div>
         <br>
     <div class="dashboard-container">
+    	<script>
+			var jsonFiles = <%- jsonFiles %>;
+			console.log(jsonFiles);
+			function renderDashboard(files) {
+			}
+    	</script>
         <% if (!dashboard) { %>
             <div class="dashboard-icon">
                 <a class="hidden-link dashboard-hidden-link" href="?dir={{past}}">
