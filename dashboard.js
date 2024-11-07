@@ -61,6 +61,7 @@ router.get('/', async (req, res) => {
 
             res.render('dashboard', {
                 files: await results,
+                jsonFiles: JSON.stringify(await results),
                 past: pastDir,
                 cleanPath,
                 dashboard: (dirPath === "websites/users/" + req.user.username || cleanPath === "/"),
