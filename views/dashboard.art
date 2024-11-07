@@ -9,17 +9,17 @@
         <%= user.username %>'s Files: /{{ cleanPath }}
     </h2>
     <small><a href="https://{{user.username}}.{{suffix}}/{{cleanPath}}" target="_blank">{{user.username}}.{{suffix}}/{{cleanPath}}</a></small>
+    <span class="z-index-1000">
+            <form action="/dashboard/create" class="dashboard-submit" method="POST" style="z-index: 1000000;">
+                <input type="text" name="dir" placeholder="New filename/foldername" required>
+                <input type="hidden" id="cleanPath" name="cleanPath" value="{{cleanPath}}">
+                <button type="submit">Create</button>
+            </form>
+        </span>
     </div>
     <p id="upload-file-name">Not Uploading Anything</p>
 	</div>
-    <span class="z-index-1000">
-        <form action="/dashboard/create" class="dashboard-submit" method="POST" style="z-index: 1000000;">
-            <input type="text" name="dir" placeholder="New filename/foldername" required>
-            <input type="hidden" id="cleanPath" name="cleanPath" value="{{cleanPath}}">
-            <button type="submit">Create</button>
-        </form>
-    </span>
-    <br>
+        <br>
     <div class="dashboard-container">
         <% if (!dashboard) { %>
             <div class="dashboard-icon">
