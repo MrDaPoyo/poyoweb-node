@@ -108,6 +108,7 @@
 			        const removeLink = document.createElement("a");
 			        removeLink.classList.add("hidden-link");
 			        removeLink.href = `/dashboard/remove/?dir=${file.cleanPath}`;
+			        console.log(file.filePath);
 			
 			        const closeButton = document.createElement("button");
 			        closeButton.classList.add("dashboard-close");

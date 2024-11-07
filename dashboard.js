@@ -77,15 +77,11 @@ router.get('/', async (req, res) => {
 router.get('/remove', async (req, res) => {
     try {
         const filePath = `websites/users/${req.user.username}/${req.query.dir}`;
-        await fs.unlink(filePath);  // Use fs.promises.unlink
+        await fs.rm(filePath);  // Use fs.promises.unlink
         await startdb.removeFileByPath(filePath);
-
-        if (req.query.dir.includes(".")) {
-            res.redirect('/dashboard');
-        } else {
-            res.redirect(`/dashboard?dir=${path.dirname(req.query.dir)}`);
-        }
+        res.redirect(`/dashboard?dir=${path.dirname(req.query.dir)}`);
     } catch (err) {
+    	console.log(err);
         await fs.rm(`websites/users/${req.user.username}/${req.query.dir}`, { recursive: true }); // Use fs.promises.rm
         res.redirect('/dashboard');
     }
