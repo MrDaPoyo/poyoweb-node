@@ -26,9 +26,9 @@
 			var jsonFiles = JSON.parse(<%- JSON.stringify(jsonFiles) %>);
 			var url = <%- url %>;
 			var dir = document.getElementById("cleanPath");
-			console.log(jsonFiles);
-			
+
 			function renderDashboard(files) {
+			console.log(files);
 				var url = <%- url %>;
 				var dir = document.getElementById("cleanPath").value;
 			    const dashboardContainer = document.getElementById("dashboard-container"); // Assuming an element with this ID exists for the dashboard 
@@ -210,8 +210,11 @@
 					                         file.kind = 'code';
 					                     } else {
 					                         file.kind = 'unknown';
-					}                 
-                    jsonFiles = jsonFiles.concat(file); // Assuming `result.newFiles` is an array of new files
+					}
+					if (!jsonFiles.find(f => f.name === `${file.name}`)) {
+					  jsonFiles.push(file); // Add directly to jsonFiles
+					}
+                    
                 }
 
                 try {
