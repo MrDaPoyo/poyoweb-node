@@ -13,22 +13,15 @@
             <form action="/dashboard/create" class="dashboard-submit" method="POST" style="z-index: 1000000;">
                 <input type="text" name="dir" placeholder="New filename/foldername" required>
                 <input type="hidden" id="cleanPath" name="cleanPath" value="{{cleanPath}}">
+                <input type="hidden" id="past" name="past" value="{{past}}">
                 <button type="submit">Create</button>
             </form>
         </span>
     </div>
     <p id="upload-file-name">Not Uploading Anything</p>
 	</div>
-        <br>
+     <br>
     <div class="dashboard-container" id="dashboard-container">
-    	<% if (!dashboard) { %>
-    	            <div class="dashboard-icon">
-    	                <a class="hidden-link dashboard-hidden-link" href="?dir={{past}}">
-    	                    <img class="folder" src="/icons/back-small.webp"></img>
-    	                </a>
-    	                ../
-    	            </div>
-    	            <% } %>
     	<script>
 			var jsonFiles = JSON.parse(<%- JSON.stringify(jsonFiles) %>);
 			var url = <%- url %>;
@@ -37,11 +30,38 @@
 			
 			function renderDashboard(files) {
 				var url = <%- url %>;
-				var dir = document.getElementById("cleanPath");
+				var dir = document.getElementById("cleanPath").value;
 			    const dashboardContainer = document.getElementById("dashboard-container"); // Assuming an element with this ID exists for the dashboard 
 				while (dashboardContainer.firstChild) {
 				    dashboardContainer.removeChild(dashboardContainer.firstChild);
 				  }
+				 {{ if (!dashboard) }}
+				     // Create the new element instead of using a template string
+				     	   	  const div = document.createElement('div');
+				     	   	  div.classList.add('dashboard-icon');
+				     	   	
+				     	   	  const a = document.createElement('a');
+				     	   	  a.classList.add('hidden-link', 'dashboard-hidden-link');
+				     	   	  a.href = `?dir=${document.getElementById("past").value}`;
+				     	   	
+				     	   	  const img = document.createElement('img');
+				     	   	  img.classList.add('folder');
+				     	   	  img.src = '/icons/back-small.webp';
+				     	   	  img.alt = 'Back';
+				     	   	
+				     	   	  // Append the image to the anchor tag
+				     	   	  a.appendChild(img);
+				     	   	
+				     	   	  // Set the text content for the directory link (../)
+				     	   	  const textNode = document.createTextNode('../');
+				     	   	
+				     	   	  // Append the anchor and text node to the div
+				     	   	  div.appendChild(a);
+				     	   	  div.appendChild(textNode);
+				     	   	
+				     	   	  // Append the div to the dashboard container
+				     	   	  dashboardContainer.appendChild(div);
+				     	{{ /if }}
 			    files.forEach(file => {
 			        const fileIcon = document.createElement("div");
 			        fileIcon.classList.add("dashboard-icon");
