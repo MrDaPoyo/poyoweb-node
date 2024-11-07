@@ -33,9 +33,16 @@ const storage = multer.diskStorage({
         }
     },
     filename: (req, file, cb) => {
-        console.log("Saving file as:", path.basename(file.originalname)); // Log the filename being saved
-        cb(null, path.basename(file.originalname)); // Save file with its original name
-    }
+    	console.log("Saving file as:", path.basename(file.originalname)); // Log the filename being saved
+          cb(null, Date.now() + '-' + file.originalname); // Unique filename
+        },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+          cb(null, true);
+        } else {
+          cb(new Error('Only ZIP files are allowed.'));
+        }
+      }
 });
 
 const upload = multer({ storage: storage });
@@ -122,7 +129,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-const MAX_TOTAL_SIZE = 450 * 1024 * 1024; // 100 MB
+const MAX_TOTAL_SIZE = 100 * 1024 * 1024; // 100 MB
 const MAX_FILES = 1000;
 
 router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
