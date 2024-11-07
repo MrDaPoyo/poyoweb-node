@@ -20,53 +20,119 @@
     <p id="upload-file-name">Not Uploading Anything</p>
 	</div>
         <br>
-    <div class="dashboard-container">
+    <div class="dashboard-container" id="dashboard-container">
+    	<% if (!dashboard) { %>
+    	            <div class="dashboard-icon">
+    	                <a class="hidden-link dashboard-hidden-link" href="?dir={{past}}">
+    	                    <img class="folder" src="/icons/back-small.webp"></img>
+    	                </a>
+    	                ../
+    	            </div>
+    	            <% } %>
     	<script>
-			var jsonFiles = <%- jsonFiles %>;
+			var jsonFiles = <%- JSON.stringify(jsonFiles) %>;
+			var url = <%- url %>;
 			console.log(jsonFiles);
+			
 			function renderDashboard(files) {
+				var url = <%- url %>;
+			    const dashboardContainer = document.getElementById("dashboard-container"); // Assuming an element with this ID exists for the dashboard
+				files = JSON.parse(files);
+			    files.forEach(file => {
+			        const fileIcon = document.createElement("div");
+			        fileIcon.classList.add("dashboard-icon");
+			
+			        if (!file.isDirectory) {
+			            if (file.openable) {
+			                const fileLink = document.createElement("a");
+			                fileLink.classList.add("hidden-link", "dashboard-hidden-link");
+			                fileLink.href = `/editor/?file=${file.cleanPath}`;
+			
+			                const fileImage = document.createElement("img");
+			                fileImage.classList.add("document");
+			                fileImage.src = "/icons/document-small.webp";
+			                fileImage.alt = "Document";
+			
+			                fileLink.appendChild(fileImage);
+			                fileIcon.appendChild(fileLink);
+			            } else {
+			                const span = document.createElement("span");
+			                span.classList.add("dashboard-hidden-link");
+			
+			                const fileImage = document.createElement("img");
+			                fileImage.classList.add("document");
+			                fileImage.src = `/icons/${file.kind}-small.webp`;
+			                fileImage.alt = "Document";
+			
+			                span.appendChild(fileImage);
+			                fileIcon.appendChild(span);
+			            }
+			        } else {
+			            const folderLink = document.createElement("a");
+			            folderLink.classList.add("hidden-link", "dashboard-hidden-link");
+			            folderLink.href = `?dir=${file.cleanPath}`;
+			
+			            const folderImage = document.createElement("img");
+			            folderImage.classList.add("folder");
+			            folderImage.src = "/icons/folder-small.webp";
+			            folderImage.alt = "Folder";
+			
+			            folderLink.appendChild(folderImage);
+			            fileIcon.appendChild(folderLink);
+			        }
+			
+			        const removeLink = document.createElement("a");
+			        removeLink.classList.add("hidden-link");
+			        removeLink.href = `/dashboard/remove/?dir=${file.cleanPath}`;
+			
+			        const closeButton = document.createElement("button");
+			        closeButton.classList.add("dashboard-close");
+			        closeButton.textContent = "X";
+			        
+			        removeLink.appendChild(closeButton);
+			        fileIcon.appendChild(removeLink);
+			
+			        const renameForm = document.createElement("form");
+			        renameForm.method = "POST";
+			        renameForm.action = "/dashboard/editName";
+			        renameForm.classList.add("dashboard-rename-form", "hidden");
+			        renameForm.id = file.id;
+			
+			        const isDirectoryInput = document.createElement("input");
+			        isDirectoryInput.type = "hidden";
+			        isDirectoryInput.name = "isDirectory";
+			        isDirectoryInput.value = file.isDirectory;
+			
+			        const newNameInput = document.createElement("input");
+			        newNameInput.type = "text";
+			        newNameInput.name = "newName";
+			        newNameInput.value = file.name;
+			
+			        const pathInput = document.createElement("input");
+			        pathInput.type = "hidden";
+			        pathInput.name = "path";
+			        pathInput.value = file.filePath;
+			
+			        const cleanPathInput = document.createElement("input");
+			        cleanPathInput.type = "hidden";
+			        cleanPathInput.name = "cleanPath";
+			        cleanPathInput.value = file.cleanPath;
+			
+			        const renameButton = document.createElement("button");
+			        renameButton.type = "submit";
+			        renameButton.classList.add("dashboard-rename");
+			        renameButton.textContent = "R";
+			
+			        renameForm.append(isDirectoryInput, newNameInput, pathInput, cleanPathInput, renameButton);
+			        fileIcon.appendChild(renameForm);
+			
+			        dashboardContainer.appendChild(fileIcon);
+			    });
 			}
+			
+			renderDashboard(jsonFiles);
     	</script>
-        <% if (!dashboard) { %>
-            <div class="dashboard-icon">
-                <a class="hidden-link dashboard-hidden-link" href="?dir={{past}}">
-                    <img class="folder" src="/icons/back-small.webp"></img>
-                </a>
-                ../
-            </div>
-            <% } %>
-                <% for (const file of files) { %>
-                    <div class="dashboard-icon">
-                        <% if (!file.isDirectory) { %>
-							<% if (file.openable) { %>
-                                <a class="hidden-link dashboard-hidden-link" href="{{url}}/editor/?file={{file.cleanPath}}">
-  	                                <img class="document" src="/icons/document-small.webp" alt="Document">
-                               	</a>
-                            <% } else { %>
-                            <span class="dashboard-hidden-link">
-                                <img class="document" src="/icons/{{ file.kind }}-small.webp" alt="Document">
-							</span>
-                            <% } %>
-                        <% } else { %>
-                         	<a class="hidden-link dashboard-hidden-link" href="?dir={{file.cleanPath}}">
-                               <img class="folder" src="/icons/folder-small.webp" alt="Folder"></img>
-                            </a>
-                        <% } %>
-                    
-                        <a class="hidden-link" href="{{url}}/dashboard/remove/?dir={{file.cleanPath}}">
-                            <button class="dashboard-close">X</button>
-                        </a>
-                    
-                        <form method="POST" action="/dashboard/editName" class="dashboard-rename-form hidden" id="{{file.id}}">
-                            <input type="hidden" name="isDirectory" value="{{file.isDirectory}}">
-                            <input type="text" name="newName" value="{{file.name}}">
-                            <input type="hidden" name="path" value="{{file.filePath}}">
-                            <input type="hidden" name="cleanPath" value="{{file.cleanPath}}">
-                            <button type="submit" class="dashboard-rename">R</button>
-                        </form>
-                    </div>
-                    <% } %>
-                        <form action="/dashboard/zip-upload?dir={{ cleanPath }}"
+    				   <form action="/dashboard/zip-upload?dir={{ cleanPath }}"
                             class="dropzone floating-center background-none" id="my-awesome-dropzone" method="POST"
                             enctype="multipart/form-data">
 								<div class="dz-message" data-dz-message><span>Drop your silly files in here!</span></div>
