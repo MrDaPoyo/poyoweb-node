@@ -273,14 +273,13 @@ router.post('/editName', async (req, res) => {
 
         if (!isFileInsideDir(oldPath, baseDir) || !isFileInsideDir(newPath, baseDir)) {
             return res.status(404).send("HA! Good try, Hacker :3");
-        }
-
-        if (newName.includes("..")) {
+        } else if (newName.includes("..")) {
             return res.status(404).send("HA! Good try, Hacker :3");
         }
+
 		if (await valid) {
-        await fs.rename(oldPath, newPath);  // Use fs.promises.rename
-        res.redirect('/dashboard/?dir=' + currentPath);
+        	await fs.rename(oldPath, newPath);  // Use fs.promises.rename
+        	res.redirect('/dashboard/?dir=' + currentPath);
         } else {
         	res.status(403).send("Forbidden name/extension");
         }
