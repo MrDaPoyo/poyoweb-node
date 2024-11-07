@@ -48,7 +48,6 @@ function readDir(basedir, dir) {
                         name: file,
                         filePath: path.relative(basedir, filePath).replace(file, ''),
                         cleanPath: path.relative(basedir, filePath),
-                        content: stats.isDirectory() ? null : fs.readFileSync(filePath, "utf8"),
                         isDirectory: stats.isDirectory(),
                         size: stats.size,
                         createdAt: stats.birthtime,
