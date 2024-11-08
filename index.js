@@ -2,7 +2,8 @@ const express = require('express');
 const startDB = require('./startdb');
 const authRouter = require('./auth');
 const editorRouter = require('./editor');
-const apiRouter = require('./api').router;
+const api = require('./api');
+const configRouter = require("./config"); 
 const authToken = require('./middleware/auth');
 const redirectIfNotVerified = require('./middleware/verified');
 const authUser = require('./middleware/authUser');
@@ -50,8 +51,10 @@ app.get('/manifesto', async (req, res) => {
 });
 
 app.use('/auth', authRouter);
-app.use('/api', apiRouter);
+app.use('/api', api.router);
 app.use('/editor', authToken, redirectIfNotVerified, editorRouter);
+app.use('/config', authToken, redirectIfNotVerified, configRouter);
+
 
 app.get('/verified', (req, res) => {
     res.render('verified', { title: 'Verified', url: process.env.URL });

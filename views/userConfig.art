@@ -1,0 +1,12 @@
+<%- include("./header") %>
+	<h1 class="no-margin">User Settings!</h1>
+	<h3>API Key</h3>
+	<p>Use or <a href="/config/generateApiKey">generate a new API key</a> for you to use with some of our API endpoints that need an API key. BEWARE: API keys last only two years.</p>
+	<span><strong>Current Api Key:</strong> 
+		{{ if (apiKey) }}
+	        {{ apiKey }}
+	    {{ else }}
+	        <p>None</p>
+	    {{ /if }}
+	</span>
+<%- include("./footer") %>
