@@ -86,6 +86,7 @@ function addFile(fileName, fileLocation, userID, fileSize = 0, status = 'active'
                 reject(err);
             } else {
                 console.log(`File added with ID: ${this.lastID}`);
+
                 resolve(this.lastID);  // Return the ID of the inserted file
             }
         });
@@ -311,6 +312,49 @@ function getWebsiteByDomain(domain) {
     });
 }
 
+function createApiKey(username) {
+    if (!username) {
+    	console.log("Failed to create API Key: Missing Username");
+        return false;
+    }
+
+    // Generate API key
+    const apiKey = jwt.sign({ username }, process.env.TOKEN_KEY, { expiresIn: "2y" });
+
+    // Update or insert the API key in the users table
+    const query = `UPDATE users SET apiKey = ? WHERE username = ?`;
+    db.run(query, [apiKey, username], function (err) {
+        if (err) {
+            console.error("Error updating API key in database:", err.message);
+            return false;
+        } else if (this.changes === 0) {
+            console.log("No user found with the given username.");
+            return false;
+        } else {
+            console.log(`API key for user '${username}' has been successfully created and saved.`);
+            return apiKey;
+        }
+    });
+}
+
+async function verifyApiKey(apiKey) {
+    if (apiKey) {
+        try {
+            const decoded = await jwt.verify(apiKey, process.env.TOKEN_KEY);
+            
+            if (await decoded) {
+                return await decoded;
+            } else {
+                return false;
+            }
+        } catch (err) {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
 function closeDB() {
     db.close((err) => {
         if (err) {
@@ -338,6 +382,8 @@ module.exports = {
 	getFileIDByPath,
 	removeFileByPath,
 	removeFileByID,
-	getAllUserNames,    
+	getAllUserNames,
+	createApiKey,
+	verifyApiKey,    
 };
 
