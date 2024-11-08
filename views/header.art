@@ -25,7 +25,7 @@
             
             <% if (loggedIn) { %>
                 <b>Auth</b>
-                <a href="<%= url %>/auth/logout" class="logout">LogOut</a>
+                <a href="<%= url %>/auth/logout" class="logout">Logout</a>
      		<% } %>
         </div>
         <div class="center">
@@ -75,7 +75,7 @@
 		<% if (loggedIn) { %>
 		<a href="/dashboard" class="side-button">Dashboard</a>
 		<% } else { %>
-		<a href="/auth" class="side-button">Login</a>
+		<a href="/auth" class="side-button">Register</a>
 		<% } %>
 		<a href="/api" class="side-button">API</a>   	   
 		
