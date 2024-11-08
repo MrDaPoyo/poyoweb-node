@@ -8,14 +8,14 @@ router.get('/', async (req, res) => {
 })
 
 // Define the route to get all usernames
-router.get('/userlist', async (req, res) => {
-  try {
-    const usernames = await startdb.getAllUserNames();
-    res.json({ usernames });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+//router.get('/userlist', async (req, res) => {
+//  try {
+//    const usernames = await startdb.getAllUserNames();
+//    res.json({ usernames });
+//  } catch (err) {
+//    res.status(500).json({ error: err.message });
+//  }
+//});
 
 router.get('/websitedata', async (req, res) => {
 	if (await req.query.domain) {
