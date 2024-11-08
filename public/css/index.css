@@ -15,6 +15,11 @@
     src: url("../fonts/alagard.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: 'NotoSans';
+    src: url("../fonts/notoSans.ttf") format("truetype");
+}
+
 body {
     background-color: var(--primary);
     background-image: url('../wallpapers/clouds.png');
@@ -27,7 +32,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'Alagard';
+    font-family: 'NotoSans', 'Alagard', 'Helvetica';
     font-weight: 300;
     box-sizing: border-box;
     margin: 0;
