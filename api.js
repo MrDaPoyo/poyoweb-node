@@ -25,6 +25,8 @@ router.get('/websitedata', async (req, res) => {
 		} else {
 			res.status(404).send("Website not found :P");
 		}
+	} else {
+		res.status(404).send("Missing domain query atribute. add a ?domain= followed by your domain.")
 	}	
 })
 
