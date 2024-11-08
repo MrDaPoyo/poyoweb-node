@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
     	console.log("Saving file as:", path.basename(file.originalname)); // Log the filename being saved
-          cb(null, Date.now() + '-' + file.originalname); // Unique filename
+          cb(null, file.originalname); // Unique filename
         },
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
