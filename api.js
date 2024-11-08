@@ -17,7 +17,7 @@ router.get('/userlist', async (req, res) => {
   }
 });
 
-router.get('/userdata', async (req, res) => {
+router.get('/websitedata', async (req, res) => {
 	if (await req.query.domain) {
 		data = await startdb.getWebsiteByDomain(await req.query.domain);
 		if (data) {
