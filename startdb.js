@@ -293,6 +293,24 @@ function getAllUserNames() {
   });
 }
 
+function getWebsiteByDomain(domain) {
+    return new Promise((resolve, reject) => {
+        db.get('SELECT * FROM websites WHERE domain = ?', [domain], (err, row) => {
+            if (err) {
+            	var no = false;
+                resolve(no);
+            } else {
+            	if (row) {
+            		var result = {};
+            		resolve({name: row.name, views: row.views, size: row.totalSize, tier: row.tier});
+            	} else {
+            		resolve(false);
+            	}
+            }
+        })
+    });
+}
+
 function closeDB() {
     db.close((err) => {
         if (err) {
@@ -311,6 +329,7 @@ module.exports = {
     isUserVerifiedById,
     addView,
     retrieveViews,
+	getWebsiteByDomain,   	
     getTotalSizeByWebsiteName, // Updated function export
     addSizeByWebsiteName, // Updated function export
     db,

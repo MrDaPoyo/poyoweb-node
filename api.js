@@ -17,4 +17,15 @@ router.get('/userlist', async (req, res) => {
   }
 });
 
+router.get('/userdata', async (req, res) => {
+	if (await req.query.domain) {
+		data = await startdb.getWebsiteByDomain(await req.query.domain);
+		if (data) {
+			res.status(200).send(await data);
+		} else {
+			res.status(404).send("Website not found :P");
+		}
+	}	
+})
+
 module.exports = router;
