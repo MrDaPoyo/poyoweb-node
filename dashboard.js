@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
                 jsonFiles: JSON.stringify(await results),
                 past: pastDir,
                 cleanPath,
-                dashboard: (dirPath === "websites/users/" + req.user.username || cleanPath === "/"),
+                dashboard: (dirPath === "websites/users/" + req.user.username || cleanPath === "/" || cleanPath === "."),
                 title: "Dashboard",
                 suffix: process.env.SUFFIX,
             });
