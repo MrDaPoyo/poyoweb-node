@@ -16,7 +16,7 @@
 }
 
 @font-face {
-    font-family: 'NotoSans';
+    font-family: 'notosans';
     src: url("../fonts/notoSans.ttf") format("truetype");
 }
 
@@ -32,11 +32,16 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: 'NotoSans', 'Alagard', 'Helvetica';
+    font-family: 'notosans', 'Alagard', 'Helvetica';
     font-weight: 300;
     box-sizing: border-box;
     margin: 0;
 }
+
+h1, h2, h3, h4, h5, h6, b, strong {
+	font-family: 'Alagard';
+}
+
 .dotted {
 	border: 2px dotted var(--secondary);
 }
