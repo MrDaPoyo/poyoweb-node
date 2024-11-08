@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6, b, strong {
     align-items: center;
     position: absolute; /* Change to absolute */
     top: 0;
-    padding: 2vh;
+    padding: 1vh;
     margin-inline: auto; 
     width: 75vw;
     height: 15vh;
@@ -77,7 +77,7 @@ h1, h2, h3, h4, h5, h6, b, strong {
   align-items: center;
   position: absolute; /* Change to absolute */
   bottom: 0;
-  padding: 2vh;
+  padding: 1vh;
   margin-inline: auto; 
   width: 75vw;
   height: 15vh;
@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6, b, strong {
 }
 .loginLinks {
   position: absolute;
-  left: 15vh;
+  left: 2vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -108,7 +108,7 @@ h1, h2, h3, h4, h5, h6, b, strong {
 }
 .settingsLinks {
   position: absolute;
-  right: 15vh;
+  right: 2vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -116,6 +116,40 @@ h1, h2, h3, h4, h5, h6, b, strong {
 .settingsLinks * {
   margin: 0;
 }
+
+/* Header Form Styling */
+.header-login {
+  display: inline-block;
+  font-size: 0.7em;
+}
+
+.header-login .form-group {
+  margin-bottom: 1px;
+}
+
+.header-login label {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
+
+.header-login input[type="text"],
+.header-login input[type="password"] {
+  width: 100%;
+  padding: 2px;
+  margin-bottom: 4px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.header-login button {
+  width: 100%;
+  padding: 2px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
 .center * {
   padding: 0;
   margin: 0;
