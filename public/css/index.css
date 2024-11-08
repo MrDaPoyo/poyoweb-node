@@ -22,8 +22,7 @@
 
 body {
     background-color: var(--primary);
-    background-image: url('../wallpapers/clouds.png');
-    color: var(--secondary);
+	color: var(--secondary);
     padding: 0;
     overflow: hidden;
     height: 100vh;
@@ -46,18 +45,17 @@ h1, h2, h3, h4, h5, h6, b, strong {
 	border: 2px dotted var(--secondary);
 }
 .top {
-  margin-bottom: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  padding:  0 10vh;
-  top: 0;
-  left: 5%;
-  width: 90%;
-  height: 15vh;
-  z-index: 1000;
-  color: black;
+  margin-top: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute; /* Change to absolute */
+    top: 0;
+    margin: 0 auto;
+    width: 75vw;
+    height: 15vh;
+    z-index: 1000;
+    color: black;
 }
 .topBackground {
   position: absolute;
@@ -68,7 +66,6 @@ h1, h2, h3, h4, h5, h6, b, strong {
   z-index: -10;
   padding: auto;
   background-image: linear-gradient(var(--cloudblue),var(--primary));
-  transform: perspective(25vh) rotateX(-10deg);
 }
 .top * {
   will-change: transform;
@@ -80,8 +77,8 @@ h1, h2, h3, h4, h5, h6, b, strong {
   align-items: center;
   position: absolute; /* Change to absolute */
   bottom: 0;
-  left: 5%;
-  width: 90%;
+  margin: 0 auto;
+  width: 75vw;
   height: 15vh;
   z-index: 1000;
   color: black;
@@ -94,7 +91,6 @@ h1, h2, h3, h4, h5, h6, b, strong {
   height: 100%;
   z-index: -10;
   background-image: linear-gradient(var(--primary),var(--cloudblue));
-  transform: perspective(25vh) rotateX(10deg);
 }
 .bottom * {
   will-change: transform;

@@ -31,7 +31,7 @@
         </div>
         <div class="center">
              <a href="<% if (loggedIn) { %><%= url %>/dashboard<% } else { %><%= url %> <% } %>" class="hidden-link alagard"><h1>POYOWEB!</h1></a>
-            <small style="text-align: right" id="the-web-is-silly">
+            <!--- <small style="text-align: right" id="the-web-is-silly">
                                             <span class="floating-text" style="--i:1; color:#A30000">T</span><span class="floating-text"
                                                     style="--i:2; color:#A32B00">h</span><span class="floating-text" style="--i:3; color:#A35500">e
                                             </span> <span class="floating-text" style="--i:4; color:#A38000">s</span><span class="floating-text"
@@ -51,7 +51,8 @@
                                                     style="--i:21; color:#A30080">e</span><span class="floating-text"
                                                     style="--i:22; color:#A30055">b</span><span class="floating-text"
                                                     style="--i:23; color:#A3002B">!</span>
-                                    </small>
+                                    </small> --->
+                                    <small class="no-margin alagard">The Silly Corner Of The Web!</small>
         </div>
         <div class="settingsLinks">
             <% if (user) { %>
