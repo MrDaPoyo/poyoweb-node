@@ -18,7 +18,8 @@ function setupDB() {
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    verified BOOLEAN DEFAULT FALSE
+    verified BOOLEAN DEFAULT FALSE,
+    apiKey TEXT DEFAULT NULL,
 )`);
 
     // Create websites table
@@ -29,6 +30,9 @@ function setupDB() {
     domain TEXT UNIQUE NOT NULL,
     views INTEGER DEFAULT 0,
     totalSize INTEGER DEFAULT 0,
+    tier INTEGER DEFAULT 1,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userID) REFERENCES users(id))`);
 
     db.run(`CREATE TABLE IF NOT EXISTS files (
@@ -43,6 +47,21 @@ function setupDB() {
             status TEXT DEFAULT 'active',			-- Status of the file (e.g., active, archived, deleted)
             statusLastModifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (userID) REFERENCES users(id))`);
+	db.run(`
+		
+		INSERT INTO websites (id, userID, name, domain, views, totalSize, tier, lastUpdated) VALUES
+		(1, 1, 'server', 'server.poyoweb.me', 74, 1863888, 1, NULL),
+		(2, 2, 'google', 'google.poyoweb.me', 939, 39826, 1, NULL),
+		(3, 3, 'that', 'that.poyoweb.me', 12, 5811, 1, NULL),
+		(4, 4, 'jon', 'jon.poyoweb.me', 7, 5925, 1, NULL),
+		(5, 5, 'oldhyperlink', 'oldhyperlink.poyoweb.me', 477, 128669, 1, NULL),
+		(6, 6, 'silver', 'silver.poyoweb.me', 15, 5960, 1, NULL),
+		(7, 7, 'www', 'www.poyoweb.me', 69, 7130, 1, NULL),
+		(8, 8, 'april', 'april.poyoweb.me', 30, 5882, 1, NULL),
+		(9, 9, 'root', 'root.poyoweb.me', 5, 5882, 1, NULL),
+		(10, 10, 'thesomething', 'thesomething.poyoweb.me', 9, 5882, 1, NULL);
+		
+	`)
 }
 
 setupDB();
