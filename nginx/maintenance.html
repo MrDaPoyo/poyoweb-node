@@ -18,7 +18,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center; /* Changed ':' to ';' */
+            align-items: center; 
         }
         h1 {
         	margin-top: 0;
@@ -27,19 +27,16 @@
         	height: 40vh;
         	margin-top: -5vh;
         }
-        .marquee {
-        	width: 50%;
-        	display: flex;
-        	text-align:center;
+        .no-margin {
+        	margin: 0;
         }
 	</style>
 </head>
 <body>
 	<img src="/images/carl-helmet.png" alt="Carl Helmet" draggable="false">
     <h1>Whoopsies! We're down.</h1>
-    <article>
-        <h3>Sorry for the inconvenience. Our best <i>Poyos</i> are working very hard to get it back up and running!</h3><p class="marquee">Please check back later.</p>
-        <small>-- PoyoWeb Team.</small>
-    </article>
+        <h3 class="no-margin">Sorry for the inconvenience. Our best <i>Poyos</i> are working very hard to get it back up and running!</h3>
+        <p>Please check back later.</p>
+        <small class="no-margin">-- PoyoWeb Team.</small>
 </body>
 </html>
