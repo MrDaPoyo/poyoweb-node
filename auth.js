@@ -29,18 +29,10 @@ authRouter.post('/register', async (req, res, next) => {
     if (valid == true && username.length > 0 && password.length > 0 && email.length > 0 && email.includes('@') && email.includes('.')) {
         if (await email && password && await username) {
             db.run('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email], (err, row) => {
-                const token = jwt.sign(
-                    { username: username, email: email, verified: 0 },
-                    process.env.TOKEN_KEY,
-                    { expiresIn: "24h" }
-                );
-                res.cookie('x-access-token', token);
                 if (err) {
                     console.error(err.message);
                     res.status(404).send('User Already Exists');
                 } else {
-                    res.cookie('x-access-token', token);
-                    res.redirect('/');
                     db.get('SELECT id FROM users WHERE username = ?;', [username], (err, row) => {
                         if (err) {
                             console.error(err.message);
@@ -60,11 +52,22 @@ authRouter.post('/register', async (req, res, next) => {
                                                     console.error(err.message);
                                                 }
                                                 fs.copyFile('./websites/src/poyoweb-button.png', './websites/users/' + username + '/poyoweb-button.png', (err) => {
+                                                
                                                 	if (!process.env.EMAIL_PASSWORD) {
-                                                	   	db.run('UPDATE users SET verified = true  WHERE email = ?', [email])
+                                                	   	db.run('UPDATE users SET verified = 1  WHERE email = ?', [email])
+                                                	   	var verified = 1
                                                 	} else {
                                                 		tokenSender.sendVerificationEmail(token, email);
+                                                		var verified = 0;
+                                                		
                                                 	}
+                                                	const token = jwt.sign(
+                                                		 { username: username, email: email, verified: verified },
+                                                		process.env.TOKEN_KEY,
+                                                		{ expiresIn: "24h" }
+                                                	 );
+                                                	res.cookie('x-access-token', token);
+                                                	res.redirect('/');
                                                 	console.log('User Created');
                                                 	if (err) {
                                                 		console.log(err.message);
