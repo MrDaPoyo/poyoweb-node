@@ -132,18 +132,16 @@ router.post('/create', async (req, res) => {
     }
 });
 
-const MAX_TOTAL_SIZE = 1000 * 1024 * 1024; // 100 MB
-const MAX_FILES = 1000;
-
-router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
+router.post('/zip-upload', upload.single("zipFile"), async (req, res) => {
     const filePath = req.file.path;
     const extractPath = path.join('websites/users/', req.user.username, req.query.dir || '');
-    const userID = req.user.id; // Assuming req.user contains the user data with an id
     let totalSize = 0;
     let fileCount = 0;
+    const MAX_TOTAL_SIZE = 450 * 1024 * 1024; // Example max size of 450 MB
+    const MAX_FILES = 100; // Example max file count
     let zipProcessingError = null;
 
-    // Helper to clean up the zip file
+    // Helper function for cleanup
     async function cleanUp() {
         try {
             await fs.remove(filePath);
@@ -155,16 +153,17 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
     // Open the uploaded zip file
     yauzl.open(filePath, { lazyEntries: true }, async (err, zipfile) => {
         if (err) {
-            await cleanUp(); // Clean up the uploaded zip file
+            await cleanUp();
             return res.status(500).send('Error reading zip file: ' + err);
         }
 
-        // Close the zipfile if any error occurs
+        // Handle errors while processing the zip file
         zipfile.on('error', async (zipErr) => {
             zipProcessingError = zipErr;
             zipfile.close();
         });
 
+        // Process each entry in the zip file
         zipfile.on('entry', async (entry) => {
             if (zipProcessingError) return;
 
@@ -172,9 +171,8 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
 
             // Check if it's a directory
             if (/\/$/.test(entry.fileName)) {
-                // It's a directory, create it
                 try {
-                    await fs.mkdirp(fileName); // Use fs-extra's mkdirp
+                    await fs.mkdirp(fileName);
                     zipfile.readEntry();
                 } catch (err) {
                     console.error(`Failed to create directory: ${fileName}`, err);
@@ -184,7 +182,7 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
                     return;
                 }
             } else {
-                // Handle the file extraction
+                // Handle file extraction
                 zipfile.openReadStream(entry, (err, readStream) => {
                     if (err) {
                         console.error(`Error opening read stream for: ${fileName}`, err);
@@ -199,35 +197,23 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
                     readStream.on('data', (chunk) => {
                         fileSize += chunk.length;
                         totalSize += chunk.length;
+
                         if (totalSize > MAX_TOTAL_SIZE || fileCount >= MAX_FILES) {
                             zipProcessingError = new Error('Exceeded size or file count limit.');
                             zipfile.close();
-                            writeStream.destroy(); // Stop writing the current file
-                            readStream.destroy(); // Stop reading further data
+                            writeStream.destroy();
+                            readStream.destroy();
                             return;
                         }
                     });
 
-                    // Pipe the file data
-                    readStream.pipe(writeStream);			
+                    readStream.pipe(writeStream);
+
                     readStream.on('end', async () => {
                         fileCount++;
-                        // Add/Update the file record in the database
-                        const updatedData = {
-                            fileName: entry.fileName,
-                            filePath: fileName,
-                            fileLocation: extractPath,
-                            fileSize: entry.uncompressedSize,
-                            status: 'active',
-                            userID: await startdb.getUserIDByName(req.user.username)
-                        };
-                        
-                        startdb.insertFileInfo(await startdb.getFileIDByPath(fileName) || null, updatedData); // Insert or update the file in the DB
-
-                        zipfile.readEntry(); // Continue with the next entry
+                        zipfile.readEntry();
                     });
 
-                    // Handle write stream errors
                     writeStream.on('error', (writeErr) => {
                         console.error(`Error writing file: ${fileName}`, writeErr);
                         zipProcessingError = writeErr;
@@ -237,25 +223,26 @@ router.post('/zip-upload', upload.single("zipFile"), (req, res) => {
             }
         });
 
-        // Handle the end of zip processing
+        // When zip processing is complete
         zipfile.on('end', async () => {
             if (zipProcessingError) {
-                await cleanUp(); // Clean up zip and partially extracted files
+                await cleanUp();
                 return res.status(500).send('Error processing zip file: ' + zipProcessingError.message);
             }
 
             try {
-                await cleanUp(); // Ensure the zip file is deleted
-                res.status(200).send(file);
+                await cleanUp();
+                res.status(200).send("OMG IT WORKS!");
             } catch (cleanupErr) {
                 console.error(`Failed to delete the zip file: ${filePath}`, cleanupErr);
                 res.status(500).send('Error during cleanup.');
             }
         });
 
-        zipfile.readEntry(); // Start reading entries
+        zipfile.readEntry();
     });
 });
+
 
 router.post('/editName', async (req, res) => {
     try {

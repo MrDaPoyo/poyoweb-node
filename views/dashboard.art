@@ -172,7 +172,7 @@
         disablePreviews: true,
         clickable: false,
         method: "post",
-        uploadMultiple: true,
+        uploadMultiple: false,
         autoProcessQueue: true,
         forceFallback: false,        
         init: function () {
