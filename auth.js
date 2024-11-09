@@ -50,6 +50,7 @@ authRouter.post('/register', async (req, res, next) => {
                                     console.error(err.message);
                                     res.send('User Already Exists');
                                 } else {
+                                	
                                     fs.mkdir('./websites/users/' + username, { recursive: true }, (err) => {
                                         if (err) {
                                             console.error(err.message);
@@ -59,7 +60,11 @@ authRouter.post('/register', async (req, res, next) => {
                                                     console.error(err.message);
                                                 }
                                                 fs.copyFile('./websites/src/poyoweb-button.png', './websites/users/' + username + '/poyoweb-button.png', (err) => {
-                                                	tokenSender.sendVerificationEmail(token, email);
+                                                	if (!process.env.EMAIL_PASSWORD) {
+                                                	   	db.run('UPDATE users SET verified = true  WHERE email = ?', [email])
+                                                	} else {
+                                                		tokenSender.sendVerificationEmail(token, email);
+                                                	}
                                                 	console.log('User Created');
                                                 	if (err) {
                                                 		console.log(err.message);
